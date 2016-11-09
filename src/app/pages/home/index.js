@@ -1,7 +1,9 @@
 import angular from 'angular/index';
 
+const MODULE_NAME = 'landing.home';
+
 // Create the module where our functionality can attach to
-let homeModule = angular.module('landing.home', []);
+let homeModule = angular.module(MODULE_NAME, []);
 
 // Include our UI-Router config settings
 import HomeConfig from './home.config';
@@ -13,4 +15,4 @@ import HomeCtrl from './home.controller';
 homeModule.controller('HomeCtrl', HomeCtrl);
 
 
-export default homeModule;
+export default MODULE_NAME;

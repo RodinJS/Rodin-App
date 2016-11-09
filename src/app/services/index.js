@@ -1,7 +1,9 @@
 import angular from 'angular/index';
 
+const MODULE_NAME = 'app.services';
+
 // Create the module where our functionality can attach to
-let servicesModule = angular.module('app.services', []);
+let servicesModule = angular.module(MODULE_NAME, []);
 
 
 import UtilsService from './utils.service';
@@ -29,4 +31,4 @@ import StorageService from './storage.service';
 servicesModule.service('Storage', StorageService);
 
 
-export default servicesModule;
+export default MODULE_NAME;

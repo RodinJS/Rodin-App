@@ -1,7 +1,9 @@
 import angular from 'angular/index';
 
+const MODULE_NAME = 'landing.error';
+
 // Create the module where our functionality can attach to
-let errorModule = angular.module('landing.error', []);
+let errorModule = angular.module(MODULE_NAME, []);
 
 // Include our UI-Router config settings
 import ErrorConfig from './error.config';
@@ -13,4 +15,4 @@ import ErrorCtrl from './error.controller';
 errorModule.controller('ErrorCtrl', ErrorCtrl);
 
 
-export default errorModule;
+export default MODULE_NAME;

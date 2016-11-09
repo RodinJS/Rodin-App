@@ -5,15 +5,15 @@ import angular from 'angular/index';
 
 const MODULE_NAME = 'app.pages';
 
-import './home/index';
+import homeModule from './home/index';
 
-import './error/index';
+import errorModule from './error/index';
 
 // Create the module where our functionality can attach to
 const pagesModule = angular.module(MODULE_NAME, [
-  'app.error',
+  errorModule,
 
-  'app.home',
+  homeModule,
 
 ]);
 
