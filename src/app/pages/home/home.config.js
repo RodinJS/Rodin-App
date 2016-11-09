@@ -7,8 +7,7 @@ function HomeConfig($stateProvider) {
 			controller: 'HomeCtrl',
 			controllerAs: '$ctrl',
 			templateUrl: 'pages/home/home.html',
-			title: 'Home',
-			redirectToWhenAuthenticated: "app.dashboard"
+			title: 'Home'
 		});
 
 }

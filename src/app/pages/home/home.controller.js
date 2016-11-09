@@ -3,7 +3,6 @@ class HomeCtrl {
 		'ngInject';
 
 		this.appName = AppConstants.appName;
-		$state.go("landing.login");
 	}
 
 }
