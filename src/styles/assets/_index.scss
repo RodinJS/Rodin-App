@@ -1,0 +1,49 @@
+.app-container {
+  display: block;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-button {
+  width: 1px;
+  height: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #373737;
+  border: 1px solid #4a4a4a;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #333333;
+}
+
+::-webkit-scrollbar-track {
+  background: #282828;
+  border: 1px solid #333333;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: #242424;
+}
+
+::-webkit-scrollbar-track:active {
+  background: #242424;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
