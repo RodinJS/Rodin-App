@@ -127,6 +127,8 @@ class User {
 
 
   ensureAuthIs(bool = false) {
+    console.dir("ensureAuthIs")
+
     let deferred = this._$q.defer();
     this.verifyAuth().then((authValid) => {
       if (authValid !== bool) {

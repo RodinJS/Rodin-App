@@ -49,7 +49,7 @@ export default class JWT {
 
   verify() {
     let deferred = this._$q.defer();
-
+    console.dir("verify")
     if (this.get()) {
       return this._Auth.one("verify").get().then((res)=> {
         return res;

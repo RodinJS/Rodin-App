@@ -161,8 +161,6 @@ function Validator(AppConstants, $log) {
      * @return {Array}
      * */
     function getErrorsHTTP() {
-      console.error("\n---------------\n")
-      console.log(errors)
       return errors;
     }
 
