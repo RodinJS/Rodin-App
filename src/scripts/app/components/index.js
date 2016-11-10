@@ -14,11 +14,11 @@ componentsModule.directive('compile', Compile);
  * Rodin modules
  * */
 
-import VrSceneFactory from './rodin/vrscene/factory';
-componentsModule.factory('VrScene', VrSceneFactory);
+import RodinVrSceneFactory from './rodin/vrscene/factory';
+componentsModule.factory('RodinVrScene', RodinVrSceneFactory);
 
-import VrScene from './rodin/vrscene/index';
-componentsModule.directive('vrScene', VrScene);
+import RodinVrScene from './rodin/vrscene/index';
+componentsModule.directive('rodinVrScene', RodinVrScene);
 
 /*
  * End of Rodin modules

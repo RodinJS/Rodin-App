@@ -95,17 +95,16 @@ class VRAPI {
    * @description
    * return projects list by `status`
    *
-   * @param {String} [status="public"] project status: ["public", "private"]
+   * @param {String} [status="all"] project status: ["all", "my"]
    * @param {Object} [filter={}] filter project
    * @param {Object} [sort={}] sort project
    *
    * @return {Promise}
    * */
-  getProjects(status = "public", filter = {}, sort = {}) {
-    if (status === "public") {
-      return self._Project.getList(filter, sort);
-
-    } else if (status = "private") {
+  getProjects(status = "all", filter = {}, sort = {}) {
+    if (status === "all") {
+      return self._Project.getPublishedList(filter, sort);
+    } else if (status = "my") {
       return self._Project.getList(filter, sort);
     } else {
       throw new Error(`This status type doesn't supported: ${status}`);

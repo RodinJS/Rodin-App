@@ -41,8 +41,8 @@ const connect = require('gulp-connect');
 var templateCache = require('gulp-angular-templatecache');
 
 
-const JS = ['src/scripts/**/**/*.js'];
-const HTML = ['src/app/**/*.html', 'src/app/**/**/*.html'];
+const JS = ['src/scripts/**/**/**/*.js'];
+const HTML = ['src/scripts/app/**/**/**/*.html'];
 const SYSTEMJS = ['src/systemjs/*.js'];
 const SASS = ['src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}'];
 const FONT = ['src/fonts/**/*.{ttf,woff,woff2,eof,svg,eot,json}'];
@@ -116,7 +116,7 @@ gulp.task('template', () => {
     .pipe(rename("app.templates.js"))
     .pipe(s)
     .pipe(plumber.stop())
-    .pipe(gulp.dest('./src/app/config/'))
+    .pipe(gulp.dest('./src/scripts/app/config/'))
     .pipe(notify({
       onLast: true,
       message: () => `template - Total size ${s.prettySize}`

@@ -13,6 +13,46 @@ class Project {
     this._Validator = new Validator();
   }
 
+
+  getPublished(projectId = null, fields = {}) {
+    let deferred = this._$q.defer();
+    this._Projects.all("published").one(projectId).get(fields).then((result) => {
+      this._Validator.validateHTTP(result);
+      if (this._Validator.isValidHTTP()) {
+        let response = this._Validator.getDataHTTP();
+        deferred.resolve(response);
+      } else {
+        deferred.reject(this._Validator.getErrorsHTTP());
+      }
+    }, (result) => {
+      this._Validator.validateHTTP(result.data);
+
+      deferred.reject(this._Validator.getErrorsHTTP());
+    });
+
+    return deferred.promise;
+  }
+
+  getPublishedList(fields = {}) {
+    let deferred = this._$q.defer();
+    this._Projects.all("published").one('list').get(fields).then((result) => {
+      this._Validator.validateHTTP(result);
+      if (this._Validator.isValidHTTP()) {
+        let response = this._Validator.getDataHTTP();
+
+        deferred.resolve(response);
+      } else {
+        deferred.reject(this._Validator.getErrorsHTTP());
+      }
+    }, (result) => {
+      this._Validator.validateHTTP(result.data);
+
+      deferred.reject(this._Validator.getErrorsHTTP());
+    });
+
+    return deferred.promise;
+  }
+
   get(projectId = null, fields = {}) {
     let deferred = this._$q.defer();
     this._Projects.one(projectId).get(fields).then((result) => {
