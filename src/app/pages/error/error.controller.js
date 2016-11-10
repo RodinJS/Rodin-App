@@ -3,7 +3,6 @@ class ErrorCtrl {
     'ngInject';
 
     this.appName = AppConstants.appName;
-    alert("init error ctrl")
   }
 
 }

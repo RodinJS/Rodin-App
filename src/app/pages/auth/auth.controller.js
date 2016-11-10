@@ -1,8 +1,10 @@
 class AuthCtrl {
-    constructor (User) {
+    constructor (AppConstants, User) {
         'ngInject';
 
         this._User = User;
+
+        this.appName = AppConstants.appName;
     }
 }
 

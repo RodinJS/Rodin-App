@@ -71,20 +71,19 @@ class User {
         deferred.resolve(false);
       });
     }
+
     return deferred.promise;
   }
 
 
-  ensureAuthIs(bool = false) {
-    console.dir("ensureAuthIs")
-
+  ensureAuthIs() {
     let deferred = this._$q.defer();
+
     this.verifyAuth().then((authValid) => {
-      if (authValid !== bool) {
+      deferred.resolve(authValid);
+
+      if (!authValid) {
         this._$state.go('main.login');
-        deferred.resolve(false);
-      } else {
-        deferred.resolve(true);
       }
 
     });
