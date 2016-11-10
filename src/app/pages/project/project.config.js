@@ -2,8 +2,11 @@ function ProjectConfig($stateProvider) {
 	'ngInject';
 
 	$stateProvider
-		.state('landing.project', {
+		.state('main.project', {
 			url: '/project',
+			params: {
+				projectUrl: null
+			},
 			controller: 'ProjectCtrl',
 			controllerAs: '$ctrl',
 			templateUrl: 'pages/project/project.html',

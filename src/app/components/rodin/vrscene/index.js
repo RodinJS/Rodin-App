@@ -10,13 +10,13 @@ function SceneEditor() {
   }
 
   return {
-    restrict: 'E',
+    restrict: 'A',
     require: '?ngModel',
-    replace: true,
+    replace: false,
     link: SceneLink,
     controller: SceneCtrl,
     scope: {
-      aceConfig: "="
+      config: "="
     }
   };
 }

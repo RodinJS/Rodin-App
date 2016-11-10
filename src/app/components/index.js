@@ -11,22 +11,14 @@ import Compile from './compile/index';
 componentsModule.directive('compile', Compile);
 
 /*
- * Modals modules
+ * Rodin modules
  * */
 
+import VrScene from './rodin/vrscene/index';
+componentsModule.directive('vrScene', VrScene);
 
 /*
- * End of Modals modules
- * */
-
-
-
-/*
- * Rodin-IDEA modules
- * */
-
-/*
- * End of Rodin-IDEA modules
+ * End of Rodin modules
  * */
 
 

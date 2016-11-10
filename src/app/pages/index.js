@@ -11,9 +11,6 @@ import authModule from './auth/index';
 
 import projectModule from './project/index';
 
-import dashboardModule from './home/index';
-
-
 import errorModule from './error/index';
 
 // Create the module where our functionality can attach to
@@ -23,8 +20,6 @@ const pagesModule = angular.module(MODULE_NAME, [
   authModule,
 
   projectModule,
-
-  dashboardModule,
 
   errorModule,
 ]);

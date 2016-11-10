@@ -51,9 +51,9 @@ function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlR
         }
       }
     })
-    .state('landing', {
+    .state('main', {
       abstract: true,
-      templateUrl: 'layout/landing/landing-view.html',
+      templateUrl: 'layout/main/main-view.html',
       resolve: {
         auth: function (User) {
           return User.verifyAuth(false);

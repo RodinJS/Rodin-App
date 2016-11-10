@@ -56,7 +56,7 @@ export default class JWT {
       }, (err)=> {
         this.destroy();
         this._$timeout(()=> {
-          this._$state.go("landing.login");
+          this._$state.go("main.login");
         }, 100);
         return err;
       });

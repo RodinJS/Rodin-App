@@ -3,7 +3,7 @@ function AuthConfig($stateProvider) {
 
 	$stateProvider
 
-		.state('landing.login', {
+		.state('main.login', {
 			url: '/login',
 			controller: 'AuthCtrl as $ctrl',
 			templateUrl: 'pages/auth/auth.html',

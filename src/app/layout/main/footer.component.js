@@ -1,16 +1,16 @@
-class AppFooterCtrl {
-  constructor(AppConstants) {
-    'ngInject';
-    this.appName = AppConstants.appName;
+class MainFooterCtrl {
+	constructor(AppConstants) {
+		'ngInject';
+		this.appName = AppConstants.appName;
 
-    // Get today's date to generate the year
-    this.date = new Date();
-  }
+		// Get today's date to generate the year
+		this.date = new Date();
+	}
 }
 
-let AppFooter = {
-  controller: AppFooterCtrl,
-  templateUrl: 'layout/main/footer.html'
+let MainFooter = {
+	controller: MainFooterCtrl,
+	templateUrl: 'layout/main/footer.html'
 };
 
-export default AppFooter;
+export default MainFooter;

@@ -1,6 +1,6 @@
 import angular from 'angular/index';
 
-const MODULE_NAME = 'landing.auth';
+const MODULE_NAME = 'main.auth';
 
 // Create the module where our functionality can attach to
 let authModule = angular.module(MODULE_NAME, []);

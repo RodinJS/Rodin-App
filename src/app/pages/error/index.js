@@ -1,6 +1,6 @@
 import angular from 'angular/index';
 
-const MODULE_NAME = 'landing.error';
+const MODULE_NAME = 'main.error';
 
 // Create the module where our functionality can attach to
 let errorModule = angular.module(MODULE_NAME, []);

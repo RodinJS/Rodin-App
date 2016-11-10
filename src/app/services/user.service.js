@@ -44,57 +44,6 @@ class User {
     return deferred.promise;
   }
 
-  signUp(fields = {}) {
-    return this.create(fields).then((res)=> {
-      this._JWT.save(res.token);
-      this.current = res.user;
-
-      return res;
-    }, err=> {
-      return err;
-    })
-  }
-
-  update(userId = null, fields = {}) {
-    let deferred = this._$q.defer();
-
-    this._User.put(fields).then((result) => {
-      this._Validator.validateHTTP(result);
-      if (this._Validator.isValidHTTP()) {
-        let response = this._Validator.getDataHTTP();
-        deferred.resolve(response);
-      } else {
-        deferred.reject(this._Validator.getErrorsHTTP());
-      }
-    }, (result) => {
-      this._Validator.validateHTTP(result.data);
-
-      deferred.reject(this._Validator.getErrorsHTTP());
-    });
-
-    return deferred.promise;
-  }
-
-  create(fields = {}) {
-    let deferred = this._$q.defer();
-
-    this._User.post(fields).then((result) => {
-      this._Validator.validateHTTP(result);
-      if (this._Validator.isValidHTTP()) {
-        let response = this._Validator.getDataHTTP();
-        deferred.resolve(response);
-      } else {
-        deferred.reject(this._Validator.getErrorsHTTP());
-      }
-    }, (result) => {
-      this._Validator.validateHTTP(result.data);
-
-      deferred.reject(this._Validator.getErrorsHTTP());
-    });
-
-    return deferred.promise;
-  }
-
   logout() {
     this.current = null;
     this._JWT.destroy();
@@ -132,7 +81,7 @@ class User {
     let deferred = this._$q.defer();
     this.verifyAuth().then((authValid) => {
       if (authValid !== bool) {
-        this._$state.go('landing.login');
+        this._$state.go('main.login');
         deferred.resolve(false);
       } else {
         deferred.resolve(true);
