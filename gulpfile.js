@@ -1,23 +1,23 @@
 /*
-  Copyright (C) 2016 Grigor Khachatryan <grig@i2vr.io>
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
-  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
-  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ Copyright (C) 2016 Grigor Khachatryan <grig@i2vr.io>
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 'use strict';
 
@@ -41,12 +41,12 @@ const connect = require('gulp-connect');
 var templateCache = require('gulp-angular-templatecache');
 
 
-const JS =            [ 'src/app/**/*.js', '!src/systemjs/system.js', '!src/scripts/{vendor,vendor/**}' ];
-const HTML =          [ 'src/app/**/*.html', 'src/app/**/**/*.html'];
-const SYSTEMJS =      [ 'src/systemjs/*.js' ];
-const SASS =          [ 'src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}' ];
-const FONT =          [ 'src/fonts/**/*.{ttf,woff,woff2,eof,svg,eot,json}' ];
-const IMG =           [ 'src/images/**/*.{jpg,jpeg,ico,png,svg,gif,json,xml}' ];
+const JS = ['src/scripts/**/**/*.js'];
+const HTML = ['src/app/**/*.html', 'src/app/**/**/*.html'];
+const SYSTEMJS = ['src/systemjs/*.js'];
+const SASS = ['src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}'];
+const FONT = ['src/fonts/**/*.{ttf,woff,woff2,eof,svg,eot,json}'];
+const IMG = ['src/images/**/*.{jpg,jpeg,ico,png,svg,gif,json,xml}'];
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
@@ -61,9 +61,9 @@ const AUTOPREFIXER_BROWSERS = [
 ];
 
 const UGLIFY_AGRESIVE = {
-    preserveComments: 'license',
-    mangle: true,
-    compress: true
+  preserveComments: 'license',
+  mangle: true,
+  compress: true
 };
 
 const ERROR_MESSAGE = {
@@ -78,7 +78,7 @@ gulp.task('js', () => {
     .pipe(babel())
     .pipe(s)
     .pipe(plumber.stop())
-    .pipe(gulp.dest('./build/app'))
+    .pipe(gulp.dest('./build'))
     .pipe(notify({
       onLast: true,
       message: () => `JS - Total size ${s.prettySize}`
@@ -86,18 +86,18 @@ gulp.task('js', () => {
 });
 
 gulp.task('js-prod', () => {
-    const s = size({title: 'JS production -> ', pretty: false});
-    return gulp.src(JS)
-        .pipe(plumber(ERROR_MESSAGE))
-        .pipe(babel())
-        .pipe(uglify(UGLIFY_AGRESIVE))
-        .pipe(s)
-        .pipe(plumber.stop())
-        .pipe(gulp.dest('./build/app'))
-        .pipe(notify({
-            onLast: true,
-            message: () => `JS(prod) - Total size ${s.prettySize}`
-        }));
+  const s = size({title: 'JS production -> ', pretty: false});
+  return gulp.src(JS)
+    .pipe(plumber(ERROR_MESSAGE))
+    .pipe(babel())
+    .pipe(uglify(UGLIFY_AGRESIVE))
+    .pipe(s)
+    .pipe(plumber.stop())
+    .pipe(gulp.dest('./build/app'))
+    .pipe(notify({
+      onLast: true,
+      message: () => `JS(prod) - Total size ${s.prettySize}`
+    }));
 });
 
 gulp.task('systemjs', () => {
@@ -111,7 +111,7 @@ gulp.task('template', () => {
   return gulp.src(HTML)
     .pipe(plumber(ERROR_MESSAGE))
     .pipe(templateCache({
-        standalone: true
+      standalone: true
     }))
     .pipe(rename("app.templates.js"))
     .pipe(s)
@@ -124,24 +124,24 @@ gulp.task('template', () => {
 });
 
 gulp.task('generate-index', () => {
-	const s = size({title: 'generate-index -> ', pretty: false});
+  const s = size({title: 'generate-index -> ', pretty: false});
   return gulp.src('./src/index.html')
     .pipe(plumber(ERROR_MESSAGE))
     .pipe(s)
     .pipe(plumber.stop())
     .pipe(gulp.dest('./build/'))
-	  .pipe(notify({
-		  onLast: true,
-		  message: () => `generate-index - Total size ${s.prettySize}`
-	  }));
+    .pipe(notify({
+      onLast: true,
+      message: () => `generate-index - Total size ${s.prettySize}`
+    }));
 });
 
 
 gulp.task('sass', () => {
   const s = size({
-      onLast: true,
-      title: 'SASS -> ',
-      pretty: true
+    onLast: true,
+    title: 'SASS -> ',
+    pretty: true
   });
   return gulp.src(SASS)
     .pipe(plumber(ERROR_MESSAGE))
@@ -161,9 +161,9 @@ gulp.task('sass', () => {
 
 gulp.task('sass-prod', () => {
   const s = size({
-      onLast: true,
-      title: 'SASS -> ',
-      pretty: false
+    onLast: true,
+    title: 'SASS -> ',
+    pretty: false
   });
   return gulp.src(SASS)
     .pipe(plumber(ERROR_MESSAGE))
@@ -183,19 +183,19 @@ gulp.task('sass-prod', () => {
 
 
 gulp.task('font', () => {
-   gulp.src(FONT)
+  gulp.src(FONT)
     .pipe(plumber(ERROR_MESSAGE))
     .pipe(gulp.dest('./build/fonts'));
 });
 
 gulp.task('img', () => {
-   gulp.src(IMG)
+  gulp.src(IMG)
     .pipe(plumber(ERROR_MESSAGE))
     .pipe(gulp.dest('./build/images'));
 });
 
 
-gulp.task('watch', () =>  {
+gulp.task('watch', () => {
   gulp.watch(SASS, ['sass']);
   gulp.watch(JS, ['js']);
   gulp.watch(HTML, ['build-template']);
@@ -204,8 +204,8 @@ gulp.task('watch', () =>  {
   gulp.watch("src/index.html", ['generate-index']);
 });
 
-gulp.task('clean', () =>  {
-  return del(['./build/**','!./build/scripts/vendor/**','!./build/scripts','!./build']);
+gulp.task('clean', () => {
+  return del(['./build/**', '!./build/scripts/vendor/**', '!./build/scripts', '!./build']);
 });
 
 

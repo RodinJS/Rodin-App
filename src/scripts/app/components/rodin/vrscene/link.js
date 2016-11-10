@@ -10,7 +10,7 @@ function SceneLink(scope, elem, attrs, ngModel) {
     domElement: elem[0],
     API: scope._VRAPI
   });
-  
+
 }
 
 
