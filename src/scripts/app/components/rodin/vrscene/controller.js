@@ -11,10 +11,6 @@ class SceneCtrl {
 
     ///
     this._$scope._VRAPI = this._VRAPI;
-
-
-    window.VRAPI = VRAPI;
-    console.log("VRAPI", VRAPI)
   }
 }
 

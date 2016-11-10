@@ -4,7 +4,7 @@
 class Project {
   constructor(JWT, AppConstants, Restangular, Validator, $state, $q) {
     'ngInject';
-    
+
     this._JWT = JWT;
     this._AppConstants = AppConstants;
 
