@@ -14,6 +14,9 @@ componentsModule.directive('compile', Compile);
  * Rodin modules
  * */
 
+import VrSceneFactory from './rodin/vrscene/factory';
+componentsModule.factory('VrScene', VrSceneFactory);
+
 import VrScene from './rodin/vrscene/index';
 componentsModule.directive('vrScene', VrScene);
 
