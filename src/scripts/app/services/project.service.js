@@ -4,6 +4,7 @@
 class Project {
   constructor(JWT, AppConstants, Restangular, Validator, $state, $q) {
     'ngInject';
+
     this._JWT = JWT;
     this._AppConstants = AppConstants;
 
@@ -16,6 +17,7 @@ class Project {
 
   getPublished(projectId = null, fields = {}) {
     let deferred = this._$q.defer();
+
     this._Projects.all("published").one(projectId).get(fields).then((result) => {
       this._Validator.validateHTTP(result);
       if (this._Validator.isValidHTTP()) {
@@ -35,6 +37,7 @@ class Project {
 
   getPublishedList(fields = {}) {
     let deferred = this._$q.defer();
+
     this._Projects.all("published").one('list').get(fields).then((result) => {
       this._Validator.validateHTTP(result);
       if (this._Validator.isValidHTTP()) {
@@ -55,6 +58,7 @@ class Project {
 
   get(projectId = null, fields = {}) {
     let deferred = this._$q.defer();
+
     this._Projects.one(projectId).get(fields).then((result) => {
       this._Validator.validateHTTP(result);
       if (this._Validator.isValidHTTP()) {
@@ -74,6 +78,7 @@ class Project {
 
   getList(fields = {}) {
     let deferred = this._$q.defer();
+
     this._Projects.one('').get(fields).then((result) => {
       this._Validator.validateHTTP(result);
       if (this._Validator.isValidHTTP()) {
