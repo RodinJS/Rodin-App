@@ -1,12 +1,17 @@
-*{
+* {
   margin: 0;
   padding: 0;
   list-style-type: none;
-  color: #000000;
+  color: $defaultColor;
+  
+  font-family: $defaultFont;
+  font-weight: $defaultFontWeight;
+  font-size: $defaultFontSize;
+}
 
-  font-family: Arial;
-  font-weight: 400;
-  font-size: 14px;
+html, body {
+  width: 100%;
+  height: 100%;
 }
 
 .app-container {
@@ -17,6 +22,7 @@
   width: 100%;
 }
 
+//// Scroll bar style
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;

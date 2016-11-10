@@ -30,5 +30,8 @@ servicesModule.service('Project', ProjectService);
 import StorageService from './storage.service';
 servicesModule.service('Storage', StorageService);
 
+import VRAPIService from './vrapi.service';
+servicesModule.service('VRAPI', VRAPIService);
+
 
 export default MODULE_NAME;
