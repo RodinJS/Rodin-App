@@ -162,4 +162,4 @@ bower_components
 
 ### Project specific ###
 /build
-/src/app/config/app.templates.js
+/src/scripts/app/config/app.templates.js
