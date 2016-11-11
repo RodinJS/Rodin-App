@@ -5,13 +5,14 @@
 let self;
 
 class VRAPI {
-  constructor(AppConstants, $state, $location, $q, Project, JWT) {
+  constructor(AppConstants, $state, $location, $q, Project, JWT, User) {
     'ngInject';
 
     self = this;
 
     this._AppConstants = AppConstants;
     this._Project = Project;
+    this._User = User;
     this._$state = $state;
     this._$location = $location;
     this._$q = $q;
@@ -73,59 +74,49 @@ class VRAPI {
     return !!self._JWT.get();
   }
 
-  ///////////////
-  //Projects API
-  ///////////////
-
   /**
-   * @name openProject
+   * @name logIn
    *
    * @description
-   * open project
+   * for login to the system
    *
-   * @param {Object} project project object
-   * */
-  openProject(project = {}) {
-    self._$state.go("main.project", {});
-  }
-
-  /**
-   * @name getProjects
-   *
-   * @description
-   * return projects list by `status`
-   *
-   * @param {String} [status="all"] project status: ["all", "my"]
-   * @param {Object} [filter={}] filter project
-   * @param {Object} [sort={}] sort project
+   * @param {Object} fields
    *
    * @return {Promise}
    * */
-  getProjects(status = "all", filter = {}, sort = {}) {
-    if (status === "all") {
-      return self._Project.getPublishedList(filter, sort);
-    } else if (status = "my") {
-      return self._Project.getList(filter, sort);
-    } else {
-      throw new Error(`This status type doesn't supported: ${status}`);
-    }
+  logIn(fields = {}) {
+
+    return self._User.login(fields);
+
   }
 
   /**
-   * @name getProject
+   * @name logOut
    *
    * @description
-   * return project information
+   * for logout from the system
    *
-   * @param {String} id project id or root folder
-   *
-   * @return {Promise}
    * */
-  getProject(id = "") {
-
-    return self._Project.get(id);
-
+  logOut() {
+    self._User.logout();
   }
+
+  ///////////////
+  //User API
+  ///////////////
+
+  /**
+   * @name getUserInfo
+   *
+   * @description
+   * return user info if user is authorized
+   *
+   * @return {Object}
+   * */
+  getUserInfo(){
+    return self._User.current;
+  }
+
 
 }
 
