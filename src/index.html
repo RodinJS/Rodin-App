@@ -54,7 +54,13 @@
 
   System.config({
     map: {
-      css: '/scripts/systemjs/css.js'  // path to css.js file
+      css: '/scripts/systemjs/css.js',
+      glsl: 'https://cdn.rodinapp.com/systemjs/glsl.js'
+    },
+    meta: {
+      'https://cdn.rodinapp.com/*.glsl': {
+        loader: 'glsl'
+      }
     },
     paths: {
       '*': 'scripts/vendor/*',
@@ -63,6 +69,12 @@
       'scripts/*': 'scripts/*'
     },
     packages: {
+      "https://cdn.rodinapp.com/": {  // path to your project root
+        "defaultJSExtensions": true
+      },
+      "https://cdn.rodinapp.com/nm": {
+        "defaultJSExtensions": true
+      },
       "/scripts": {  // path to your project root
         "defaultJSExtensions": true,
         meta: {
@@ -78,11 +90,15 @@
     }
   });
 
-
-  System.import('app3d/three/three.js');
+  System.import('https://cdn.rodinapp.com/three/THREE.GLOBAL.js');
 
   System.import('app/app.js');
 
 </script>
+
+<script src="https://cdn.rodinapp.com/nm/es6-promise.js"></script>
+<script src="https://cdn.rodinapp.com/nm/webvr-polyfill.js"></script>
+<script src="https://cdn.rodinapp.com/nm/webvr-manager.js"></script>
+
 </body>
 </html>

@@ -1,11 +1,10 @@
-import * as THREE from './three/three';
+import 'https://cdn.rodinapp.com/three/THREE.GLOBAL.js';
 
-import 'three.js/examples/js/controls/VRControls';
 import 'three.js/examples/js/controls/VRControls';
 import 'three.js/examples/js/effects/VREffect';
 
 
-class APP {
+export class APP {
     constructor (params) {
         this.domElement = params.domElement;
         this.API = params.API;
@@ -13,12 +12,23 @@ class APP {
         this.projects = [];
         this.window = params.domElement;
 
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
+        Object.defineProperty(this.window, "innerWidth", {
+            get: function () {
+                return this.offsetWidth;
+            }
+        });
+        Object.defineProperty(this.window, "innerHeight", {
+            get: function () {
+                return this.offsetHeight;
+            }
+        });
+
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.window.appendChild(renderer.domElement);
+        this.window.appendChild(this.renderer.domElement);
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.window.innerWidth / this.window.innerHeight, 0.01, 10000);
-        this.controls = new THREE.VRControls(camera);
+        this.controls = new THREE.VRControls(this.camera);
         this.controls.standing = true;
         this.effect = new THREE.VREffect(this.renderer);
         this.effect.setSize(this.window.innerWidth, this.window.innerHeight);
@@ -42,5 +52,3 @@ class APP {
         )
     }
 }
-
-export {APP};
