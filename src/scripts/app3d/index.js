@@ -1,4 +1,6 @@
 import 'https://cdn.rodinapp.com/three/THREE.GLOBAL.js';
+import {Scene} from './scene/scene';
+import {Skybox} from './skybox/skybox';
 
 import 'three.js/examples/js/controls/VRControls';
 import 'three.js/examples/js/effects/VREffect';
@@ -10,30 +12,24 @@ export class APP {
         this.API = params.API;
 
         this.projects = [];
-        this.window = params.domElement;
+        this.window = APP.initWindow(params.domElement);
 
-        Object.defineProperty(this.window, "innerWidth", {
-            get: function () {
-                return this.offsetWidth;
+        this.scene = new Scene(this.window);
+        this.skybox = new Skybox('images/skybox.jpg', 3400);
+
+        this.scene.add(this.skybox);
+
+        this.manager = new WebVRManager(
+            this.scene.renderer,
+            this.scene.effect,
+            {
+                hideButton: false,
+                isUndistorted: false
             }
-        });
-        Object.defineProperty(this.window, "innerHeight", {
-            get: function () {
-                return this.offsetHeight;
-            }
-        });
+        );
 
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
-        this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.window.appendChild(this.renderer.domElement);
-        this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(75, this.window.innerWidth / this.window.innerHeight, 0.01, 10000);
-        this.controls = new THREE.VRControls(this.camera);
-        this.controls.standing = true;
-        this.effect = new THREE.VREffect(this.renderer);
-        this.effect.setSize(this.window.innerWidth, this.window.innerHeight);
-
-        this.getProjects();
+        requestAnimationFrame(this.animate.bind(this));
+        // this.getProjects();
     }
 
     getProjects () {
@@ -50,5 +46,31 @@ export class APP {
                 console.log(err);
             }
         )
+    }
+
+    animate (timestamp) {
+        this.scene.controls.update();
+        this.manager.render(this.scene, this.scene.camera, timestamp);
+        requestAnimationFrame(this.animate.bind(this));
+    }
+
+    /**
+     * Static method init window
+     * @param _window
+     * @returns {*}
+     */
+    static initWindow (_window) {
+        Object.defineProperty(_window, "innerWidth", {
+            get: function () {
+                return this.offsetWidth;
+            }
+        });
+        Object.defineProperty(_window, "innerHeight", {
+            get: function () {
+                return this.offsetHeight;
+            }
+        });
+
+        return _window;
     }
 }
