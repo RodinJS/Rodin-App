@@ -6,7 +6,7 @@ class Error {
   }
 
 
-  showErrors(errors, form, formScope) {
+  show(errors, form, formScope) {
     if (!_.isArray(errors)) {
       return this._$log.error("assigned parameter does not array");
     }
@@ -52,7 +52,7 @@ class Error {
     }
   }
 
-  hideErrors(errors, form, formScope) {
+  hide(errors, form, formScope) {
     if (!_.isArray(errors)) {
       return this._$log.error("assigned parameter does not array");
     }

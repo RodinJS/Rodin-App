@@ -13,6 +13,7 @@
     "angular-bootstrap": "^2.1.3",
     "bootstrap-sass": "^3.3.7",
     "font-awesome": "^4.6.3",
-    "three.js": "threejs#*"
+    "three.js": "threejs#*",
+    "angular-messages": "^1.5.8"
   }
 }

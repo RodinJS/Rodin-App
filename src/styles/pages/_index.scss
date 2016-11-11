@@ -1,7 +1,12 @@
 .page {
   display: block;
   width: 100%;
+  
+  .page-title {
+    color: $white;
+  }
 }
 
 @import "home";
 @import "auth";
+@import "error";

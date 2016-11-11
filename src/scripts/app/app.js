@@ -13,6 +13,7 @@ import appRun     from './config/app.run';
 import 'angular-cookies/angular-cookies.min';
 import 'angular-sanitize/angular-sanitize.min';
 import 'angular-event-emitter/angular-event-emitter';
+import 'angular-messages/angular-messages.min';
 
 import 'ng-device-detector/ng-device-detector.min';
 import 'lodash/dist/lodash.min';
@@ -41,6 +42,7 @@ const requires = [
   'ngCookies',
   'ngSanitize',
   'ngEventEmitter',
+  'ngMessages',
   // 'ng.deviceDetector',
   //
   'angular-storage',

@@ -1,0 +1,31 @@
+.page.error-page {
+  .main-container {
+    .page-404-content {
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    h1 {
+      font-size: 150px;
+      line-height: .78;
+      font-weight: 700;
+      color: rgba($white, .2);
+      margin: 0;
+      margin-bottom: 40px;
+    }
+    h5 {
+      color: $white;
+      font-weight: 400;
+      margin-top: 0;
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+    .btn-primary {
+      height: 42px;
+      padding: 12px;
+      font-size: 12px;
+    }
+  }
+}

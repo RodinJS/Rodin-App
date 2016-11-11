@@ -1,0 +1,29 @@
+.btn {
+  font-size: 10px;
+  font-weight: 700;
+  color: $colorBlue;
+  
+  &.btn-center {
+    margin: 0 auto;
+  }
+  
+  &.btn-primary {
+    color: $white;
+    background-color: transparent;
+    border: 1px solid rgba($white, .3);
+    min-width: 165px;
+    height: 30px;
+    border-radius: 30px;
+    transition: all .3s;
+    &:hover {
+      background-color: transparent;
+      border-color: $colorBlue;
+    }
+    &.btn-orange {
+      border-color: $colorOrange;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);;
+      }
+    }
+  }
+}
