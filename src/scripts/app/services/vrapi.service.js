@@ -102,6 +102,60 @@ class VRAPI {
   }
 
   ///////////////
+  //Projects API
+  ///////////////
+
+  /**
+   * @name openProject
+   *
+   * @description
+   * open project
+   *
+   * @param {Object} project project object
+   * */
+  openProject(project = {}) {
+    self._$state.go("main.project", {});
+  }
+
+  /**
+   * @name getProjects
+   *
+   * @description
+   * return projects list by `status`
+   *
+   * @param {String} [status="all"] project status: ["all", "my"]
+   * @param {Object} [filter={}] filter project
+   * @param {Object} [sort={}] sort project
+   *
+   * @return {Promise}
+   * */
+  getProjects(status = "all", filter = {}, sort = {}) {
+    if (status === "all") {
+      return self._Project.getPublishedList(filter, sort);
+    } else if (status = "my") {
+      return self._Project.getList(filter, sort);
+    } else {
+      throw new Error(`This status type doesn't supported: ${status}`);
+    }
+  }
+
+  /**
+   * @name getProject
+   *
+   * @description
+   * return project information
+   *
+   * @param {String} id project id or root folder
+   *
+   * @return {Promise}
+   * */
+  getProject(id = "") {
+
+    return self._Project.get(id);
+
+  }
+
+  ///////////////
   //User API
   ///////////////
 
@@ -113,7 +167,7 @@ class VRAPI {
    *
    * @return {Object}
    * */
-  getUserInfo(){
+  getUserInfo() {
     return self._User.current;
   }
 
