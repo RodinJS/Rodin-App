@@ -3,6 +3,11 @@
   width: 100%;
   height: auto;
   
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  
   &.main-layout {
     height: 100%;
   }

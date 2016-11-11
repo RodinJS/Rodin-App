@@ -44,9 +44,9 @@ var templateCache = require('gulp-angular-templatecache');
 const JS = ['src/scripts/**/**/**/*.js'];
 const HTML = ['src/scripts/app/**/**/**/*.html'];
 const SYSTEMJS = ['src/systemjs/*.js'];
-const SASS = ['src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}'];
+const SASS = ['src/styles/**/**/*.scss'];
 const FONT = ['src/fonts/**/*.{ttf,woff,woff2,eof,svg,eot,json}'];
-const IMG = ['src/images/**/*.{jpg,jpeg,ico,png,svg,gif,json,xml}'];
+const IMG = ['src/images/**/**/*.{jpg,jpeg,ico,png,svg,gif,json,xml}'];
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
