@@ -4,6 +4,7 @@ class ProjectCtrl {
 
     this.appName = AppConstants.appName;
 
+    this.projectUrl = "";
   }
 }
 
