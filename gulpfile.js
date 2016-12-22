@@ -116,7 +116,7 @@ gulp.task('template', () => {
     .pipe(rename("app.templates.js"))
     .pipe(s)
     .pipe(plumber.stop())
-    .pipe(gulp.dest('./src/scripts/app/config/'))
+    .pipe(gulp.dest('./build/app/config/'))
     .pipe(notify({
       onLast: true,
       message: () => `template - Total size ${s.prettySize}`
