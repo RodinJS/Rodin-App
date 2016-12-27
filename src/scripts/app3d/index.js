@@ -62,20 +62,30 @@ export class APP {
             "/images/app3d/img/thumb9.jpg",
         ];
 
-        for (let i = 0; i < projects.length; i++) {
-            helix.addThumb(new HelixThumb({
-                image: projects[i],
-                name: projects[i]
-            }));
-        }
+        this.addProjects(projects.map(i => {
+            return {image: i, name: i}
+        }), helix);
 
         icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
-            if(!this.API.isLoggedIn()) {
+            if (!this.API.isLoggedIn()) {
                 popups.notSignedIn.open();
             } else {
                 // blablabla
             }
         });
+    }
+
+    addProjects(projects, helix) {
+        projects = projects.map(i => new HelixThumb(i));
+
+        for (let i = 0; i < projects.length; i++) {
+            helix.addThumb(projects[i]);
+
+            console.log(projects[i]);
+            projects[i].on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
+                console.log(evt.target);
+            });
+        }
     }
 
     getProjects() {
