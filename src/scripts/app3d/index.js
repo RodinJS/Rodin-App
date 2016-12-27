@@ -28,9 +28,7 @@ export class APP {
         let scene = SceneManager.get();
         scene.setCameraProperty('fov', 70);
         scene.scene.background = new THREE.Color(0xc8c8c8);
-
-        console.clear();
-        console.log(scene);
+        this.scene = scene;
 
         controllers.mouse.onValueChange = function (keyCode) {
             const value = buttons[keyCode - 1].value;
@@ -124,5 +122,12 @@ export class APP {
         });
 
         return _window;
+    }
+
+    destroy() {
+        for (let i = 0; i < this.scene.scene.children.length; i++) {
+            scene.scene.remove(this.scene.scene.children[i]);
+            delete this.scene.scene.children[i];
+        }
     }
 }
