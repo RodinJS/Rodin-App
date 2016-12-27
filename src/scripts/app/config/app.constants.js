@@ -10,7 +10,7 @@ const AppConstants = {
     COOKIEDOMAIN: ['localhost', '.rodin.space'],
     // API: 'http://192.168.0.30:3000/api',
     //API: 'https://api.rodin.space/api',
-    API: 'http://localhost:3000/api',
+    API: 'http://192.168.0.9:3000/api',
     // SITE: 'http://localhost:3000/api',
     SITE: 'http://localhost:8585/#/',
     PREVIEW: 'https://api.rodin.space/preview/',
