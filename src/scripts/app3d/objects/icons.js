@@ -17,7 +17,8 @@ export class OpeningIcon extends HoverableElement {
             this.slider = new Element(arguments[2]);
 
             this.slider.on('ready', () => {
-                this.slider.object3D.scale.x = 0;
+                this.slider.object3D.scale.x = 0.000001;
+                this.slider.object3D.visible = false;
                 this.slider.object3D.position.z = -0.01;
                 this.object3D.add(this.slider.object3D);
 
@@ -29,17 +30,23 @@ export class OpeningIcon extends HoverableElement {
                 }
 
                 const openAnimation = new Animation('open', { position: { x: x }, scale: { x: 1 } });
-                const closeAnimation = new Animation('close', { position: { x: 0 }, scale: { x: 0 } });
+                const closeAnimation = new Animation('close', { position: { x: 0 }, scale: { x: 0.000001 } });
                 openAnimation.duration(150);
                 closeAnimation.duration(150);
                 this.slider.animator.add(openAnimation);
                 this.slider.animator.add(closeAnimation);
             });
 
+            this.slider.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
+                if(evt.animation == "close")
+                    this.slider.object3D.visible = true;
+            });
+
             this.slider.open = () => {
                 if (this.slider.animator.isPlaying('close'))
                     this.slider.animator.stop('close', false);
 
+                this.slider.object3D.visible = true;
                 this.slider.animator.start('open');
             };
 

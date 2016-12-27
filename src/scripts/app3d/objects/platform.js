@@ -47,12 +47,14 @@ aboutButton.on(EVENT_NAMES.CONTROLLER_HOVER_OUT, (evt) => {
 });
 
 aboutButton.on(EVENT_NAMES.CONTROLLER_KEY_UP, () => {
-    aboutButton.object3D.scale.y = 0;
+    aboutButton.object3D.scale.y = 0.000001;
+    aboutButton.object3D.visible = false;
     about.open();
 });
 
 about.on('close', () => {
     aboutButton.object3D.scale.y = 1;
+    aboutButton.object3D.visible = true;
 });
 
 aboutButton.on('update', (evt) => {

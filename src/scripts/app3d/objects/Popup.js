@@ -83,12 +83,14 @@ export class Popup extends Element {
     }
 
     close () {
-        this.object3D.scale.set(0, 0, 0);
+        this.object3D.scale.set(0.00001, 0.00001, 0.00001);
+        this.object3D.visible = false;
         this.emit('close', new Event(this));
     }
 
     open () {
         this.object3D.scale.set(1, 1, 1);
+        this.object3D.visible = true;
         this.emit('open', new Event(this));
     }
 }
