@@ -1,4 +1,4 @@
-# Rodin-App
+# Rodin-JS-front
 
 ## Program dependencies
 1. [NodeJS](https://nodejs.org/en/) v4.2.0 or later.

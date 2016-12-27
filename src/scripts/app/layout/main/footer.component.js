@@ -10,7 +10,7 @@ class MainFooterCtrl {
 
 let MainFooter = {
 	controller: MainFooterCtrl,
-	templateUrl: 'layout/main/footer.html'
+	templateUrl: './layout/main/footer.html'
 };
 
 export default MainFooter;

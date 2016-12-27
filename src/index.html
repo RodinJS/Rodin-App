@@ -21,7 +21,7 @@
 
 <div data-ui-view class="app-container clearfix"></div>
 
-<script type="text/javascript" src="/scripts/systemjs/system.js"></script>
+<script type="text/javascript" src="/scripts/vendor/systemjs/dist/system.js"></script>
 <script>
 
   (function (System) {
@@ -56,8 +56,8 @@
 
   System.config({
     map: {
-      css: '/scripts/systemjs/css.js',
-      glsl: 'https://cdn.rodinapp.com/systemjs/glsl.js'
+      css: '/scripts/vendor/systemjs-module/css.js',
+      glsl: '/scripts/vendor/systemjs-module/glsl.js'
     },
     meta: {
       'https://cdn.rodinapp.com/*.glsl': {
@@ -92,15 +92,9 @@
     }
   });
 
-  System.import('https://cdn.rodinapp.com/three/THREE.GLOBAL.js');
-
   System.import('app/app.js');
 
 </script>
-
-<script src="https://cdn.rodinapp.com/nm/es6-promise.js"></script>
-<script src="https://cdn.rodinapp.com/nm/webvr-polyfill.js"></script>
-<script src="https://cdn.rodinapp.com/nm/webvr-manager.js"></script>
 
 </body>
 </html>

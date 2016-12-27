@@ -8,7 +8,7 @@ class MainHeaderCtrl {
 
 let MainHeader = {
 	controller: MainHeaderCtrl,
-	templateUrl: 'layout/main/header.html'
+	templateUrl: './layout/main/header.html'
 };
 
 export default MainHeader;

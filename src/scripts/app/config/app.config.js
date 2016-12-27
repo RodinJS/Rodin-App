@@ -44,7 +44,7 @@ function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlR
   $stateProvider
     .state('app', {
       abstract: true,
-      templateUrl: 'layout/main/app-view.html',
+      templateUrl: './layout/main/app-view.html',
       resolve: {
         auth: function (User) {
           return User.verifyAuth(true);
@@ -53,7 +53,7 @@ function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlR
     })
     .state('main', {
       abstract: true,
-      templateUrl: 'layout/main/main-view.html',
+      templateUrl: './layout/main/main-view.html',
       resolve: {
         auth: function (User) {
           return User.verifyAuth(false);

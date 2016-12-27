@@ -21,6 +21,8 @@
 
 'use strict';
 
+const _ = require('lodash');
+const es = require('event-stream');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const sass = require('gulp-sass');
@@ -37,16 +39,17 @@ const notify = require('gulp-notify');
 const plumber = require('gulp-plumber');
 const size = require('gulp-size');
 const connect = require('gulp-connect');
-// var ngAnnotate = require('gulp-ng-annotate');
-var templateCache = require('gulp-angular-templatecache');
+const templateCache = require('gulp-angular-templatecache');
+const VERSION = require('./package.json').version;
+const VENDOR = require('./package.json').dependencies;
+const VENDORMAP = require('./vendor.json');
 
 
-const JS = ['src/scripts/**/**/**/*.js'];
-const HTML = ['src/scripts/app/**/**/**/*.html'];
-const SYSTEMJS = ['src/systemjs/*.js'];
-const SASS = ['src/styles/**/**/*.scss'];
+const JS = ['src/scripts/**/**/*.js', '!src/scripts/systemjs-module/**', '!src/scripts/{vendor,vendor/**}'];
+const HTML = ['src/scripts/**/**/*.html', 'src/scripts/**/**/**/*.html'];
+const SASS = ['src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}'];
 const FONT = ['src/fonts/**/*.{ttf,woff,woff2,eof,svg,eot,json}'];
-const IMG = ['src/images/**/**/*.{jpg,jpeg,ico,png,svg,gif,json,xml}'];
+const IMG = ['src/images/**/*.{jpg,jpeg,ico,png,svg,gif,json,xml}'];
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
@@ -69,6 +72,53 @@ const UGLIFY_AGRESIVE = {
 const ERROR_MESSAGE = {
   errorHandler: notify.onError("Error: <%= error.message %>")
 };
+
+gulp.task('vendor', () => {
+  let vendor_tasks = generate_vendor(VENDOR);
+
+  let custom_vendor_tasks = _.map(VENDORMAP, (item, key) => {
+    let src, dest;
+
+    src = item.src;
+    if (!src) {
+      throw new Error(`Please provide ${key} external module src.`);
+    }
+    dest = `./build/scripts/vendor/${item.dest || ""}`;
+
+    return gulp.src(src).pipe(gulp.dest(dest))
+  });
+
+  es.merge(_.concat(vendor_tasks, custom_vendor_tasks));
+});
+
+function generate_vendor(vendor) {
+  let list = [];
+  return _.concat(list, _.map(vendor, (item, key) => {
+    let src, dest, dependencies;
+    let module = key;
+    if (VENDORMAP && VENDORMAP[module]) {
+      let moduleMap = VENDORMAP[module];
+      src = moduleMap.src;
+      if (!src) {
+        throw new Error(`Please provide ${key} module src.`);
+      }
+      dest = `./build/scripts/vendor/${moduleMap.dest || key}`;
+    } else {
+      dependencies = require(`./node_modules/${module}/package.json`).dependencies;
+      src = `./node_modules/${module}/**/*.*`;
+      dest = `./build/scripts/vendor/${module}`;
+    }
+
+    delete VENDORMAP[module];
+    let task = gulp.src(src).pipe(gulp.dest(dest));
+
+    if (dependencies) {
+      _.concat(list, generate_vendor(dependencies));
+    }
+
+    return task;
+  }));
+}
 
 gulp.task('js', () => {
   const s = size({title: 'JS -> ', pretty: true});
@@ -93,17 +143,11 @@ gulp.task('js-prod', () => {
     .pipe(uglify(UGLIFY_AGRESIVE))
     .pipe(s)
     .pipe(plumber.stop())
-    .pipe(gulp.dest('./build/app'))
+    .pipe(gulp.dest('./build'))
     .pipe(notify({
       onLast: true,
       message: () => `JS(prod) - Total size ${s.prettySize}`
     }));
-});
-
-gulp.task('systemjs', () => {
-  return gulp.src(SYSTEMJS)
-    .pipe(plumber(ERROR_MESSAGE))
-    .pipe(gulp.dest('./build/scripts/systemjs'));
 });
 
 gulp.task('template', () => {
@@ -116,7 +160,7 @@ gulp.task('template', () => {
     .pipe(rename("app.templates.js"))
     .pipe(s)
     .pipe(plumber.stop())
-    .pipe(gulp.dest('./build/app/config/'))
+    .pipe(gulp.dest('./src/scripts/app/config/'))
     .pipe(notify({
       onLast: true,
       message: () => `template - Total size ${s.prettySize}`
@@ -205,7 +249,7 @@ gulp.task('watch', () => {
 });
 
 gulp.task('clean', () => {
-  return del(['./build/**', '!./build/scripts/vendor/**', '!./build/scripts', '!./build']);
+  return del(['./build/**']);
 });
 
 
@@ -224,9 +268,9 @@ gulp.task('build-template', (done) => {
 
 
 gulp.task('prod', (done) => {
-  sequence('clean', ['generate-index', 'template', 'js-prod', 'systemjs', 'sass-prod', 'font', 'img'], done);
+  sequence('clean', 'vendor', ['generate-index', 'template', 'js-prod', 'sass-prod', 'font', 'img'], done);
 });
 
 gulp.task('default', (done) => {
-  sequence('clean', ['generate-index', 'template', 'js', 'systemjs', 'sass', 'font', 'img', 'connect', 'watch'], done);
+  sequence('clean', 'vendor', ['generate-index', 'template', 'js', 'sass', 'font', 'img', 'connect', 'watch'], done);
 });
