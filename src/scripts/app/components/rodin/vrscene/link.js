@@ -11,6 +11,9 @@ function SceneLink(scope, elem, attrs, ngModel) {
     API: scope._VRAPI
   });
 
+  scope.$on('$destroy', () => {
+    Scene.destroy();
+  });
 }
 
 
