@@ -49,7 +49,7 @@ const JS = ['src/scripts/**/**/*.js', '!src/scripts/systemjs-module/**', '!src/s
 const HTML = ['src/scripts/**/**/*.html', 'src/scripts/**/**/**/*.html'];
 const SASS = ['src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}'];
 const FONT = ['src/fonts/**/*.{ttf,woff,woff2,eof,svg,eot,json}'];
-const IMG = ['src/images/**/*.{jpg,jpeg,ico,png,svg,gif,json,xml}'];
+const IMG = ['src/images/**/*'];
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
