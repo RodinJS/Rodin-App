@@ -6,7 +6,7 @@ function AuthConfig($stateProvider) {
     .state('main.login', {
       url: '/login',
       controller: 'AuthCtrl as $ctrl',
-      templateUrl: 'pages/auth/auth.html',
+      templateUrl: 'app/pages/auth/auth.html',
       title: 'Sign in',
       redirectToWhenAuthenticated: "main.home"
     })

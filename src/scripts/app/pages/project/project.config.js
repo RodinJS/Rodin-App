@@ -9,7 +9,7 @@ function ProjectConfig($stateProvider) {
       },
       controller: 'ProjectCtrl',
       controllerAs: '$ctrl',
-      templateUrl: 'pages/project/project.html',
+      templateUrl: 'app/pages/project/project.html',
       title: 'Project',
     });
 

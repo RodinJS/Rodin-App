@@ -9,6 +9,8 @@ class SceneCtrl {
     this._RodinVrScene = RodinVrScene;
     this._VRAPI = VRAPI;
 
+    window.VRAPI = VRAPI;
+
     ///
     this._$scope._VRAPI = this._VRAPI;
   }

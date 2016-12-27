@@ -4,41 +4,74 @@
 class Project {
   constructor(JWT, AppConstants, Restangular, Validator, $state, $q, Analyser) {
     'ngInject';
-
     this._JWT = JWT;
     this._AppConstants = AppConstants;
-
-    this._Analyser = Analyser;
 
     this._Projects = Restangular.all('project');
     this._$state = $state;
     this._$q = $q;
     this._Validator = new Validator();
+    this._Analyser = Analyser;
   }
 
-  getPublished(projectId = null, fields = {}) {
-       let Analyser = new this._Analyser();
-       this._Projects.all("published").one(projectId).get(fields).then(Analyser.resolve, Analyser.reject);
-       return Analyser.promise;
-  }
+  get(projectId = null, fields) {
+    let Analyser = new this._Analyser();
 
-  getPublishedList(fields = {}) {
-      let Analyser = new this._Analyser();
-      this._Projects.all("published").one('list').get(fields).then(Analyser.resolve, Analyser.reject);
-      return Analyser.promise;
-  }
+    this._Projects.one(projectId).get(fields).then(Analyser.resolve, Analyser.reject);
 
-  get(projectId = null, fields = {}) {
-
-      let Analyser = new this._Analyser();
-      this._Projects.one(projectId).get(fields).then(Analyser.resolve, Analyser.reject);
-      return Analyser.promise;
+    return Analyser.promise;
   }
 
   getList(fields = {}) {
-      let Analyser = new this._Analyser();
-      this._Projects.one('').get(fields).then(Analyser.resolve, Analyser.reject);
-      return Analyser.promise;
+    let Analyser = new this._Analyser();
+
+    this._Projects.one('').get(fields).then(Analyser.resolve, Analyser.reject);
+
+    return Analyser.promise;
+  }
+
+  getPublished(projectId = null, fields = {}) {
+    let Analyser = new this._Analyser();
+    this._Projects.all("published").one(projectId).get(fields).then(Analyser.resolve, Analyser.reject);
+    return Analyser.promise;
+  }
+
+  getPublishedList(fields = {}) {
+    let Analyser = new this._Analyser();
+    this._Projects.all("published").one('list').get(fields).then(Analyser.resolve, Analyser.reject);
+    return Analyser.promise;
+  }
+
+  update(projectId = null, fields = {}) {
+    let Analyser = new this._Analyser();
+
+    this._Projects.one(projectId).put(fields).then(Analyser.resolve, Analyser.reject);
+
+    return Analyser.promise;
+  }
+
+  create(fields = {}) {
+    let Analyser = new this._Analyser();
+
+    this._Projects.post(fields).then(Analyser.resolve, Analyser.reject);
+
+    return Analyser.promise;
+  }
+
+  remove(projectId = null, fields = {}) {
+    let Analyser = new this._Analyser();
+
+    this._Projects.one(projectId).remove(fields).then(Analyser.resolve, Analyser.reject);
+
+    return Analyser.promise;
+  }
+
+  buildCode(projectId = null, fields = {}) {
+    let Analyser = new this._Analyser();
+
+    this._Projects.one(projectId).one("build", "transpile").get(fields).then(Analyser.resolve, Analyser.reject);
+
+    return Analyser.promise;
   }
 
 }

@@ -133,7 +133,8 @@ function Validator(AppConstants, $log) {
           errors.push({
             fieldName: error.field,
             code: backErrors.status,
-            error: error.message
+            error: error.message,
+            data: backErrors
           })
         } else {
           error = ERRORCODES[defaultCode];

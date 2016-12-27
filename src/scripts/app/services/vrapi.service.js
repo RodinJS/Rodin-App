@@ -31,7 +31,7 @@ class VRAPI {
    *
    * @param {String} url
    * */
-  navigate(url = "") {
+  navigate(url = "", params = {}) {
     let state;
     switch (url) {
       case "/":
@@ -39,6 +39,9 @@ class VRAPI {
         break;
       case "/login":
         state = "main.login";
+        break;
+      case "/project":
+        state = "main.project";
         break;
       case "/dashboard":
         state = "app.dashboard";
@@ -48,7 +51,7 @@ class VRAPI {
     }
 
     if (state) {
-      self._$state.go(state);
+      self._$state.go(state, params);
     } else {
       url = url.replace(/\\/g, "");
       while (url.charAt(0) === '/')

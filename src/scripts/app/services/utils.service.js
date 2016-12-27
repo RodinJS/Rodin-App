@@ -1,6 +1,9 @@
 /**
  * Created by kh.levon98 on 30-Sep-16.
  */
+
+import * as _ from "lodash/lodash.min";
+
 class Utils {
   constructor($log) {
     'ngInject';
@@ -19,7 +22,7 @@ class Utils {
   }
 
   parseQueryParams(str = "") {
-    var ret = Object.create(null);
+    let ret = Object.create(null);
 
     // str = str.trim().replace(/^([^?|#]*)[?|#]/, ''); /// TODO: epic shit
     str = str.trim().replace(/^([^?|#]*)/, '').replace(/[?|#]/, '');
@@ -29,11 +32,11 @@ class Utils {
     }
 
     str.split('&').forEach(function (param) {
-      var parts = param.replace(/\+/g, ' ').split('=');
+      let parts = param.replace(/\+/g, ' ').split('=');
       // Firefox (pre 40) decodes `%3D` to `=`
       // https://github.com/sindresorhus/query-string/pull/37
-      var key = parts.shift();
-      var val = parts.length > 0 ? parts.join('=') : undefined;
+      let key = parts.shift();
+      let val = parts.length > 0 ? parts.join('=') : undefined;
 
       key = decodeURIComponent(key);
 
@@ -54,46 +57,46 @@ class Utils {
   };
 
   stringifyQueryParams(obj = {}, opts = {}) {
-    var defaults = {
+    let defaults = {
       encode: true,
       strict: true
     };
 
     opts = angular.extend({}, defaults, opts);
 
-    return obj ? Object.keys(obj).sort().map((key)=> {
-      var val = obj[key];
+    return obj ? Object.keys(obj).sort().map((key) => {
+        let val = obj[key];
 
-      if (val === undefined) {
-        return '';
-      }
+        if (val === undefined) {
+          return '';
+        }
 
-      if (val === null) {
-        return this.encode(key, opts);
-      }
+        if (val === null) {
+          return this.encode(key, opts);
+        }
 
-      if (Array.isArray(val)) {
-        var result = [];
+        if (Array.isArray(val)) {
+          let result = [];
 
-        val.slice().forEach((val2)=> {
-          if (val2 === undefined) {
-            return;
-          }
+          val.slice().forEach((val2) => {
+            if (val2 === undefined) {
+              return;
+            }
 
-          if (val2 === null) {
-            result.push(this.encode(key, opts));
-          } else {
-            result.push(this.encode(key, opts) + '=' + this.encode(val2, opts));
-          }
-        });
+            if (val2 === null) {
+              result.push(this.encode(key, opts));
+            } else {
+              result.push(this.encode(key, opts) + '=' + this.encode(val2, opts));
+            }
+          });
 
-        return result.join('&');
-      }
+          return result.join('&');
+        }
 
-      return this.encode(key, opts) + '=' + this.encode(val, opts);
-    }).filter(function (x) {
-      return x.length > 0;
-    }).join('&') : '';
+        return this.encode(key, opts) + '=' + this.encode(val, opts);
+      }).filter(function (x) {
+        return x.length > 0;
+      }).join('&') : '';
   };
 
   encode(value = "", opts = {}) {
