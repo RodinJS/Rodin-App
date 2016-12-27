@@ -29,6 +29,9 @@ export class APP {
         scene.setCameraProperty('fov', 70);
         scene.scene.background = new THREE.Color(0xc8c8c8);
 
+        console.clear();
+        console.log(scene);
+
         controllers.mouse.onValueChange = function (keyCode) {
             const value = buttons[keyCode - 1].value;
             const direction = value - buttons[keyCode - 1].prevValue > 0 ? 1 : -1;
@@ -79,12 +82,11 @@ export class APP {
         projects = projects.map(i => new HelixThumb(i));
 
         for (let i = 0; i < projects.length; i++) {
-            helix.addThumb(projects[i]);
-
-            console.log(projects[i]);
-            projects[i].on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
-                console.log(evt.target);
+            projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
+                console.log(evt.target.object3D.parent);
             });
+
+            helix.addThumb(projects[i]);
         }
     }
 
