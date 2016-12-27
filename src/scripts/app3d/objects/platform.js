@@ -9,7 +9,7 @@ import {about} from './Popup.js';
 
 const scene = SceneManager.get();
 
-export const platform = ModelLoader.load('/images/app3d/models/platform/landscape.obj');
+export const platform = ModelLoader.load('/images/app3d/models/platform/Landscape.obj');
 
 platform.on('ready', () => {
     console.log('ready');

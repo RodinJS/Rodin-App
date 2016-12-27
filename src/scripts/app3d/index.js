@@ -9,7 +9,7 @@ import './objects/platform.js';
 import './objects/lights.js';
 import {Helix} from './objects/Helix.js';
 import {HelixThumb} from './objects/HelixThumb.js';
-import {Popup} from './objects/Popup.js';
+import * as popups from './objects/Popup.js';
 import * as icons from './objects/icons.js';
 
 export class APP {
@@ -68,6 +68,14 @@ export class APP {
                 name: projects[i]
             }));
         }
+
+        icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
+            if(!this.API.isLoggedIn()) {
+                popups.notSignedIn.open();
+            } else {
+                // blablabla
+            }
+        });
     }
 
     getProjects() {
