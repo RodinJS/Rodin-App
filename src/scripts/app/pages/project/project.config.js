@@ -5,7 +5,8 @@ function ProjectConfig($stateProvider) {
     .state('main.project', {
       url: '/project',
       params: {
-        projectUrl: null
+        root: "",
+        owner: ""
       },
       controller: 'ProjectCtrl',
       controllerAs: '$ctrl',

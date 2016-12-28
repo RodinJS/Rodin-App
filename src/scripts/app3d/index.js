@@ -113,8 +113,7 @@ const fadeInSphere = new FadeInSphere();
 
 fadeInSphere.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
     if (evt.animation === 'fadeIn') {
-        // API.navigate('/project', {root: ''});
-        console.log(evt.target.requester);
+        API.navigate('/project', {root: evt.target.requester.root, owner: evt.target.requester.owner});
     }
     if (evt.animation === 'fadeOut') {
         scene.camera.remove(evt.target.object3D);

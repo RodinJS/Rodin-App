@@ -32,6 +32,8 @@ class VRAPI {
    * @param {String} url
    * */
   navigate(url = "", params = {}) {
+    console.log("navigate", url, params)
+
     let state;
     switch (url) {
       case "/":
