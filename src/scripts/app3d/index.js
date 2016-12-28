@@ -13,6 +13,19 @@ import * as popups from './objects/Popup.js';
 import * as icons from './objects/icons.js';
 import {FadeInSphere} from './objects/FadeInSphere.js';
 
+function getQueryVariable(variable) {
+    let query = window.location.search.substring(1);
+    let vars = query.split('&');
+    for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) == variable) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+
+    return 'desktop';
+}
+
 let started = false;
 
 let API = null;
@@ -35,6 +48,7 @@ let helix = null;
 let helixCreated = false;
 
 function createHelix() {
+    helixCreated = true;
     helix = new Helix();
     helix.on('ready', (evt) => {
         scene.add(evt.target.object3D);
@@ -86,15 +100,50 @@ function createHelix() {
 let myHelix = null;
 let myHelixCreated = false;
 
+function createMyHelix() {
+    if(myHelix) {
+        return;
+    }
+
+    myHelix = new Helix();
+}
+
 /**
  * Icons
  */
+function goToNavigate() {
+    popups.notSignedIn.close();
+    API.navigate('/login');
+    window.removeEventListener('resize', goToNavigate);
+}
+
 icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
-    if (!API.isLoggedIn()) {
-        popups.notSignedIn.open();
+    if (API.isLoggedIn()) {
+        switch (getQueryVariable('device')) {
+            case 'mobile':
+                popups.notSignedIn.open();
+                window.addEventListener('resize', goToNavigate);
+                return;
+
+            case 'vr':
+                popups.notSignedIn.open();
+                let timer = setTimeout(function () {
+                    popups.notSignedIn.close();
+                    API.navigate('/login');
+                }, 5000);
+
+                popups.notSignedIn.on('close', () => {
+                    clearTimeout(timer);
+                });
+                return;
+        }
+
+        API.navigate('/login');
+
     } else {
         if (!myHelix) {
             myHelix = new Helix();
+            helix.clear();
         }
     }
 });
@@ -139,7 +188,7 @@ function enterProject(helixThumb, API) {
 function init() {
     fadeInSphere.animator.start('fadeOut');
 
-    if(!helixCreated) {
+    if (!helixCreated) {
         createHelix();
     }
 }

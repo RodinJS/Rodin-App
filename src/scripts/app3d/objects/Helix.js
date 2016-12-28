@@ -71,10 +71,7 @@ export class Helix extends RODIN.THREEObject {
                 this.frame.description.on('ready', () => {
                     this.frame.description.text = null;
                     let height = 1;
-  /*                   if(this.thumbs[this.center].description){
-                        console.clear();
-                        //height = this.thumbs[this.center].description.object3D.geometry.parameters.height+0.1;
-                    }*/
+
                     this.frame.description.frame = new Element({
                         transparent: false,
                         width: 1.38,
@@ -134,6 +131,16 @@ export class Helix extends RODIN.THREEObject {
         }
 
         this.concentrate(this.center);
+    }
+
+
+    clear() {
+        for(let i = 0; i < this.thumbs.length; i ++) {
+            this.object3D.remove(this.thumbs[i].object3D);
+        }
+        this.closeFrame();
+
+        this.thumbs.splice(0, this.thumbs.length);
     }
 
     closeFrame () {

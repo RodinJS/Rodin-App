@@ -71,8 +71,6 @@ aboutButton.on(EVENT_NAMES.CONTROLLER_HOVER, (evt) => {
     evt.target.destinationZ = 1.9;
 });
 
-
 aboutButton.on(EVENT_NAMES.CONTROLLER_HOVER_OUT, (evt) => {
     evt.target.destinationZ = 2;
 });
-
