@@ -78,7 +78,7 @@ let myHelix = null;
  * Icons
  */
 icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, () => {
-    if (!this.API.isLoggedIn()) {
+    if (!API.isLoggedIn()) {
         popups.notSignedIn.open();
     } else {
         if (!myHelix) {
@@ -98,15 +98,25 @@ controllers.mouse.onValueChange = function (keyCode) {
     buttons[keyCode - 1].prevValue = value;
 };
 
+/**
+ * fade in sphere
+ * @type {FadeInSphere}
+ */
 const fadeInSphere = new FadeInSphere();
-fadeInSphere.on('ready', (evt) => {
-    scene.camera.add(evt.target.object3D);
-});
 
 fadeInSphere.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
     if (evt.animation === 'fadeIn') {
         // API.navigate('/project', {root: ''});
         console.log(evt.target.requester);
+    }
+    if(evt.animation === 'fadeOut') {
+        scene.camera.remove(evt.target.object3D);
+    }
+});
+
+fadeInSphere.on(EVENT_NAMES.ANIMATION_START, (evt) => {
+    if(evt.animation === 'fadeIn') {
+        scene.camera.add(evt.target.object3D);
     }
 });
 
@@ -122,24 +132,9 @@ export class APP {
     constructor(params) {
         if (!scene._render)
             scene.start();
-        this.API = params.API;
+
         API = params.API;
         SceneManager.changeContainerDomElement(params.domElement);
-    }
-
-    static initWindow(_window) {
-        Object.defineProperty(_window, "innerWidth", {
-            get: function () {
-                return this.offsetWidth;
-            }
-        });
-        Object.defineProperty(_window, "innerHeight", {
-            get: function () {
-                return this.offsetHeight;
-            }
-        });
-
-        return _window;
     }
 
     destroy() {
