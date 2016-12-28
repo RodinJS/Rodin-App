@@ -31,55 +31,60 @@ scene.scene.fog = new THREE.Fog(0xdeecf2, 5, 55);
  * Helix
  * @type {Helix}
  */
-const helix = new Helix();
-helix.on('ready', (evt) => {
-    scene.add(evt.target.object3D);
-    evt.target.object3D.position.z = -2.5;
-    evt.target.object3D.position.y = scene.controls.userHeight;
-});
+let helix = null;
+let helixCreated = false;
 
-helix.loadMore = function () {
-    const self = this;
-    this.isLoading = true;
-    let filters = {
-        skip: this.thumbs.length,
-        limit: 20
-    };
+function createHelix() {
+    helix = new Helix();
+    helix.on('ready', (evt) => {
+        scene.add(evt.target.object3D);
+        evt.target.object3D.position.z = -2.5;
+        evt.target.object3D.position.y = scene.controls.userHeight;
+    });
 
-    API.getProjects('all', filters).then(
-        data => {
-            if (data.length > 0) {
-                console.log(data);
-                const projects = data.map(i => {
-                    i.image = i.thumbnail || '/images/app3d/img/thumb.jpg';
-                    return new HelixThumb(i)
-                });
+    helix.loadMore = function () {
+        const self = this;
+        this.isLoading = true;
+        let filters = {
+            skip: this.thumbs.length,
+            limit: 20
+        };
 
-                for (let i = 0; i < projects.length; i++) {
-                    projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
-                        if (self.concentrated && helix.center == projects[i].index) {
-                            enterProject(projects[i], API);
-                        }
+        API.getProjects('all', filters).then(
+            data => {
+                if (data.length > 0) {
+                    console.log(data);
+                    const projects = data.map(i => {
+                        i.image = i.thumbnail || '/images/app3d/img/thumb.jpg';
+                        return new HelixThumb(i)
                     });
+
+                    for (let i = 0; i < projects.length; i++) {
+                        projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
+                            if (self.concentrated && helix.center == projects[i].index) {
+                                enterProject(projects[i], API);
+                            }
+                        });
+                    }
+
+                    self.addThumbs(projects);
                 }
-
-                self.addThumbs(projects);
+                this.isLoading = false;
+            },
+            err => {
+                console.log(err);
+                this.isLoading = false;
             }
-            this.isLoading = false;
-        },
-        err => {
-            console.log(err);
-            this.isLoading = false;
-        }
-    )
-};
-
+        )
+    };
+}
 
 /**
  * MyHelix
  * @type {null|Helix}
  */
 let myHelix = null;
+let myHelixCreated = false;
 
 /**
  * Icons
@@ -131,11 +136,20 @@ function enterProject(helixThumb, API) {
     fadeInSphere.fadeIn();
 }
 
+function init() {
+    fadeInSphere.animator.start('fadeOut');
+
+    if(!helixCreated) {
+        createHelix();
+    }
+}
+
 /**
  * Class App for Angular
  */
 export class APP {
     static start(params) {
+        init();
         if (!started) {
             scene.enable();
             started = true;
