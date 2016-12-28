@@ -12,30 +12,33 @@ import {HelixThumb} from './objects/HelixThumb.js';
 import * as popups from './objects/Popup.js';
 import * as icons from './objects/icons.js';
 
+let scene = SceneManager.get();
+scene.setCameraProperty('fov', 70);
+scene.scene.background = new THREE.Color(0xc8c8c8);
+
+const helix = new Helix();
+helix.on('ready', (evt) => {
+    scene.add(evt.target.object3D);
+    evt.target.object3D.position.z = -2.5;
+    evt.target.object3D.position.y = scene.controls.userHeight;
+});
+
+const myHelix = null;
+
+let buttons = MouseGamePad.getInstance().buttons;
+controllers.mouse.onValueChange = function (keyCode) {
+    const value = buttons[keyCode - 1].value;
+    const direction = value - buttons[keyCode - 1].prevValue > 0 ? 1 : -1;
+    helix.concentrate(helix.center + direction);
+    buttons[keyCode - 1].prevValue = value;
+};
+
 export class APP {
     constructor(params) {
+        if(!scene._render)
+            scene.start();
         this.API = params.API;
         SceneManager.changeContainerDomElement(params.domElement);
-        const helix = new Helix();
-        helix.on('ready', (evt) => {
-            scene.add(evt.target.object3D);
-            evt.target.object3D.position.z = -2.5;
-            evt.target.object3D.position.y = scene.controls.userHeight;
-        });
-
-        let buttons = MouseGamePad.getInstance().buttons;
-
-        let scene = SceneManager.get();
-        scene.setCameraProperty('fov', 70);
-        scene.scene.background = new THREE.Color(0xc8c8c8);
-        this.scene = scene;
-
-        controllers.mouse.onValueChange = function (keyCode) {
-            const value = buttons[keyCode - 1].value;
-            const direction = value - buttons[keyCode - 1].prevValue > 0 ? 1 : -1;
-            helix.concentrate(helix.center + direction);
-            buttons[keyCode - 1].prevValue = value;
-        };
 
         this.getProjects();
 
@@ -96,7 +99,7 @@ export class APP {
 
         this.API.getProjects('all', filters).then(
             data => {
-                console.log(data);
+                console.log('data', data);
             },
             err => {
                 console.log(err);
@@ -104,11 +107,6 @@ export class APP {
         )
     }
 
-    /**
-     * Static method init window
-     * @param _window
-     * @returns {*}
-     */
     static initWindow(_window) {
         Object.defineProperty(_window, "innerWidth", {
             get: function () {
@@ -125,9 +123,6 @@ export class APP {
     }
 
     destroy() {
-        for (let i = 0; i < this.scene.scene.children.length; i++) {
-            scene.scene.remove(this.scene.scene.children[i]);
-            delete this.scene.scene.children[i];
-        }
+        scene.stop();
     }
 }
