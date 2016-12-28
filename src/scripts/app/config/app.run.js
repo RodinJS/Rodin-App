@@ -31,6 +31,8 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     $rootScope.setPageTitle(toState.title);
 
     $rootScope.setPageClass(toState.pageClass);
+
+    angular.element(document.querySelectorAll(".webvr-button")).addClass("hidden");
   });
 
   $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
@@ -82,9 +84,9 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
       console.info('$viewContentLoading - view begins loading - dom not rendered ----', viewConfig);
     });
-    $rootScope.$on('$viewContentLoaded',function(event){
+    $rootScope.$on('$viewContentLoaded', function (event) {
       // runs on individual scopes, so putting it in "run" doesn't work.
-      console.log('$viewContentLoaded - fired after dom rendered',event);
+      console.log('$viewContentLoaded - fired after dom rendered', event);
     });
     $rootScope.$on('$stateNotFound', function (event, unfoundState, fromState, fromParams) {
       console.error('$stateNotFound ----' + unfoundState.to + '---- fired when a state cannot be found by its name.');

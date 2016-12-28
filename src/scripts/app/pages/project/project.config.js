@@ -3,11 +3,7 @@ function ProjectConfig($stateProvider) {
 
   $stateProvider
     .state('main.project', {
-      url: '/project',
-      params: {
-        root: "",
-        owner: ""
-      },
+      url: '/project/:owner/:root',
       controller: 'ProjectCtrl',
       controllerAs: '$ctrl',
       templateUrl: 'app/pages/project/project.html',

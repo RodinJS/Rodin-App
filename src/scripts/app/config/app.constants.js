@@ -58,6 +58,10 @@ const AppConstants = {
     return this[this.env].PUBLIC;
   },
 
+  get PUBLISH() {
+    return this[this.env].PUBLISH;
+  },
+
   get EDITOR() {
     return this[this.env].EDITOR;
   },

@@ -1,10 +1,10 @@
 class ProjectCtrl {
-  constructor(AppConstants, User) {
+  constructor(AppConstants, User, $stateParams) {
     'ngInject';
 
     this.appName = AppConstants.appName;
 
-    this.projectUrl = "";
+    this.projectUrl = `${AppConstants.PUBLISH}${$stateParams.owner}/${$stateParams.root}`;
   }
 }
 
