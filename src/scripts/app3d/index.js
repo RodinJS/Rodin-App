@@ -13,6 +13,8 @@ import * as popups from './objects/Popup.js';
 import * as icons from './objects/icons.js';
 import {FadeInSphere} from './objects/FadeInSphere.js';
 
+let started = false;
+
 let API = null;
 
 let scene = SceneManager.get();
@@ -114,13 +116,13 @@ fadeInSphere.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
         // API.navigate('/project', {root: ''});
         console.log(evt.target.requester);
     }
-    if(evt.animation === 'fadeOut') {
+    if (evt.animation === 'fadeOut') {
         scene.camera.remove(evt.target.object3D);
     }
 });
 
 fadeInSphere.on(EVENT_NAMES.ANIMATION_START, (evt) => {
-    if(evt.animation === 'fadeIn') {
+    if (evt.animation === 'fadeIn') {
         scene.camera.add(evt.target.object3D);
     }
 });
@@ -135,6 +137,11 @@ function enterProject(helixThumb, API) {
  */
 export class APP {
     static start(params) {
+        if (!started) {
+            SceneManager.go(scene);
+            started = true;
+        }
+
         if (!scene._render)
             scene.start();
 
