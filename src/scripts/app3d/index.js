@@ -200,7 +200,7 @@ controllers.mouse.onValueChange = function (keyCode) {
 
     const value = buttons[keyCode - 1].value;
     const direction = value - buttons[keyCode - 1].prevValue > 0 ? 1 : -1;
-    helix.concentrate(helix.center + direction);
+    currentHelix.concentrate(currentHelix.center + direction);
     buttons[keyCode - 1].prevValue = value;
 };
 
