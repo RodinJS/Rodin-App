@@ -18,12 +18,12 @@ let API = null;
 let scene = SceneManager.get();
 scene.add(scene.camera);
 scene.setCameraProperty('fov', 70);
-scene.scene.background = new THREE.Color(0xc8c8c8);
+scene.scene.background = new THREE.Color(0xe3f2f9);
 
 /**
  * Fog
  */
-scene.scene.fog = new THREE.Fog(0x7a8695, 0, 23);
+scene.scene.fog = new THREE.Fog(0xdeecf2, 5, 55);
 
 /**
  * Helix
@@ -111,10 +111,8 @@ const fadeInSphere = new FadeInSphere();
 
 fadeInSphere.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
     if (evt.animation === 'fadeIn') {
-         API.navigate('/project', {
-             root: evt.target.requester.root,
-             owner: evt.target.requester.owner
-         });
+        // API.navigate('/project', {root: ''});
+        console.log(evt.target.requester);
     }
     if(evt.animation === 'fadeOut') {
         scene.camera.remove(evt.target.object3D);
