@@ -14,7 +14,8 @@ import {EVENT_NAMES} from 'https://cdn.rodin.space/rodinjs/constants/constants.j
 export class HelixThumb extends THREEObject {
     constructor(thumbParams) {
         super(new THREE.Object3D());
-
+        this.root = thumbParams.root;
+        this.owner = thumbParams.owner;
         let params = {
             width: 1.3,
             height: 0.867,
@@ -98,10 +99,15 @@ export class HelixThumb extends THREEObject {
             }
         );
 
+/*        let text = "";
+        let l = Math.random()*10;
+        for(let i = 0; i < l; i++){
+            text += " Ես չգիտեմ, ոնց գտնեմ ձեզի, որ պատասխան տամ:"
+        }*/
         this.description = new DynamicText(
             {
                 width: 1.3,
-                text: thumbParams.name +"\n Ես չգիտեմ, ոնց գտնեմ ձեզի, որ պատասխան տամ: Մինչև աղջկան լիովին չքթնես, որ էտ աղջիկը պետքա քո կյանքում քո ազատ սիրու նկատմամբ: Բայց քթնում եմ, որ մինչև սերը հասնելը էտ ազատ ինտիմ ձեր հարաբերությունը, որ ասում եք, ես դեմ եմ դրան:",
+                text: thumbParams.description || "",
                 fontSize: 0.05,
                 lineHeight: 0.08,
                 fontFamily: 'Arial',
