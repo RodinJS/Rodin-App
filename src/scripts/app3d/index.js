@@ -134,7 +134,7 @@ function enterProject(helixThumb, API) {
  * Class App for Angular
  */
 export class APP {
-    constructor(params) {
+    static start(params) {
         if (!scene._render)
             scene.start();
 
@@ -142,7 +142,9 @@ export class APP {
         SceneManager.changeContainerDomElement(params.domElement);
     }
 
-    destroy() {
+    static stop() {
         scene.stop();
     }
 }
+
+APP.stop();
