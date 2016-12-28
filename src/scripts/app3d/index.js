@@ -4,6 +4,8 @@ import {MouseGamePad} from 'https://cdn.rodin.space/rodinjs/controllers/gamePads
 import {Element} from 'https://cdn.rodin.space/rodinjs/sculpt/elements/Element.js';
 import {THREEObject} from 'https://cdn.rodin.space/rodinjs/sculpt/THREEObject.js';
 import {EVENT_NAMES} from 'https://cdn.rodin.space/rodinjs/constants/constants.js';
+import {Animation} from 'https://cdn.rodin.space/rodinjs/animation/Animation.js';
+
 import * as controllers from './controllers.js';
 import './objects/platform.js';
 import './objects/lights.js';
@@ -40,23 +42,8 @@ scene.scene.background = new THREE.Color(0xd7e4ef);
  */
 scene.scene.fog = new THREE.Fog(0xdeecf2, 5, 55);
 
-/**
- * Helix
- * @type {Helix}
- */
-let helix = null;
-let helixCreated = false;
-
-function createHelix() {
-    helixCreated = true;
-    helix = new Helix();
-    helix.on('ready', (evt) => {
-        scene.add(evt.target.object3D);
-        evt.target.object3D.position.z = -2.5;
-        evt.target.object3D.position.y = scene.controls.userHeight;
-    });
-
-    helix.loadMore = function () {
+function loadMore(type) {
+    return function () {
         const self = this;
         this.isLoading = true;
         let filters = {
@@ -64,13 +51,13 @@ function createHelix() {
             limit: 20
         };
 
-        API.getProjects('all', filters).then(
+        API.getProjects(type, filters).then(
             data => {
                 if (data.length > 0) {
                     console.log(data);
                     const projects = data.map(i => {
                         i.image = i.thumbnail || '/images/app3d/img/thumb.jpg';
-                        return new HelixThumb(i)
+                        return new HelixThumb(i);
                     });
 
                     for (let i = 0; i < projects.length; i++) {
@@ -94,6 +81,43 @@ function createHelix() {
 }
 
 /**
+ * Helix
+ * @type {Helix}
+ */
+let helix = null;
+let helixParent = null;
+let helixCreated = false;
+
+const helixAnimation = new Animation('helix', {
+    rotation: {
+        y: Math.PI / 2
+    }
+});
+helixAnimation.duration(500);
+
+function createHelix() {
+    helixCreated = true;
+    helixParent = new THREEObject(new THREE.Object3D());
+    helixParent.animator.add(helixAnimation);
+
+    helixParent.on(EVENT_NAMES.ANIMATION_COMPLETE, () => {
+        helix.loadMore();
+    });
+
+    helixParent.on('ready', () => {
+        scene.add(helixParent.object3D);
+        helix = new Helix();
+        helix.on('ready', (evt) => {
+            helixParent.object3D.add(evt.target.object3D);
+            evt.target.object3D.position.z = -2.5;
+            evt.target.object3D.position.y = scene.controls.userHeight;
+        });
+
+        helix.loadMore = loadMore('all').bind(helix);
+    });
+}
+
+/**
  * MyHelix
  * @type {null|Helix}
  */
@@ -101,11 +125,26 @@ let myHelix = null;
 let myHelixCreated = false;
 
 function createMyHelix() {
-    if(myHelix) {
+    if (myHelix) {
         return;
     }
 
     myHelix = new Helix();
+    icons._personal.slider.open();
+    icons._personal.lock();
+    icons._personal.centerX();
+    icons._public.slider.open();
+    icons._public.lock();
+    icons._public.centerX();
+    myHelix.on('ready', (evt) => {
+        scene.add(evt.target.object3D);
+        evt.target.object3D.position.z = -2.5;
+        evt.target.object3D.position.y = scene.controls.userHeight;
+    });
+
+    myHelix.loadMore = loadMore('my').bind(myHelix);
+    helixParent.animator.start('helix');
+    helix.clear();
 }
 
 /**
@@ -116,6 +155,10 @@ function goToNavigate() {
     API.navigate('/login');
     window.removeEventListener('resize', goToNavigate);
 }
+
+icons._public.on('ready', () => {
+    helixParent.object3D.add(icons._public.object3D);
+});
 
 icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
     if (API.isLoggedIn()) {
@@ -141,10 +184,7 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
         API.navigate('/login');
 
     } else {
-        if (!myHelix) {
-            myHelix = new Helix();
-            helix.clear();
-        }
+        createMyHelix();
     }
 });
 
@@ -153,6 +193,13 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
  */
 let buttons = MouseGamePad.getInstance().buttons;
 controllers.mouse.onValueChange = function (keyCode) {
+    let currentHelix = null;
+    for(let i = 0; i < controllers.mouse.intersected.length; i ++) {
+        currentHelix = controllers.mouse.intersected[i].object.parent.Sculpt.helix
+    }
+
+    if(!currentHelix) return;
+
     const value = buttons[keyCode - 1].value;
     const direction = value - buttons[keyCode - 1].prevValue > 0 ? 1 : -1;
     helix.concentrate(helix.center + direction);

@@ -135,19 +135,25 @@ export class Helix extends RODIN.THREEObject {
 
 
     clear() {
-        for(let i = 0; i < this.thumbs.length; i ++) {
-            this.object3D.remove(this.thumbs[i].object3D);
-        }
-        this.closeFrame();
-
-        this.thumbs.splice(0, this.thumbs.length);
+        // for(let i = 0; i < this.thumbs.length; i ++) {
+        //     this.object3D.remove(this.thumbs[i].object3D);
+        // }
+        // this.closeFrame();
+        // this.frame.name = null;
+        // this.frame.description.text = null;
+        //
+        // this.thumbs.splice(0, this.thumbs.length);
     }
+
+    isEmpty() {
+        return this.thumbs.length === 0;
+    };
 
     closeFrame () {
         if (!this.frame || !this.frame.description) return;
         if (this.frameOpened) {
-            this.frame.object3D.remove(this.frame.name.object3D);
-            this.frame.description.object3D.remove(this.frame.description.text.object3D);
+            this.frame.name && this.frame.object3D.remove(this.frame.name.object3D);
+            this.frame.description.text && this.frame.description.object3D.remove(this.frame.description.text.object3D);
             this.frame.name = null;
             this.frame.description.text = null;
         }
@@ -161,6 +167,7 @@ export class Helix extends RODIN.THREEObject {
         this.frameOpened = true;
         this.frame.object3D.visible = true;
 
+        if(this.isEmpty()) return;
         this.frame.name = this.thumbs[this.center].name;
         this.frame.name.object3D.position.z = .02;
         this.frame.name.object3D.position.y = -0.42;
