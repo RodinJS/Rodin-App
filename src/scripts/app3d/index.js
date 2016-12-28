@@ -137,7 +137,7 @@ function enterProject(helixThumb, API) {
 export class APP {
     static start(params) {
         if (!started) {
-            SceneManager.go(scene);
+            scene.enable();
             started = true;
         }
 
