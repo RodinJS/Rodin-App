@@ -149,6 +149,7 @@ _public.on('ready', (evt) => {
     evt.target.object3D.position.z = -2.5;
     evt.target.object3D.position.y = scene.controls.userHeight + .65;
     evt.target.object3D.position.x = -.15;
+    scene.add(evt.target.object3D);
 });
 
 

@@ -140,6 +140,8 @@ function createMyHelix() {
         scene.add(evt.target.object3D);
         evt.target.object3D.position.z = -2.5;
         evt.target.object3D.position.y = scene.controls.userHeight;
+        scene.scene.remove(icons._public.object3D);
+        helixParent.object3D.add(icons._public.object3D);
     });
 
     myHelix.loadMore = loadMore('my').bind(myHelix);
@@ -155,10 +157,6 @@ function goToNavigate() {
     API.navigate('/login');
     window.removeEventListener('resize', goToNavigate);
 }
-
-icons._public.on('ready', () => {
-    helixParent.object3D.add(icons._public.object3D);
-});
 
 icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
     if (API.isLoggedIn()) {

@@ -5,6 +5,7 @@ import {SceneManager} from 'https://cdn.rodin.space/rodinjs/scene/SceneManager.j
 import {ViveController} from 'https://cdn.rodin.space/rodinjs/controllers/ViveController.js';
 import {OculusController} from 'https://cdn.rodin.space/rodinjs/controllers/OculusController.js';
 import {MouseController} from 'https://cdn.rodin.space/rodinjs/controllers/MouseController.js';
+import {CardboardController} from 'https://cdn.rodin.space/rodinjs/controllers/CardboardController.js';
 
 let scene = SceneManager.get();
 let controls = scene.controls;
@@ -21,6 +22,11 @@ SceneManager.addController(mouse);
 export const oculus = new OculusController();
 SceneManager.addController(oculus);
 
+/**
+ * Cardboard Controller
+ */
+export const cardboard = new CardboardController();
+SceneManager.addController(cardboard);
 
 /**
  * Vive Controllers
