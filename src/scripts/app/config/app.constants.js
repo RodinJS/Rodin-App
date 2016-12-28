@@ -2,7 +2,7 @@
  * Created by kh.levon98 on 13-Sep-16.
  */
 const AppConstants = {
-  env: "local",
+  env: "prod",
   jwtKey: 'token',
   appName: 'Rodin',
 
@@ -30,7 +30,7 @@ const AppConstants = {
   prod: {
     COOKIEDOMAIN: ['.rodinapp.com', '.rodin.io', '.rodin.space'],
     API: `${window.location.protocol}//api.${window.extractDomain()}/api`,
-    SOCKET: `${window.location.protocol}//ss.rodin.space/api`,
+    SOCKET: `${window.location.protocol}//ss.${window.extractDomain()}/api`,
     SITE: `${window.location.protocol}//${window.extractDomain()}/`,
     PREVIEW: `${window.location.protocol}//${window.extractDomain()}/projects/`,
     PUBLIC: `${window.location.protocol}//${window.extractDomain()}/public/`,
