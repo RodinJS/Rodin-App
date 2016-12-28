@@ -18,7 +18,7 @@ let API = null;
 let scene = SceneManager.get();
 scene.add(scene.camera);
 scene.setCameraProperty('fov', 70);
-scene.scene.background = new THREE.Color(0xe3f2f9);
+scene.scene.background = new THREE.Color(0xd7e4ef);
 
 /**
  * Fog
