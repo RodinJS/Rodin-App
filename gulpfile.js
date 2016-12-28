@@ -256,7 +256,7 @@ gulp.task('clean', () => {
 gulp.task('connect', () => {
   connect.server({
     root: './build/',
-    port: 8000,
+    port: 4000,
     livereload: true
   });
 });
