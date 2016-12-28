@@ -1,10 +1,10 @@
-import {THREE} from 'https://cdn.rodin.space/vendor/three/THREE.GLOBAL.js';
-import {SceneManager} from 'https://cdn.rodin.space/rodinjs/scene/SceneManager.js';
-import {MouseGamePad} from 'https://cdn.rodin.space/rodinjs/controllers/gamePads/MouseGamePad.js';
-import {Element} from 'https://cdn.rodin.space/rodinjs/sculpt/elements/Element.js';
-import {THREEObject} from 'https://cdn.rodin.space/rodinjs/sculpt/THREEObject.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.space/rodinjs/constants/constants.js';
-import {Animation} from 'https://cdn.rodin.space/rodinjs/animation/Animation.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
+import {MouseGamePad} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/gamePads/MouseGamePad.js';
+import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js';
+import {THREEObject} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/THREEObject.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
+import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
 
 import * as controllers from './controllers.js';
 import './objects/platform.js';
@@ -14,19 +14,6 @@ import {HelixThumb} from './objects/HelixThumb.js';
 import * as popups from './objects/Popup.js';
 import * as icons from './objects/icons.js';
 import {FadeInSphere} from './objects/FadeInSphere.js';
-
-function getQueryVariable(variable) {
-    let query = window.location.search.substring(1);
-    let vars = query.split('&');
-    for (let i = 0; i < vars.length; i++) {
-        let pair = vars[i].split('=');
-        if (decodeURIComponent(pair[0]) == variable) {
-            return decodeURIComponent(pair[1]);
-        }
-    }
-
-    return 'desktop';
-}
 
 let started = false;
 
@@ -160,7 +147,7 @@ function goToNavigate() {
 
 icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
     if (!API.isLoggedIn()) {
-        switch (getQueryVariable('device')) {
+        switch (window.device) {
             case 'mobile':
                 popups.notSignedIn.open();
                 window.addEventListener('resize', goToNavigate);

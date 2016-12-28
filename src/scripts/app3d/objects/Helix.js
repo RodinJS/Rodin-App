@@ -1,8 +1,8 @@
-import {THREE} from 'https://cdn.rodin.space/vendor/three/THREE.GLOBAL.js';
-import {TWEEN} from 'https://cdn.rodin.space/rodinjs/Tween.js';
-import * as RODIN from 'https://cdn.rodin.space/rodinjs/RODIN.js';
-import {Element} from 'https://cdn.rodin.space/rodinjs/sculpt/elements/Element.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.space/rodinjs/constants/constants.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
+import {TWEEN} from 'https://cdn.rodin.io/v0.0.2/rodinjs/Tween.js';
+import * as RODIN from 'https://cdn.rodin.io/v0.0.2/rodinjs/RODIN.js';
+import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
 
 export class Helix extends RODIN.THREEObject {
     constructor () {
