@@ -4,7 +4,12 @@ class ProjectCtrl {
 
     this.appName = AppConstants.appName;
 
-    this.projectUrl = `${AppConstants.PUBLISH}${$stateParams.owner}/${$stateParams.root}`;
+    if (User.current && User.current.username === $stateParams.owner) {
+      this.projectUrl = `${AppConstants.PREVIEW}${$stateParams.owner}/${$stateParams.root}`;
+    } else {
+      this.projectUrl = `${AppConstants.PUBLISH}${$stateParams.owner}/${$stateParams.root}`;
+    }
+
   }
 }
 
