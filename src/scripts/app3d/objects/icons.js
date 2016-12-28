@@ -83,7 +83,7 @@ export const _public = new OpeningIcon(
         width: iconSize,
         height: iconSize,
         image: {
-            url: '/images/app3d/img/public.png',
+            url: '/images/app3d/img/public_active.png',
             width: iconSize,
             height: iconSize,
             opacity: 1,

@@ -82,7 +82,7 @@ let myHelix = null;
 /**
  * Icons
  */
-icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, () => {
+icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
     if (!API.isLoggedIn()) {
         popups.notSignedIn.open();
     } else {
