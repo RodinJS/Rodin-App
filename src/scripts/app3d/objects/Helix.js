@@ -106,9 +106,10 @@ export class Helix extends RODIN.THREEObject {
 
     concentrate (center = 0) {
         this.closeFrame();
-        if(center > this.thumbs.length - 5) {
-            this.addThumbs && this.addThumbs(this.thumbs.length);
+        if(center > this.thumbs.length - 5 && !this.isLoading) {
+            this.loadMore && this.loadMore();
         }
+
         if (center < 0 || center > this.thumbs.length - 1) return;
         this.center = center;
         let k = 4;
@@ -122,6 +123,15 @@ export class Helix extends RODIN.THREEObject {
     addThumb (thumb) {
         thumb.helix = this;
         this.thumbs.push(thumb);
+        this.concentrate(this.center);
+    }
+
+    addThumbs(thumbs) {
+        for(let i = 0; i < thumbs.length; i ++) {
+            thumbs[i].helix = this;
+            this.thumbs.push(thumbs[i]);
+        }
+
         this.concentrate(this.center);
     }
 
