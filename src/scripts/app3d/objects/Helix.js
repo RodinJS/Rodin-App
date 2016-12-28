@@ -70,10 +70,10 @@ export class Helix extends RODIN.THREEObject {
 
                 this.frame.description.on('ready', () => {
                     this.frame.description.text = null;
-                    if(this.thumbs[this.center].description){
-                        console.clear();
-                        console.log(this.thumbs[this.center].description);
-                    }
+                    // if(this.thumbs[this.center].description){
+                    //     // console.clear();
+                    //     console.log(this.thumbs[this.center].description);
+                    // }
                     this.frame.description.frame = new Element({
                         transparent: false,
                         width: 1.38,
@@ -106,6 +106,9 @@ export class Helix extends RODIN.THREEObject {
 
     concentrate (center = 0) {
         this.closeFrame();
+        if(center > this.thumbs.length - 5) {
+            this.addThumbs && this.addThumbs(this.thumbs.length);
+        }
         if (center < 0 || center > this.thumbs.length - 1) return;
         this.center = center;
         let k = 4;
@@ -149,5 +152,9 @@ export class Helix extends RODIN.THREEObject {
         this.frame.description.text.object3D.position.z = .02;
         this.frame.description.text.object3D.position.y = this.frame.description.text.object3D.geometry.parameters.height/2-0.1;
         this.frame.description.frame.object3D.add(this.frame.description.text.object3D);
+    }
+
+    get concentrated() {
+        return this.frameOpened;
     }
 }
