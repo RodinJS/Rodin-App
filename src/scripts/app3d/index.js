@@ -15,19 +15,6 @@ import * as popups from './objects/Popup.js';
 import * as icons from './objects/icons.js';
 import {FadeInSphere} from './objects/FadeInSphere.js';
 
-function getQueryVariable(variable) {
-    let query = window.location.search.substring(1);
-    let vars = query.split('&');
-    for (let i = 0; i < vars.length; i++) {
-        let pair = vars[i].split('=');
-        if (decodeURIComponent(pair[0]) == variable) {
-            return decodeURIComponent(pair[1]);
-        }
-    }
-
-    return 'desktop';
-}
-
 let started = false;
 
 let API = null;
@@ -160,7 +147,7 @@ function goToNavigate() {
 
 icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
     if (!API.isLoggedIn()) {
-        switch (getQueryVariable('device')) {
+        switch (window.device) {
             case 'mobile':
                 popups.notSignedIn.open();
                 window.addEventListener('resize', goToNavigate);
