@@ -5,6 +5,7 @@ import {MouseController} from 'https://cdn.rodin.space/rodinjs/controllers/Mouse
 import {MouseGamePad} from 'https://cdn.rodin.space/rodinjs/controllers/gamePads/MouseGamePad.js';
 import {Element} from 'https://cdn.rodin.space/rodinjs/sculpt/elements/Element.js';
 import {Text} from 'https://cdn.rodin.space/rodinjs/sculpt/elements/Text.js';
+import {DynamicText} from 'https://cdn.rodin.space/rodinjs/sculpt/elements/DynamicText.js';
 import {THREEObject} from 'https://cdn.rodin.space/rodinjs/sculpt/THREEObject.js';
 import {ANIMATION_TYPES} from 'https://cdn.rodin.space/rodinjs/constants/constants.js';
 import {Animation} from 'https://cdn.rodin.space/rodinjs/animation/Animation.js';
@@ -93,6 +94,18 @@ export class HelixThumb extends THREEObject {
                 fontSize: 0.06,
                 fontFamily: 'Arial',
                 fontStyle: 'bold',
+                color: 0x231f20
+            }
+        );
+
+        this.description = new DynamicText(
+            {
+                width: 1.3,
+                text: thumbParams.name +"\n Ես չգիտեմ, ոնց գտնեմ ձեզի, որ պատասխան տամ: Մինչև աղջկան լիովին չքթնես, որ էտ աղջիկը պետքա քո կյանքում քո ազատ սիրու նկատմամբ: Բայց քթնում եմ, որ մինչև սերը հասնելը էտ ազատ ինտիմ ձեր հարաբերությունը, որ ասում եք, ես դեմ եմ դրան:",
+                fontSize: 0.05,
+                lineHeight: 0.08,
+                fontFamily: 'Arial',
+                fontStyle: 'normal',
                 color: 0x231f20
             }
         );
