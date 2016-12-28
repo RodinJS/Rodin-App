@@ -21,6 +21,11 @@ scene.setCameraProperty('fov', 70);
 scene.scene.background = new THREE.Color(0xc8c8c8);
 
 /**
+ * Fog
+ */
+scene.scene.fog = new THREE.Fog(0x7a8695, 0, 23);
+
+/**
  * Helix
  * @type {Helix}
  */
