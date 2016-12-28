@@ -159,7 +159,7 @@ function goToNavigate() {
 }
 
 icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
-    if (API.isLoggedIn()) {
+    if (!API.isLoggedIn()) {
         switch (getQueryVariable('device')) {
             case 'mobile':
                 popups.notSignedIn.open();
