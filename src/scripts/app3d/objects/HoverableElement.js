@@ -18,13 +18,13 @@ export class HoverableElement extends Element {
         });
 
         this.on(EVENT_NAMES.CONTROLLER_HOVER, () => {
-            if(!this.hover) return;
+            if(!this.hover || this.locked) return;
             this.hover.object3D.material.opacity = 1;
             this.object3D.material.opacity = 0;
         });
 
         this.on(EVENT_NAMES.CONTROLLER_HOVER_OUT, () => {
-            if(!this.hover) return;
+            if(!this.hover || this.locked) return;
             this.hover.object3D.material.opacity = 0;
             this.object3D.material.opacity = 1;
         });

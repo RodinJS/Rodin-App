@@ -25,8 +25,40 @@ SceneManager.addController(oculus);
 /**
  * Cardboard Controller
  */
-export const cardboard = new CardboardController();
-SceneManager.addController(cardboard);
+export let cardboard = null;
+// SceneManager.addController(cardboard);
+if(window.device === 'mobile') {
+    cardboard = new CardboardController();
+    SceneManager.addController(cardboard);
+
+    const target = new RODIN.THREEObject(new THREE.Mesh(new THREE.RingGeometry( .001, .05, 32 ), new THREE.MeshBasicMaterial({color: 0xff0000, depthTest: false, transparent: true})));
+    target.on('ready', (evt) => {
+        evt.target.object3D.position.z = - 5;
+        scene.camera.add(evt.target.object3D);
+        console.log(target.object3D.material.color);
+    });
+
+    cardboard.onControllerUpdate = function () {
+        if(this.intersected.length === 0) {
+            target.object3D.material.color = new THREE.Color(0x0000ff);
+            // target.object3D.geometry.outerRadius = 1;
+        } else {
+            target.object3D.material.color = new THREE.Color(0xff00ff);
+        }
+    }
+}
+
+
+const target = new RODIN.THREEObject(new THREE.Mesh(new THREE.RingGeometry( .001, .05, 32 ), new THREE.MeshBasicMaterial({color: 0x00ff00})));
+target.on('ready', () => {
+    target.object3D.position.z = -1;
+    target.object3D.position.y = 1.6;
+    scene.add(target.object3D);
+});
+
+document.addEventListener('click', () => {
+   console.log(target);
+});
 
 /**
  * Vive Controllers
