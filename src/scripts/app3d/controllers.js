@@ -26,39 +26,39 @@ SceneManager.addController(oculus);
  * Cardboard Controller
  */
 export let cardboard = null;
-// SceneManager.addController(cardboard);
-if(window.device === 'mobile') {
+if (window.device === 'mobile') {
     cardboard = new CardboardController();
     SceneManager.addController(cardboard);
 
-    const target = new RODIN.THREEObject(new THREE.Mesh(new THREE.RingGeometry( .001, .05, 32 ), new THREE.MeshBasicMaterial({color: 0xff0000, depthTest: false, transparent: true})));
+    const target = new RODIN.THREEObject(new THREE.Mesh(new THREE.RingGeometry(.001, .01, 32), new THREE.MeshBasicMaterial({
+        color: 0xff0000,
+        depthTest: false,
+        transparent: true
+    })));
+
     target.on('ready', (evt) => {
-        evt.target.object3D.position.z = - 5;
+        evt.target.object3D.position.z = -5;
         scene.camera.add(evt.target.object3D);
-        console.log(target.object3D.material.color);
     });
 
     cardboard.onControllerUpdate = function () {
-        if(this.intersected.length === 0) {
-            target.object3D.material.color = new THREE.Color(0x0000ff);
-            // target.object3D.geometry.outerRadius = 1;
+        if (this.intersected.length === 0) {
+            target.alpha = .0001;
+            target.object3D.position.z = -2;
         } else {
-            target.object3D.material.color = new THREE.Color(0xff00ff);
+            target.alpha = .02;
+            target.object3D.position.z = -1.5;
         }
+
+        target.currentAlpha = target.currentAlpha || target.alpha;
+        let delta = (target.alpha - target.currentAlpha) * RODIN.Time.deltaTime() * 0.01;
+        if (Math.abs(delta) < 0.001) return;
+        target.currentAlpha += delta;
+
+        target.object3D.geometry.dispose();
+        target.object3D.geometry = new THREE.RingGeometry(.0001 + target.currentAlpha, .01 + target.currentAlpha, 32);
     }
 }
-
-
-const target = new RODIN.THREEObject(new THREE.Mesh(new THREE.RingGeometry( .001, .05, 32 ), new THREE.MeshBasicMaterial({color: 0x00ff00})));
-target.on('ready', () => {
-    target.object3D.position.z = -1;
-    target.object3D.position.y = 1.6;
-    scene.add(target.object3D);
-});
-
-document.addEventListener('click', () => {
-   console.log(target);
-});
 
 /**
  * Vive Controllers
