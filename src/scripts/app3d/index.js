@@ -41,7 +41,6 @@ function loadMore(type) {
         API.getProjects(type, filters).then(
             data => {
                 if (data.length > 0) {
-                    console.log(data);
                     const projects = data.map(i => {
                         i.image = i.thumbnail || '/images/app3d/img/thumb.jpg';
                         return new HelixThumb(i);

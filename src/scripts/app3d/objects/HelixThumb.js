@@ -92,7 +92,7 @@ export class HelixThumb extends THREEObject {
 
         this.name = new Text(
             {
-                text: thumbParams.name,
+                text: thumbParams.displayName || thumbParams.name,
                 fontSize: 0.06,
                 fontFamily: 'Arial',
                 fontStyle: 'bold',
