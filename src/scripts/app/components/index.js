@@ -20,6 +20,12 @@ componentsModule.factory('RodinVrScene', RodinVrSceneFactory);
 import RodinVrScene from './rodin/vrscene/index';
 componentsModule.directive('rodinVrScene', RodinVrScene);
 
+import RodinTransitionCanvasFactory from './rodin/transitionCanvas/factory';
+componentsModule.factory('RodinTransitionCanvas', RodinTransitionCanvasFactory);
+
+import RodinTransitionCanvas from './rodin/transitionCanvas/index';
+componentsModule.directive('rodinTransitionCanvas', RodinTransitionCanvas);
+
 /*
  * End of Rodin modules
  * */

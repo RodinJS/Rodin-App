@@ -95,8 +95,15 @@ export class Popup extends Element {
     }
 }
 
-export const notSignedIn = new Popup('/images/app3d/img/not_signed_in.png', 1.474, 1.002);
-notSignedIn.on('ready', (evt) => {
+export const notSignedInMobile = new Popup('/images/app3d/img/not_signed_in_mobile.png', 1.474, 1.002);
+notSignedInMobile.on('ready', (evt) => {
+    scene.add(evt.target.object3D);
+    evt.target.object3D.position.z = -2;
+    evt.target.object3D.position.y = scene.controls.userHeight;
+});
+
+export const notSignedInVR = new Popup('/images/app3d/img/not_signed_in_vr.png', 1.475, .585);
+notSignedInVR.on('ready', (evt) => {
     scene.add(evt.target.object3D);
     evt.target.object3D.position.z = -2;
     evt.target.object3D.position.y = scene.controls.userHeight;

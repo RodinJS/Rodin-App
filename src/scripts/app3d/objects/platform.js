@@ -4,6 +4,7 @@ import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Eleme
 import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
 import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
 import * as RODIN from 'https://cdn.rodin.io/v0.0.2/rodinjs/RODIN.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
 
 import {about} from './Popup.js';
 
@@ -14,6 +15,20 @@ export const platform = ModelLoader.load('/images/app3d/models/platform/landscap
 platform.on('ready', () => {
     scene.add(platform.object3D);
 });
+
+const aboutButtonParentAnimation = new Animation('rotate', {
+    rotation: {
+        y: Math.PI / 4
+    }
+});
+aboutButtonParentAnimation.duration(500);
+
+export const aboutButtonParent = new RODIN.THREEObject(new THREE.Object3D());
+aboutButtonParent.on('ready', (evt) => {
+    scene.add(evt.target.object3D);
+    evt.target.animator.add(aboutButtonParentAnimation);
+});
+
 
 export const aboutButton = new Element(
     {
@@ -31,14 +46,14 @@ export const aboutButton = new Element(
 
 aboutButton.on('ready', () => {
     aboutButton.object3D.position.z = 2;
-    aboutButton.object3D.position.y = scene.controls.userHeight;
     aboutButton.object3D.rotation.y = Math.PI;
-    scene.add(aboutButton.object3D);
+    aboutButton.object3D.position.y = scene.controls.userHeight;
+    aboutButtonParent.object3D.add(aboutButton.object3D);
     aboutButton.raycastable = true;
 });
 
 aboutButton.on(EVENT_NAMES.CONTROLLER_HOVER, (evt) => {
-     evt.target.animator.start('hover');
+    evt.target.animator.start('hover');
 });
 
 aboutButton.on(EVENT_NAMES.CONTROLLER_HOVER_OUT, (evt) => {
@@ -57,9 +72,9 @@ about.on('close', () => {
 });
 
 aboutButton.on('update', (evt) => {
-    if(!evt.target.destinationZ) return;
+    if (!evt.target.destinationZ) return;
     const delta = evt.target.destinationZ - evt.target.object3D.position.z;
-    if(Math.abs(delta) < 0.001) {
+    if (Math.abs(delta) < 0.001) {
         delete evt.target.destinationZ;
         return;
     }
@@ -73,4 +88,22 @@ aboutButton.on(EVENT_NAMES.CONTROLLER_HOVER, (evt) => {
 
 aboutButton.on(EVENT_NAMES.CONTROLLER_HOVER_OUT, (evt) => {
     evt.target.destinationZ = 2;
+});
+
+export const poweredBy = new Element({
+    width: 0.5,
+    height: 0.182,
+    image: {
+        width: 0.5,
+        height: 0.182,
+        url: '/images/app3d/img/powered_by.png',
+        opacity: 1,
+        position: {h: 50, v: 50}
+    }
+});
+poweredBy.on('ready', (evt) => {
+    console.log('ready');
+    evt.target.object3D.rotation.x = - Math.PI / 2;
+    evt.target.object3D.position.y = 0.1;
+    scene.add(evt.target.object3D);
 });

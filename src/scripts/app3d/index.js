@@ -7,7 +7,7 @@ import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constan
 import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
 
 import * as controllers from './controllers.js';
-import './objects/platform.js';
+import * as platform from './objects/platform.js';
 import './objects/lights.js';
 import {Helix} from './objects/Helix.js';
 import {HelixThumb} from './objects/HelixThumb.js';
@@ -41,7 +41,6 @@ function loadMore(type) {
         API.getProjects(type, filters).then(
             data => {
                 if (data.length > 0) {
-                    console.log(data);
                     const projects = data.map(i => {
                         i.image = i.thumbnail || '/images/app3d/img/thumb.jpg';
                         return new HelixThumb(i);
@@ -133,6 +132,7 @@ function createMyHelix() {
 
     myHelix.loadMore = loadMore('my').bind(myHelix);
     helixParent.animator.start('helix');
+    platform.aboutButtonParent.animator.start('rotate');
     helix.clear();
 }
 
@@ -149,18 +149,18 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
     if (!API.isLoggedIn()) {
         switch (window.device) {
             case 'mobile':
-                popups.notSignedIn.open();
+                popups.notSignedInMobile.open();
                 window.addEventListener('resize', goToNavigate);
                 return;
 
             case 'vr':
-                popups.notSignedIn.open();
+                popups.notSignedInVR.open();
                 let timer = setTimeout(function () {
                     popups.notSignedIn.close();
                     API.navigate('/login');
                 }, 5000);
 
-                popups.notSignedIn.on('close', () => {
+                popups.notSignedInVR.on('close', () => {
                     clearTimeout(timer);
                 });
                 return;
