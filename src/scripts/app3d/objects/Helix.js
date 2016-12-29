@@ -26,6 +26,7 @@ export class Helix extends RODIN.THREEObject {
             });
 
             this.frame.on('ready', () => {
+                this.frame.raycastable = true;
                 this.frame.object3D.position.z = -0.08;
                 this.frame.object3D.position.y = -0.085;
                 this.object3D.add(this.frame.object3D);
@@ -48,23 +49,9 @@ export class Helix extends RODIN.THREEObject {
                     evt.target.object3D.position.z = .02;
                     this.frame.object3D.add(evt.target.object3D);
                 });
-                this.frame.openButton.on(EVENT_NAMES.CONTROLLER_KEY, (evt) => {
-                    evt.target.animate({
-                        property: RODIN.CONSTANTS.ANIMATION_TYPES.ROTATION,
-                        to: new THREE.Vector3(evt.target.object3D.rotation.x, evt.target.object3D.rotation.y, evt.target.object3D.rotation.z + Math.PI),
-                        easing: TWEEN.Easing.Linear.None,
-                        duration: 300,
-                        delay: 0
-                    });
-                    let angleX = this.frame.description.object3D.rotation.x + (this.frame.description.object3D.rotation.x > 0 ? -Math.PI : Math.PI) ;
-                    this.frame.description.animate({
-                        property: RODIN.CONSTANTS.ANIMATION_TYPES.ROTATION,
-                        to: new THREE.Vector3(angleX, this.frame.description.object3D.rotation.y, this.frame.description.object3D.rotation.z),
-                        easing: TWEEN.Easing.Linear.None,
-                        duration: 500,
-                        delay: 0
-                    });
-                });
+
+                this.frame.on(EVENT_NAMES.CONTROLLER_KEY, this.descToggle.bind(this));
+                this.frame.openButton.on(EVENT_NAMES.CONTROLLER_KEY, this.descToggle.bind(this));
 
                 this.frame.description = new RODIN.THREEObject(new THREE.Object3D());
 
@@ -98,10 +85,31 @@ export class Helix extends RODIN.THREEObject {
                 });
             });
 
+
             this.frame.name = null;
         })
     }
-
+    descToggle(){
+        this.frame.openButton.animate({
+            property: RODIN.CONSTANTS.ANIMATION_TYPES.ROTATION,
+            to: new THREE.Vector3(
+                this.frame.openButton.object3D.rotation.x,
+                this.frame.openButton.object3D.rotation.y,
+                this.frame.openButton.object3D.rotation.z + Math.PI
+            ),
+            easing: TWEEN.Easing.Linear.None,
+            duration: 300,
+            delay: 0
+        });
+        let angleX = this.frame.description.object3D.rotation.x + (this.frame.description.object3D.rotation.x > 0 ? -Math.PI : Math.PI) ;
+        this.frame.description.animate({
+            property: RODIN.CONSTANTS.ANIMATION_TYPES.ROTATION,
+            to: new THREE.Vector3(angleX, this.frame.description.object3D.rotation.y, this.frame.description.object3D.rotation.z),
+            easing: TWEEN.Easing.Linear.None,
+            duration: 500,
+            delay: 0
+        });
+    }
     concentrate (center = 0) {
         this.closeFrame();
         if(center > this.thumbs.length - 5 && !this.isLoading) {

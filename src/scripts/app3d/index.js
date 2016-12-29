@@ -16,7 +16,7 @@ import * as icons from './objects/icons.js';
 import {FadeInSphere} from './objects/FadeInSphere.js';
 
 let started = false;
-
+let requestedLogin = false;
 let API = null;
 
 let scene = SceneManager.get();
@@ -142,6 +142,7 @@ function createMyHelix() {
  */
 function goToNavigate() {
     popups.notSignedIn.close();
+    requestedLogin = true;
     API.navigate('/login');
     window.removeEventListener('resize', goToNavigate);
 }
@@ -158,6 +159,7 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
                 popups.notSignedInVR.open();
                 let timer = setTimeout(function () {
                     popups.notSignedIn.close();
+                    requestedLogin = true;
                     API.navigate('/login');
                 }, 5000);
 
@@ -166,7 +168,7 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
                 });
                 return;
         }
-
+        requestedLogin = true;
         API.navigate('/login');
 
     } else {
@@ -261,6 +263,9 @@ export class APP {
             scene.start();
 
         API = params.API;
+        if(requestedLogin && API.isLoggedIn()){
+            createMyHelix();
+        }
         SceneManager.changeContainerDomElement(params.domElement);
     }
 
