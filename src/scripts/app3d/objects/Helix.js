@@ -105,6 +105,7 @@ export class Helix extends RODIN.THREEObject {
         })
     }
     descToggle(){
+        if(this.frame.description.object3D.rotation.x !=  Math.PI * 0.9 && this.frame.description.object3D.rotation.x !=  -Math.PI * 0.1) return;
         this.frame.openButton.animate({
             property: RODIN.CONSTANTS.ANIMATION_TYPES.ROTATION,
             to: new THREE.Vector3(
