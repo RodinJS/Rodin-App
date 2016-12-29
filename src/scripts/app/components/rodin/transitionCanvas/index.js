@@ -6,7 +6,7 @@ function TransitionCanvas() {
   'ngInject'
 
   return {
-    restrict: 'E',
+    restrict: 'A',
     replace: false,
     link: TransitionCanvasLink,
     controller: TransitionCanvasCtrl,

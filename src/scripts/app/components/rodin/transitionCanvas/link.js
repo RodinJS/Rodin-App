@@ -2,21 +2,17 @@
  * Created by kh.levon98 on 24-Sep-16.
  */
 
-import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
-import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
+import {init as SceneInit} from "./backgroundWebVr";
 
 function TransitionCanvasLink(scope, elem, attrs, ngModel) {
-    const Scene = SceneManager.create();
+  if (window.device === "vr") {
+    let elm = elem[0];
+    SceneInit(elm);
 
-    // Scene.enable();
-    scope._RodinTransitionCanvas.Scene = Scene;
-    scope._RodinTransitionCanvas.elem = elem;
-    scope._RodinTransitionCanvas.disable();
-
-    scope.$on('$destroy', () => {
-        // VrTransitionCanvas.stop();
-    });
+    scope._RodinTransitionCanvas.__init({
+      elem: elm
+    })
+  }
 }
-
 
 export default TransitionCanvasLink;
