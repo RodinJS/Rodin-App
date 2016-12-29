@@ -1,10 +1,10 @@
-import {THREE} from 'https://cdn.rodin.space/vendor/three/THREE.GLOBAL.js';
-import {SceneManager} from 'https://cdn.rodin.space/rodinjs/scene/SceneManager.js';
-import {MouseGamePad} from 'https://cdn.rodin.space/rodinjs/controllers/gamePads/MouseGamePad.js';
-import {Element} from 'https://cdn.rodin.space/rodinjs/sculpt/elements/Element.js';
-import {THREEObject} from 'https://cdn.rodin.space/rodinjs/sculpt/THREEObject.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.space/rodinjs/constants/constants.js';
-import {Animation} from 'https://cdn.rodin.space/rodinjs/animation/Animation.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
+import {MouseGamePad} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/gamePads/MouseGamePad.js';
+import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js';
+import {THREEObject} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/THREEObject.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
+import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
 
 import * as controllers from './controllers.js';
 import * as platform from './objects/platform.js';

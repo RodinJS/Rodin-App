@@ -1,10 +1,10 @@
-import {SceneManager} from 'https://cdn.rodin.space/rodinjs/scene/SceneManager.js';
-import {ModelLoader} from 'https://cdn.rodin.space/rodinjs/sculpt/ModelLoader.js';
-import {Element} from 'https://cdn.rodin.space/rodinjs/sculpt/elements/Element.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.space/rodinjs/constants/constants.js';
-import {Animation} from 'https://cdn.rodin.space/rodinjs/animation/Animation.js';
-import * as RODIN from 'https://cdn.rodin.space/rodinjs/RODIN.js';
-import {THREE} from 'https://cdn.rodin.space/vendor/three/THREE.GLOBAL.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
+import {ModelLoader} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/ModelLoader.js';
+import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
+import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
+import * as RODIN from 'https://cdn.rodin.io/v0.0.2/rodinjs/RODIN.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
 
 import {about} from './Popup.js';
 
@@ -29,17 +29,20 @@ aboutButtonParent.on('ready', (evt) => {
     evt.target.animator.add(aboutButtonParentAnimation);
 });
 
-export const aboutButton = new Element({
-    width: 0.614,
-    height: 0.276,
-    image: {
+
+export const aboutButton = new Element(
+    {
         width: 0.614,
         height: 0.276,
-        url: '/images/app3d/img/about_button.png',
-        opacity: 1,
-        position: {h: 50, v: 50}
+        image: {
+            width: 0.614,
+            height: 0.276,
+            url: '/images/app3d/img/about_button.png',
+            opacity: 1,
+            position: { h: 50, v: 50 }
+        }
     }
-});
+);
 
 aboutButton.on('ready', () => {
     aboutButton.object3D.position.z = 2;
