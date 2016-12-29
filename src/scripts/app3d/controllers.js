@@ -27,18 +27,18 @@ SceneManager.addController(oculus);
  */
 export let cardboard = null;
 if (window.device === 'mobile') {
+	window.dispatchEvent(new Event('resize'));
     cardboard = new CardboardController();
     SceneManager.addController(cardboard);
 
     const target = new RODIN.THREEObject(new THREE.Mesh(new THREE.RingGeometry(.001, .01, 32), new THREE.MeshBasicMaterial({
-        color: 0xff0000,
+        color: 0xc8c8c8,
         depthTest: false,
         transparent: true
     })));
 
     target.on('ready', (evt) => {
         evt.target.object3D.position.z = -5;
-        scene.camera.add(evt.target.object3D);
     });
 
     cardboard.onControllerUpdate = function () {
@@ -57,35 +57,48 @@ if (window.device === 'mobile') {
 
         target.object3D.geometry.dispose();
         target.object3D.geometry = new THREE.RingGeometry(.0001 + target.currentAlpha, .01 + target.currentAlpha, 32);
-    }
+    };
+
+	window.addEventListener('vrdisplaypresentchange', (e) => {
+		let re = new RegExp('cardboard', 'gi');
+		if (e.detail && e.detail.display && re.test(e.detail.display.displayName)) {
+			if(e.detail.display.isPresenting) {
+				scene.camera.add(target.object3D);
+            } else {
+				scene.camera.remove(target.object3D);
+            }
+		}
+	}, true);
 }
 
 /**
  * Vive Controllers
  */
 let controllerL = new ViveController(RODIN.CONSTANTS.CONTROLLER_HANDS.LEFT, scene, scene.camera, 1);
-controllerL.standingMatrix = controls.getStandingMatrix();
-SceneManager.addController(controllerL);
-scene.add(controllerL);
-
 let controllerR = new ViveController(RODIN.CONSTANTS.CONTROLLER_HANDS.RIGHT, scene, scene.camera, 1);
-controllerR.standingMatrix = controls.getStandingMatrix();
-SceneManager.addController(controllerR);
-scene.add(controllerR);
+if(window.device === 'mobile') {
+	controllerL.standingMatrix = controls.getStandingMatrix();
+	SceneManager.addController(controllerL);
+	scene.add(controllerL);
 
-let loader = new THREE.OBJLoader();
-loader.setPath('/images/app3d/models/');
-loader.load('viveController/vr_controller_vive_1_5.obj', function (object) {
+	controllerR.standingMatrix = controls.getStandingMatrix();
+	SceneManager.addController(controllerR);
+	scene.add(controllerR);
 
-    let loader = new THREE.TextureLoader();
-    loader.setPath('/images/app3d/models/');
+	let loader = new THREE.OBJLoader();
+	loader.setPath('/images/app3d/models/');
+	loader.load('viveController/vr_controller_vive_1_5.obj', function (object) {
 
-    object.children[0].material.map = loader.load('./viveController/onepointfive_texture.png');
-    object.children[0].material.specularMap = loader.load('./viveController/onepointfive_spec.png');
+		let loader = new THREE.TextureLoader();
+		loader.setPath('/images/app3d/models/');
 
-    controllerL.add(object.clone());
-    controllerR.add(object.clone());
-});
+		object.children[0].material.map = loader.load('./viveController/onepointfive_texture.png');
+		object.children[0].material.specularMap = loader.load('./viveController/onepointfive_spec.png');
+
+		controllerL.add(object.clone());
+		controllerR.add(object.clone());
+	});
+}
 
 export const vive = {
     left: controllerL,

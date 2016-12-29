@@ -140,7 +140,7 @@ function createMyHelix() {
  * Icons
  */
 function goToNavigate() {
-    popups.notSignedIn.close();
+    popups.notSignedInMobile.close();
     requestedLogin = true;
     API.navigate('/login');
     window.removeEventListener('resize', goToNavigate);
@@ -151,7 +151,7 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
         switch (window.device) {
             case 'mobile':
                 popups.notSignedInMobile.open();
-                window.addEventListener('resize', goToNavigate);
+                window.addEventListener('resize', goToNavigate, false);
                 return;
 
             case 'vr':
@@ -299,8 +299,27 @@ export class APP {
 APP.stop();
 
 window.onbeforeunload = function (e) {
-
     APP.stop();
-
     return;
 };
+
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+});
+
+document.addEventListener('keydown', (event) => {
+    // f*
+	if(event.keyCode >= 112 && event.keyCode <= 123){
+		event.preventDefault();
+	}
+
+	// ctrl + shift + i
+	if(event.ctrlKey && event.shiftKey && event.keyCode==73){
+		event.preventDefault();
+	}
+
+	// ctrl + shift + r
+	if(event.ctrlKey && event.shiftKey && event.keyCode==82) {
+		event.preventDefault();
+	}
+});
