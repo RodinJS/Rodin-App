@@ -2,8 +2,8 @@
  * Created by kh.levon98 on 24-Sep-16.
  */
 
-import {THREE} from 'https://cdn.rodin.space/vendor/three/THREE.GLOBAL.js';
-import {SceneManager} from 'https://cdn.rodin.space/rodinjs/scene/SceneManager.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
 
 function TransitionCanvasLink(scope, elem, attrs, ngModel) {
     const Scene = SceneManager.create();

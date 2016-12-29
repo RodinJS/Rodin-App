@@ -1,7 +1,7 @@
 /**
  * Created by kh.levon98 on 17-Oct-16.
  */
-import {SceneManager} from 'https://cdn.rodin.space/rodinjs/scene/SceneManager.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
 
 function TransitionCanvasFactory() {
   'ngInject';
