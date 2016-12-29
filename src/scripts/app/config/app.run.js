@@ -27,8 +27,6 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
 
   $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
 
-    RodinTransitionCanvas.enable();
-
     if (toState.redirectToWhenAuthenticated && JWT.get()) {
       // User isn’t authenticated
       $state.go(toState.redirectToWhenAuthenticated);
@@ -38,6 +36,7 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
 
   // change page title based on state
   $rootScope.$on('$stateChangeSuccess', (event, toState) => {
+
     $rootScope.setPageTitle(toState.title);
 
     $rootScope.setPageClass(toState.pageClass);

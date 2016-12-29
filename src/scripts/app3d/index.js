@@ -181,11 +181,11 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
 let buttons = MouseGamePad.getInstance().buttons;
 controllers.mouse.onValueChange = function (keyCode) {
     let currentHelix = null;
-    for(let i = 0; i < controllers.mouse.intersected.length; i ++) {
+    for (let i = 0; i < controllers.mouse.intersected.length; i++) {
         currentHelix = controllers.mouse.intersected[i].object.parent.Sculpt.helix
     }
 
-    if(!currentHelix) return;
+    if (!currentHelix) return;
 
     const value = buttons[keyCode - 1].value;
     const direction = value - buttons[keyCode - 1].prevValue > 0 ? 1 : -1;
@@ -193,18 +193,18 @@ controllers.mouse.onValueChange = function (keyCode) {
     buttons[keyCode - 1].prevValue = value;
 };
 
-[controllers.vive.left, controllers.vive.right].map( controller => {
+[controllers.vive.left, controllers.vive.right].map(controller => {
     controller.onTouchDown = function (keyCode, gamepad) {
         let currentHelix = null;
-        for(let i = 0; i < controller.intersected.length; i ++) {
+        for (let i = 0; i < controller.intersected.length; i++) {
             currentHelix = controller.intersected[i].object.parent.Sculpt.helix
         }
 
-        if(!currentHelix) return;
+        if (!currentHelix) return;
 
         gamepad.prevX = gamepad.prevX || gamepad.axes[0];
         const delta = gamepad.axes[0] - gamepad.prevX;
-        if(Math.abs(delta) < .1) return;
+        if (Math.abs(delta) < .1) return;
 
         gamepad.prevX = gamepad.axes[0];
         const direction = delta > 0 ? -1 : 1;
@@ -262,14 +262,24 @@ export class APP {
             scene.start();
 
         API = params.API;
-        if(requestedLogin && API.isLoggedIn()){
+        if (requestedLogin && API.isLoggedIn()) {
             createMyHelix();
         }
         SceneManager.changeContainerDomElement(params.domElement);
+
+        if (scene.webVRmanager.hmd) {
+            scene.webVRmanager.enterVRMode_();
+        }
+
+        // scene.webVRmanager.hmd.exitPresent();
     }
 
     static stop() {
         scene.stop();
+
+        if (scene.webVRmanager.hmd && scene.webVRmanager.hmd.isPresenting) {
+            scene.webVRmanager.hmd.exitPresent();
+        }
     }
 }
 

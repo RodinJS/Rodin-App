@@ -11,7 +11,6 @@ let isInited = false;
 let webglCanvas;
 let gl = null;
 
-let color = Math.random();
 
 function initWebGL(preserveDrawingBuffer) {
 	let glAttribs = {
@@ -22,7 +21,7 @@ function initWebGL(preserveDrawingBuffer) {
 	if (!gl) {
 		gl = webglCanvas.getContext("experimental-webgl", glAttribs);
 	}
-	gl.clearColor(color, color, color, 1.0);
+	gl.clearColor(255, 0, 0, 1.0);
 	gl.enable(gl.DEPTH_TEST);
 	gl.enable(gl.CULL_FACE);
 }
@@ -64,7 +63,6 @@ function onAnimationFrame(t) {
 }
 
 function init(element) {
-	console.log("init")
 	if (isInited) {
 		return false;
 	}
@@ -87,6 +85,8 @@ function init(element) {
 	}
 
 	webglCanvas = document.createElement("canvas");
+	webglCanvas.width = window.innerWidth;
+	webglCanvas.height = window.innerHeight;
 	element.appendChild(webglCanvas);
 	isStopped = true;
 	initWebGL(true);
@@ -99,7 +99,6 @@ function start() {
 		return;
 	}
 
-	console.log("start");
 	if (!isStopped) {
 		return false;
 	}
