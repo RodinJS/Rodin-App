@@ -27,20 +27,14 @@ function initWebGL(preserveDrawingBuffer) {
 }
 
 function onVRRequestPresent() {
-	vrDisplay.requestPresent([{source: webglCanvas}]).then(function () {
-	}, function () {
-		console.log("requestPresent failed.");
-	});
+	return vrDisplay.requestPresent([{source: webglCanvas}]);
 }
 
 function onVRExitPresent() {
 	if (!vrDisplay.isPresenting)
 		return;
 
-	vrDisplay.exitPresent().then(function () {
-	}, function () {
-		console.log("exitPresent failed.");
-	});
+	return vrDisplay.exitPresent();
 }
 
 
@@ -78,7 +72,17 @@ function init(element) {
 				vrDisplay.depthFar = 1024.0;
 
 				for (let i=0;i<queue.length;i++)
-					queue[i]();
+                {
+                    if (queue[i].fn)
+                    {
+                        let tmp = queue[i].fn();
+                        if (queue[i].cb)
+                            queue[i].cb(tmp);
+                    }
+                    else
+                        queue[i]();
+                }
+
 				queue=[];
 			}
 		});
@@ -93,9 +97,11 @@ function init(element) {
 }
 
 function start() {
-	if (vrDisplay == null)
+	if (!vrDisplay)
 	{
-		queue.push(start);
+		queue.push({
+			fn: start
+		});
 		return;
 	}
 
@@ -104,22 +110,26 @@ function start() {
 	}
 	isStopped = false;
 	window.requestAnimationFrame(onAnimationFrame);
-	onVRRequestPresent();
+	return onVRRequestPresent();
 }
 
-function stop() {
-	if (vrDisplay == null)
+function stop(cb) {
+	if (!vrDisplay)
 	{
-		queue.push(stop);
-		return;
+		queue.push({
+		    fn: stop,
+            cb: cb
+        });
 	}
-
 
 	if (isStopped) {
 		return false;
 	}
 	isStopped = true;
-	onVRExitPresent();
+	let tmp = onVRExitPresent();
+	if (cb)
+	    cb(tmp)
+	return tmp;
 }
 
 export {init, start, stop};

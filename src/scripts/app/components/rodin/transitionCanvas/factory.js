@@ -19,22 +19,30 @@ function TransitionCanvasFactory() {
   return model;
 
   function enable() {
+    console.log("factory enable");
     if (!enabled && elem) {
       enabled = true;
       elem.removeClass("hidden");
-      start();
+      return start();
     }
+    return false;
   }
 
-  function disable() {
+  function disable(cb) {
     if (enabled && elem) {
       enabled = false;
       elem.addClass("hidden");
-      stop();
+      return stop(cb);
     }
+    return false;
+  }
+
+  function isEnabled() {
+      return enabled;
   }
 
   function init(params) {
+      console.log("factory init");
     if (inited) {
       return false;
     }

@@ -1,5 +1,5 @@
 class ProjectCtrl {
-    constructor(AppConstants, User, $timeout, $stateParams, RodinTransitionCanvas) {
+    constructor(AppConstants, User, $timeout, $scope, $rootScope, $state, $stateParams, RodinTransitionCanvas) {
         'ngInject';
 
         this.appName = AppConstants.appName;
@@ -10,40 +10,81 @@ class ProjectCtrl {
         }, 50);
 
 
-        window.addEventListener("message", () => {
-            if (event.origin.indexOf('rodinapp.com') == -1)
+        window.addEventListener("message", (event) => {
+            if (event.origin.indexOf('rodinapp.com') == -1 &&
+                event.origin.indexOf('rodin.space') == -1 &&
+                event.origin.indexOf('localhost') == -1 &&
+                event.origin.indexOf('rodin.io') == -1)
                 return;
 
             if (event.data != 'readyToCast')
                 return;
 
-            let tim = $timeout(() => {
-                RodinTransitionCanvas.disable();
-                // this.contentWindow.document.querySelectorAll("img.webvr-button hidden")[1].click();
-                let tim1 = $timeout(() => {
-                    this.contentWindow.postMessage("enterVR", '*');
-                    $timeout.cancel(tim1);
-                }, 50);
+            setTimeout(function () {
+                RodinTransitionCanvas.disable(function (prom) {
 
-                $timeout.cancel(tim);
+                    let promiseStuff = function () {
+                        // this.contentWindow.document.querySelectorAll("img.webvr-button hidden")[1].click();
+                        let tim1 = $timeout(() => {
+                            document.getElementById("project_container").contentWindow.postMessage("enterVR", '*');
+                            $timeout.cancel(tim1);
+                        }, 50);
+                    };
+                    //if promise is undefined we are not
+                    //presenting so we can go ahead
+                    if (!prom) {
+                        promiseStuff();
+                    }
+                    else {
+                        prom.then(() => {
+                            promiseStuff();
+                        });
+                    }
+
+                });
             }, 1000);
+
+
         }, false);
 
+        let isExeted = false;
 
-        /*document.getElementById("project_container").onload = function () {
+        $scope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+            if (!isExeted) {
+                event.preventDefault();
 
-         let tim = $timeout(() => {
-         RodinTransitionCanvas.disable();
+                if (RodinTransitionCanvas.isEnabled) {
+                    RodinTransitionCanvas.disable(function (prom) {
+                        let promiseStuff = function () {
+                            // this.contentWindow.document.querySelectorAll("img.webvr-button hidden")[1].click();
+                            let tim1 = $timeout(() => {
+                                $state.go(toState.name, toParams);
+                                $timeout.cancel(tim1);
 
-         // this.contentWindow.document.querySelectorAll("img.webvr-button hidden")[1].click();
+                            }, 500);
+                        };
+                        //if promise is undefined we are not
+                        //presenting so we can go ahead
+                        if (!prom) {
+                            promiseStuff();
+                        } else {
+                            prom.then(() => {
+                                promiseStuff();
+                            });
+                        }
 
-         setTimeout(() => {
-         this.contentWindow.postMessage("enterVR", '*');
-         }, 50);
+                    });
+                } else {
+                    document.getElementById("project_container").contentWindow.postMessage("exitVR", '*');
+                    setTimeout(function () {
+                        isExeted = true;
+                        $state.go(toState.name, toParams);
+                    }, 1000);
+                }
 
-         $timeout.cancel(tim);
-         }, 1000);
-         };*/
+            }
+
+        });
 
 
         if (User.current && User.current.username === $stateParams.owner) {
@@ -51,6 +92,7 @@ class ProjectCtrl {
         } else {
             this.projectUrl = `${AppConstants.PUBLISH}${$stateParams.owner}/${$stateParams.root}`;
         }
+
 
     }
 }
