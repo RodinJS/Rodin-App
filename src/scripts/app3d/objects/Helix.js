@@ -3,6 +3,21 @@ import {TWEEN} from 'https://cdn.rodin.io/v0.0.2/rodinjs/Tween.js';
 import * as RODIN from 'https://cdn.rodin.io/v0.0.2/rodinjs/RODIN.js';
 import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js';
 import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
+import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
+
+const fadeInAnimation = new Animation('fadein', {
+    material: {
+        opacity: 1
+    }
+});
+fadeInAnimation.duration(100);
+
+const fadeOutAnimation = new Animation('fadeout', {
+    material: {
+        opacity: 0
+    }
+});
+fadeOutAnimation.duration(200);
 
 export class Helix extends RODIN.THREEObject {
     constructor () {
@@ -159,7 +174,7 @@ export class Helix extends RODIN.THREEObject {
         }
 
         this.frameOpened = false;
-        this.frame.object3D.visible = false;
+        // this.frame.object3D.visible = false;
     }
 
     openFrame () {
