@@ -1,8 +1,8 @@
-import {Element} from "https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js";
-import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
-import * as RODIN from 'https://cdn.rodin.io/v0.0.2/rodinjs/RODIN.js';
-import {Event} from 'https://cdn.rodin.io/v0.0.2/rodinjs/Event.js';
+import {Element} from "https://cdn.rodin.space/rodinjs/sculpt/elements/Element.js";
+import {SceneManager} from 'https://cdn.rodin.space/rodinjs/scene/SceneManager.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.space/rodinjs/constants/constants.js';
+import * as RODIN from 'https://cdn.rodin.space/rodinjs/RODIN.js';
+import {Event} from 'https://cdn.rodin.space/rodinjs/Event.js';
 
 import {HoverableElement} from './HoverableElement.js';
 

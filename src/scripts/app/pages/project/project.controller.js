@@ -1,30 +1,58 @@
 class ProjectCtrl {
-  constructor(AppConstants, User, $timeout, $stateParams, RodinTransitionCanvas) {
-    'ngInject';
+    constructor(AppConstants, User, $timeout, $stateParams, RodinTransitionCanvas) {
+        'ngInject';
 
-    this.appName = AppConstants.appName;
+        this.appName = AppConstants.appName;
 
-    RodinTransitionCanvas.disable();
-    RodinTransitionCanvas.enable();
 
-    document.getElementById("project_container").onload =  function () {
+        setTimeout(function () {
+            RodinTransitionCanvas.enable();
+        }, 50);
 
-        let tim = $timeout(()=>{
-            RodinTransitionCanvas.disable();
 
-            this.contentWindow.document.querySelectorAll("img.webvr-button hidden")[1].click();
+        window.addEventListener("message", () => {
+            if (event.origin.indexOf('rodinapp.com') == -1)
+                return;
 
-            $timeout.cancel(tim);
-        }, 1000);
-    };
+            if (event.data != 'readyToCast')
+                return;
 
-    if (User.current && User.current.username === $stateParams.owner) {
-      this.projectUrl = `${AppConstants.PREVIEW}${$stateParams.owner}/${$stateParams.root}`;
-    } else {
-      this.projectUrl = `${AppConstants.PUBLISH}${$stateParams.owner}/${$stateParams.root}`;
+            let tim = $timeout(() => {
+                RodinTransitionCanvas.disable();
+                // this.contentWindow.document.querySelectorAll("img.webvr-button hidden")[1].click();
+                let tim1 = $timeout(() => {
+                    this.contentWindow.postMessage("enterVR", '*');
+                    $timeout.cancel(tim1);
+                }, 50);
+
+                $timeout.cancel(tim);
+            }, 1000);
+        }, false);
+
+
+        /*document.getElementById("project_container").onload = function () {
+
+         let tim = $timeout(() => {
+         RodinTransitionCanvas.disable();
+
+         // this.contentWindow.document.querySelectorAll("img.webvr-button hidden")[1].click();
+
+         setTimeout(() => {
+         this.contentWindow.postMessage("enterVR", '*');
+         }, 50);
+
+         $timeout.cancel(tim);
+         }, 1000);
+         };*/
+
+
+        if (User.current && User.current.username === $stateParams.owner) {
+            this.projectUrl = `${AppConstants.PREVIEW}${$stateParams.owner}/${$stateParams.root}`;
+        } else {
+            this.projectUrl = `${AppConstants.PUBLISH}${$stateParams.owner}/${$stateParams.root}`;
+        }
+
     }
-
-  }
 }
 
 export default ProjectCtrl;
