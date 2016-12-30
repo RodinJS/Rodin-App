@@ -218,26 +218,27 @@ controllers.mouse.onValueChange = function (keyCode) {
     buttons[keyCode - 1].prevValue = value;
 };
 
-[controllers.vive.left, controllers.vive.right].map(controller => {
-    controller.onTouchDown = function (keyCode, gamepad) {
-        let currentHelix = null;
-        for (let i = 0; i < controller.intersected.length; i++) {
-            if (controller.intersected[i].object.parent.Sculpt && controller.intersected[i].object.parent.Sculpt.helix)
-                currentHelix = controller.intersected[i].object.parent.Sculpt.helix
+if(window.device === `vr`) {
+    [controllers.vive.left, controllers.vive.right].map(controller => {
+        controller.onTouchDown = function (keyCode, gamepad) {
+            let currentHelix = null;
+            for (let i = 0; i < controller.intersected.length; i++) {
+                if (controller.intersected[i].object.parent.Sculpt && controller.intersected[i].object.parent.Sculpt.helix)
+                    currentHelix = controller.intersected[i].object.parent.Sculpt.helix
+            }
+
+            if (!currentHelix) return;
+
+            gamepad.prevX = gamepad.prevX || gamepad.axes[0];
+            const delta = gamepad.axes[0] - gamepad.prevX;
+            if (Math.abs(delta) < .1) return;
+
+            gamepad.prevX = gamepad.axes[0];
+            const direction = delta > 0 ? -1 : 1;
+            currentHelix.concentrate(currentHelix.center + direction);
         }
-
-        if (!currentHelix) return;
-
-        gamepad.prevX = gamepad.prevX || gamepad.axes[0];
-        const delta = gamepad.axes[0] - gamepad.prevX;
-        if (Math.abs(delta) < .1) return;
-
-        gamepad.prevX = gamepad.axes[0];
-        const direction = delta > 0 ? -1 : 1;
-        currentHelix.concentrate(currentHelix.center + direction);
-    }
-});
-
+    });
+}
 
 /**
  * fade in sphere
@@ -309,6 +310,7 @@ export class APP {
             createMyHelix();
         }
         SceneManager.changeContainerDomElement(params.domElement);
+        window.dispatchEvent(new Event('resize'));
 
         if(window.device == "vr"){
             checkCount = 0;

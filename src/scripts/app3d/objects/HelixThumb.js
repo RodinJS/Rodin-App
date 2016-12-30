@@ -62,7 +62,7 @@ export class HelixThumb extends THREEObject {
             this.uv = {x: .5, y: .5}
         });
 
-        this.thumb.on(EVENT_NAMES.CONTROLLER_KEY, () => {
+        this.thumb.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
             this.helix.concentrate(this.index);
         });
 
@@ -80,7 +80,6 @@ export class HelixThumb extends THREEObject {
             }
             let shift = delta * RODIN.Time.deltaTime() * 0.015;
             currentAlpha = currentAlpha + shift;
-            //console.log(shift);
             const alpha = Math.max(-1, Math.min(currentAlpha, 1)); // This sheet is for en vor hetevi erku hat@ shat heranan
             const diff = Math.max(-0.3, Math.min(alpha, 0.3));
             this.object3D.position.x = 2.5 * alpha + diff;

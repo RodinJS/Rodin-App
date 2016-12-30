@@ -65,7 +65,7 @@ export class Popup extends Element {
                 this.closeButton.destinationZ = 0.01;
             });
 
-            this.closeButton.on(EVENT_NAMES.CONTROLLER_KEY, () => {
+            this.closeButton.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, () => {
                 this.close();
             });
 

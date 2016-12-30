@@ -26,7 +26,6 @@ SceneManager.addController(oculus);
  * Cardboard Controller
  */
 export let cardboard = null;
-window.dispatchEvent(new Event('resize'));
 if (window.device === 'mobile') {
     cardboard = new CardboardController();
     SceneManager.addController(cardboard);
