@@ -48,7 +48,7 @@ function loadMore(type) {
 
                     for (let i = 0; i < projects.length; i++) {
                         projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
-                            if (self.concentrated && helix.center == projects[i].index) {
+                            if (self.concentrated && projects[i].helix.center == projects[i].index) {
                                 enterProject(projects[i], API);
                             }
                         });
@@ -218,7 +218,7 @@ controllers.mouse.onValueChange = function (keyCode) {
     buttons[keyCode - 1].prevValue = value;
 };
 
-if(window.device === `vr`) {
+if (window.device === `vr`) {
     [controllers.vive.left, controllers.vive.right].map(controller => {
         controller.onTouchDown = function (keyCode, gamepad) {
             let currentHelix = null;
@@ -312,7 +312,7 @@ export class APP {
         SceneManager.changeContainerDomElement(params.domElement);
         window.dispatchEvent(new Event('resize'));
 
-        if(window.device == "vr"){
+        if (window.device == "vr") {
             checkCount = 0;
             checkAndGoToVR();
         }
