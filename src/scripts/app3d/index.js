@@ -52,6 +52,10 @@ function loadMore(type) {
                 enterProject(projects[i], API);
               }
             });
+
+            projects[i].thumb.on("ready", (evt) => {
+              window.dispatchEvent(new Event('resize'));
+            });
           }
 
           self.addThumbs(projects);
@@ -159,8 +163,8 @@ function checkBackButton() {
   requestAnimationFrame(checkBackButton);
 }
 
-if(window.device === 'vr') {
-    requestAnimationFrame(checkBackButton);
+if (window.device === 'vr') {
+  requestAnimationFrame(checkBackButton);
 }
 
 /**
