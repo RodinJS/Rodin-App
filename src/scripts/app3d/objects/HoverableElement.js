@@ -1,6 +1,6 @@
-import {Element} from "https://cdn.rodin.space/rodinjs/sculpt/elements/Element.js";
-import {SceneManager} from 'https://cdn.rodin.space/rodinjs/scene/SceneManager.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.space/rodinjs/constants/constants.js';
+import {Element} from "https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js";
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
 
 export class HoverableElement extends Element {
     constructor (params, paramsHover) {

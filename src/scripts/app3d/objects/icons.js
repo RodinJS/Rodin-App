@@ -1,7 +1,7 @@
-import {Element} from "https://cdn.rodin.space/rodinjs/sculpt/elements/Element.js";
-import {SceneManager} from 'https://cdn.rodin.space/rodinjs/scene/SceneManager.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.space/rodinjs/constants/constants.js';
-import {Animation} from 'https://cdn.rodin.space/rodinjs/animation/Animation.js';
+import {Element} from "https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js";
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
+import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
 
 import {HoverableElement} from './HoverableElement.js';
 

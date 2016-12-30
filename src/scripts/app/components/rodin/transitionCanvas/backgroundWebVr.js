@@ -21,7 +21,7 @@ function initWebGL(preserveDrawingBuffer) {
 	if (!gl) {
 		gl = webglCanvas.getContext("experimental-webgl", glAttribs);
 	}
-	gl.clearColor(255, 0, 0, 1.0);
+	gl.clearColor(0, 0, 0, 1.0);
 	gl.enable(gl.DEPTH_TEST);
 	gl.enable(gl.CULL_FACE);
 }
@@ -47,12 +47,13 @@ function onAnimationFrame(t) {
 		vrDisplay.getFrameData(frameData);
 
 		if (vrDisplay.isPresenting) {
-			gl.viewport(0, 0, webglCanvas.width * 0.5, webglCanvas.height);
-			gl.viewport(webglCanvas.width * 0.5, 0, webglCanvas.width * 0.5, webglCanvas.height);
+			// gl.viewport(0, 0, webglCanvas.width * 0.5, webglCanvas.height);
+			// gl.viewport(webglCanvas.width * 0.5, 0, webglCanvas.width * 0.5, webglCanvas.height);
 			vrDisplay.submitFrame();
 		}
 
 		vrDisplay.requestAnimationFrame(onAnimationFrame);
+
 	}
 }
 

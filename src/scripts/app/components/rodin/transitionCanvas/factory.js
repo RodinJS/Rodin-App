@@ -19,10 +19,10 @@ function TransitionCanvasFactory() {
   return model;
 
   function enable() {
-    console.log("factory enable");
     if (!enabled && elem) {
       enabled = true;
       elem.removeClass("hidden");
+      angular.element(document.getElementById("project_container")).addClass("hidden");
       return start();
     }
     return false;
@@ -30,9 +30,11 @@ function TransitionCanvasFactory() {
 
   function disable(cb) {
     if (enabled && elem) {
+
       enabled = false;
       elem.addClass("hidden");
-      return stop(cb);
+        angular.element(document.getElementById("project_container")).removeClass("hidden");
+        return stop(cb);
     }
     return false;
   }
