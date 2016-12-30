@@ -310,8 +310,10 @@ export class APP {
         }
         SceneManager.changeContainerDomElement(params.domElement);
 
-        checkCount = 0;
-        checkAndGoToVR();
+        if(window.device == "vr"){
+            checkCount = 0;
+            checkAndGoToVR();
+        }
     }
 
     static stop() {

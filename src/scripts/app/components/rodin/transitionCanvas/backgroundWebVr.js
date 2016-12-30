@@ -110,6 +110,8 @@ function start() {
 		return false;
 	}
 	isStopped = false;
+	return false;
+
 	window.requestAnimationFrame(onAnimationFrame);
 	return onVRRequestPresent();
 }
