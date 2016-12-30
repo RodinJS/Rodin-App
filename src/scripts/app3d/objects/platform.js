@@ -67,6 +67,7 @@ aboutButton.on(EVENT_NAMES.CONTROLLER_KEY_UP, () => {
 });
 
 about.on('close', () => {
+    if(!aboutButton.object3D) return;
     aboutButton.object3D.scale.y = 1;
     aboutButton.object3D.visible = true;
 });
