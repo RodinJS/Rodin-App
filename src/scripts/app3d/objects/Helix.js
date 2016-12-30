@@ -5,20 +5,6 @@ import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Eleme
 import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
 import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
 
-const fadeInAnimation = new Animation('fadein', {
-    material: {
-        opacity: 1
-    }
-});
-fadeInAnimation.duration(100);
-
-const fadeOutAnimation = new Animation('fadeout', {
-    material: {
-        opacity: 0
-    }
-});
-fadeOutAnimation.duration(200);
-
 export class Helix extends RODIN.THREEObject {
     constructor () {
         super(new THREE.Object3D());
@@ -41,6 +27,7 @@ export class Helix extends RODIN.THREEObject {
             });
 
             this.frame.on('ready', () => {
+                this.frame.raycastable = true;
                 this.frame.object3D.position.z = -0.08;
                 this.frame.object3D.position.y = -0.085;
                 this.object3D.add(this.frame.object3D);
@@ -63,23 +50,9 @@ export class Helix extends RODIN.THREEObject {
                     evt.target.object3D.position.z = .02;
                     this.frame.object3D.add(evt.target.object3D);
                 });
-                this.frame.openButton.on(EVENT_NAMES.CONTROLLER_KEY, (evt) => {
-                    evt.target.animate({
-                        property: RODIN.CONSTANTS.ANIMATION_TYPES.ROTATION,
-                        to: new THREE.Vector3(evt.target.object3D.rotation.x, evt.target.object3D.rotation.y, evt.target.object3D.rotation.z + Math.PI),
-                        easing: TWEEN.Easing.Linear.None,
-                        duration: 300,
-                        delay: 0
-                    });
-                    let angleX = this.frame.description.object3D.rotation.x + (this.frame.description.object3D.rotation.x > 0 ? -Math.PI : Math.PI) ;
-                    this.frame.description.animate({
-                        property: RODIN.CONSTANTS.ANIMATION_TYPES.ROTATION,
-                        to: new THREE.Vector3(angleX, this.frame.description.object3D.rotation.y, this.frame.description.object3D.rotation.z),
-                        easing: TWEEN.Easing.Linear.None,
-                        duration: 500,
-                        delay: 0
-                    });
-                });
+
+                this.frame.on(EVENT_NAMES.CONTROLLER_KEY, this.descToggle.bind(this));
+                this.frame.openButton.on(EVENT_NAMES.CONTROLLER_KEY, this.descToggle.bind(this));
 
                 this.frame.description = new RODIN.THREEObject(new THREE.Object3D());
 
@@ -113,10 +86,32 @@ export class Helix extends RODIN.THREEObject {
                 });
             });
 
+
             this.frame.name = null;
         })
     }
-
+    descToggle(){
+        if(this.frame.description.object3D.rotation.x !=  Math.PI * 0.9 && this.frame.description.object3D.rotation.x !=  -Math.PI * 0.1) return;
+        this.frame.openButton.animate({
+            property: RODIN.CONSTANTS.ANIMATION_TYPES.ROTATION,
+            to: new THREE.Vector3(
+                this.frame.openButton.object3D.rotation.x,
+                this.frame.openButton.object3D.rotation.y,
+                this.frame.openButton.object3D.rotation.z + Math.PI
+            ),
+            easing: TWEEN.Easing.Linear.None,
+            duration: 300,
+            delay: 0
+        });
+        let angleX = this.frame.description.object3D.rotation.x + (this.frame.description.object3D.rotation.x > 0 ? -Math.PI : Math.PI) ;
+        this.frame.description.animate({
+            property: RODIN.CONSTANTS.ANIMATION_TYPES.ROTATION,
+            to: new THREE.Vector3(angleX, this.frame.description.object3D.rotation.y, this.frame.description.object3D.rotation.z),
+            easing: TWEEN.Easing.Linear.None,
+            duration: 500,
+            delay: 0
+        });
+    }
     concentrate (center = 0) {
         this.closeFrame();
         if(center > this.thumbs.length - 5 && !this.isLoading) {
@@ -174,7 +169,7 @@ export class Helix extends RODIN.THREEObject {
         }
 
         this.frameOpened = false;
-        // this.frame.object3D.visible = false;
+        this.frame.object3D.visible = false;
     }
 
     openFrame () {

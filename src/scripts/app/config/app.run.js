@@ -1,7 +1,7 @@
 /**
  * Created by kh.levon98 on 13-Sep-16.
  */
-function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce) {
+function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce, RodinTransitionCanvas) {
   'ngInject';
 
   window.AppConstants = AppConstants;
@@ -25,9 +25,18 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     return true; // error not handled
   });
 
+  $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+
+    if (toState.redirectToWhenAuthenticated && JWT.get()) {
+      // User isn’t authenticated
+      $state.go(toState.redirectToWhenAuthenticated);
+      event.preventDefault();
+    }
+  });
 
   // change page title based on state
   $rootScope.$on('$stateChangeSuccess', (event, toState) => {
+
     $rootScope.setPageTitle(toState.title);
 
     $rootScope.setPageClass(toState.pageClass);
@@ -35,13 +44,6 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     angular.element(document.querySelectorAll(".webvr-button")).addClass("hidden");
   });
 
-  $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-    if (toState.redirectToWhenAuthenticated && JWT.get()) {
-      // User isn’t authenticated
-      $state.go(toState.redirectToWhenAuthenticated);
-      event.preventDefault();
-    }
-  });
 
   // Helper method for setting the page's title
   $rootScope.setPageTitle = (title) => {

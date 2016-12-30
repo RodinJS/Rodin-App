@@ -14,7 +14,7 @@
   <link rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg" color="#000000">
   <meta name="theme-color" content="#ffffff">
 
-  <link rel="stylesheet" href="/styles/style.css?v=0.0.3">
+  <link rel="stylesheet" href="/styles/style.css?v=0.0.10">
   <base href="/">
 
 </head>
@@ -22,7 +22,7 @@
 
 <div data-ui-view class="app-container clearfix"></div>
 
-<rodin-transition-canvas></rodin-transition-canvas>
+<div class="clearfix hidden rodin-transition-canvas" data-rodin-transition-canvas></div>
 
 <script type="text/javascript" src="/scripts/vendor/systemjs/dist/system.js"></script>
 
@@ -86,7 +86,7 @@
       return address + System.cacheBust;
     });
   };
-  System.cacheBust = '?v=0.0.3';
+  System.cacheBust = '?v=0.0.10';
 
   System.config({
     map: {
@@ -94,7 +94,7 @@
       glsl: 'https://cdn.rodin.io/v0.0.2/systemjs/glsl.js'  // path to glsl.js file
     },
     meta: {
-      'https://cdn.rodinapp.com/*.glsl': {
+      'https://cdn.rodin.io/v0.0.2/*.glsl': {
         loader: 'glsl'
       }
     },
@@ -105,7 +105,7 @@
       'scripts/*': 'scripts/*'
     },
     packages: {
-      "https://cdn.rodin.io/v0.0.2": {  // path to your project root
+      "https://cdn.rodin.io/v0.0.2/": {  // path to your project root
         "defaultJSExtensions": true,
         meta: {
           '*.glsl': {loader: 'glsl'}

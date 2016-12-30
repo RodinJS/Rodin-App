@@ -40,7 +40,7 @@ export class HelixThumb extends THREEObject {
 
         this.thumb.on('update', () => {
             let currentAlpha = this.currentAlpha || 0;
-            currentAlpha = currentAlpha + (this.alpha - currentAlpha) * RODIN.Time.deltaTime() * 0.01;
+            currentAlpha = currentAlpha + (this.alpha - currentAlpha) * RODIN.Time.deltaTime() * 0.015;
             const alpha = Math.max(-1, Math.min(currentAlpha, 1));
             this.thumb.object3D.material.opacity = 1 - Math.abs(alpha);
 
@@ -75,11 +75,12 @@ export class HelixThumb extends THREEObject {
             if (!this.hasOwnProperty('alpha')) return;
             let currentAlpha = this.currentAlpha || 0;
             const delta = this.alpha - currentAlpha;
-            if (Math.abs(delta) < 0.002 && !this.helix.frameOpened) {
+            if (Math.abs(delta) < 0.004 && !this.helix.frameOpened) {
                 this.helix.openFrame();
             }
-
-            currentAlpha = currentAlpha + delta * RODIN.Time.deltaTime() * 0.01;
+            let shift = delta * RODIN.Time.deltaTime() * 0.015;
+            currentAlpha = currentAlpha + shift;
+            //console.log(shift);
             const alpha = Math.max(-1, Math.min(currentAlpha, 1)); // This sheet is for en vor hetevi erku hat@ shat heranan
             const diff = Math.max(-0.3, Math.min(alpha, 0.3));
             this.object3D.position.x = 2.5 * alpha + diff;

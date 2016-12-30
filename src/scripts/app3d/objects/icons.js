@@ -87,6 +87,8 @@ export class OpeningIcon extends HoverableElement {
 
     lock() {
         this.locked = true;
+        this.hover.object3D.material.opacity = 1;
+        this.object3D.material.opacity = 0;
     }
 
     unlock() {

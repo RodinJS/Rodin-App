@@ -5,8 +5,6 @@ class TransitionCanvasCtrl {
   constructor($scope, RodinTransitionCanvas) {
     'ngInject';
 
-    console.log("assd", RodinTransitionCanvas)
-
     this._$scope = $scope;
     this._$scope._RodinTransitionCanvas = RodinTransitionCanvas;
   }

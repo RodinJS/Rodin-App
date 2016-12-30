@@ -16,7 +16,7 @@ import * as icons from './objects/icons.js';
 import {FadeInSphere} from './objects/FadeInSphere.js';
 
 let started = false;
-
+let requestedLogin = false;
 let API = null;
 
 let scene = SceneManager.get();
@@ -136,11 +136,37 @@ function createMyHelix() {
     helix.clear();
 }
 
+
+let backButtonPressed0 = false;
+let backButtonPressed1 = false;
+
+function checkBackButton() {
+    const gamePads = navigator.getGamepads();
+    let gamepad0 = gamePads[0] || gamePads[1];
+    let gamepad1 = gamePads[1] || gamePads[0];
+
+    if (!gamepad0 && !gamepad1) return requestAnimationFrame(checkBackButton);
+
+    if (backButtonPressed0 !== gamepad0.buttons[3].pressed || backButtonPressed1 !== gamepad1.buttons[3].pressed) {
+        backButtonPressed0 = gamepad0.buttons[3].pressed;
+        backButtonPressed1 = gamepad1.buttons[3].pressed;
+
+        if ((backButtonPressed0 || backButtonPressed1) && location.href.indexOf('project') !== -1) {
+            window.history.back();
+        }
+    }
+
+    requestAnimationFrame(checkBackButton);
+}
+
+requestAnimationFrame(checkBackButton);
+
 /**
  * Icons
  */
 function goToNavigate() {
-    popups.notSignedIn.close();
+    popups.notSignedInMobile.close();
+    requestedLogin = true;
     API.navigate('/login');
     window.removeEventListener('resize', goToNavigate);
 }
@@ -150,13 +176,14 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
         switch (window.device) {
             case 'mobile':
                 popups.notSignedInMobile.open();
-                window.addEventListener('resize', goToNavigate);
+                window.addEventListener('resize', goToNavigate, false);
                 return;
 
             case 'vr':
                 popups.notSignedInVR.open();
                 let timer = setTimeout(function () {
-                    popups.notSignedIn.close();
+                    popups.notSignedInVR.close();
+                    requestedLogin = true;
                     API.navigate('/login');
                 }, 5000);
 
@@ -165,7 +192,7 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
                 });
                 return;
         }
-
+        requestedLogin = true;
         API.navigate('/login');
 
     } else {
@@ -179,11 +206,11 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
 let buttons = MouseGamePad.getInstance().buttons;
 controllers.mouse.onValueChange = function (keyCode) {
     let currentHelix = null;
-    for(let i = 0; i < controllers.mouse.intersected.length; i ++) {
+    for (let i = 0; i < controllers.mouse.intersected.length; i++) {
         currentHelix = controllers.mouse.intersected[i].object.parent.Sculpt.helix
     }
 
-    if(!currentHelix) return;
+    if (!currentHelix) return;
 
     const value = buttons[keyCode - 1].value;
     const direction = value - buttons[keyCode - 1].prevValue > 0 ? 1 : -1;
@@ -191,18 +218,19 @@ controllers.mouse.onValueChange = function (keyCode) {
     buttons[keyCode - 1].prevValue = value;
 };
 
-[controllers.vive.left, controllers.vive.right].map( controller => {
+[controllers.vive.left, controllers.vive.right].map(controller => {
     controller.onTouchDown = function (keyCode, gamepad) {
         let currentHelix = null;
-        for(let i = 0; i < controller.intersected.length; i ++) {
-            currentHelix = controller.intersected[i].object.parent.Sculpt.helix
+        for (let i = 0; i < controller.intersected.length; i++) {
+            if (controller.intersected[i].object.parent.Sculpt && controller.intersected[i].object.parent.Sculpt.helix)
+                currentHelix = controller.intersected[i].object.parent.Sculpt.helix
         }
 
-        if(!currentHelix) return;
+        if (!currentHelix) return;
 
         gamepad.prevX = gamepad.prevX || gamepad.axes[0];
         const delta = gamepad.axes[0] - gamepad.prevX;
-        if(Math.abs(delta) < .1) return;
+        if (Math.abs(delta) < .1) return;
 
         gamepad.prevX = gamepad.axes[0];
         const direction = delta > 0 ? -1 : 1;
@@ -245,6 +273,23 @@ function init() {
     }
 }
 
+
+let checkCount = 0;
+let tim;
+
+function checkAndGoToVR() {
+    clearTimeout(tim);
+    if (checkCount++ > 20)
+        return;
+
+    if (scene.webVRmanager.hmd && !scene.webVRmanager.hmd.isPresenting) {
+        scene.webVRmanager.enterVRMode_();
+        return;
+    }
+
+    tim = setTimeout(checkAndGoToVR, 200);
+}
+
 /**
  * Class App for Angular
  */
@@ -260,12 +305,50 @@ export class APP {
             scene.start();
 
         API = params.API;
+        if (requestedLogin && API.isLoggedIn()) {
+            createMyHelix();
+        }
         SceneManager.changeContainerDomElement(params.domElement);
+
+        if(window.device == "vr"){
+            checkCount = 0;
+            checkAndGoToVR();
+        }
     }
 
     static stop() {
         scene.stop();
+
+        if (scene.webVRmanager.hmd && scene.webVRmanager.hmd.isPresenting) {
+            scene.webVRmanager.hmd.exitPresent();
+        }
     }
 }
 
 APP.stop();
+
+window.onbeforeunload = function (e) {
+    APP.stop();
+    return;
+};
+
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+});
+
+document.addEventListener('keydown', (event) => {
+    // f*
+    if (event.keyCode >= 112 && event.keyCode <= 123) {
+        event.preventDefault();
+    }
+
+    // ctrl + shift + i
+    if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+        event.preventDefault();
+    }
+
+    // ctrl + shift + r
+    if (event.ctrlKey && event.shiftKey && event.keyCode == 82) {
+        event.preventDefault();
+    }
+});

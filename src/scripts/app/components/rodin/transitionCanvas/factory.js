@@ -1,31 +1,61 @@
 /**
  * Created by kh.levon98 on 17-Oct-16.
  */
-import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
+
+import {start, stop} from "./backgroundWebVr";
 
 function TransitionCanvasFactory() {
   'ngInject';
 
   let model = {};
-  model.Scene = null;
-  model.element = null;
+  let elem = null;
+  let inited = false;
+  let enabled = false;
 
   model.enable = enable;
   model.disable = disable;
+  model.__init = init;
 
   return model;
 
   function enable() {
-    if(model.Scene && !model.Scene._render){
-        SceneManager.go(model.Scene);
-        model.Scene.start();
+    if (!enabled && elem) {
+      enabled = true;
+      elem.removeClass("hidden");
+      angular.element(document.getElementById("project_container")).addClass("hidden");
+      return start();
     }
+    return false;
   }
 
-  function disable() {
-      if(model.Scene && model.Scene._render){
-          model.Scene.stop();
-      }
+  function disable(cb) {
+    if (enabled && elem) {
+
+      enabled = false;
+      elem.addClass("hidden");
+        angular.element(document.getElementById("project_container")).removeClass("hidden");
+        return stop(cb);
+    }
+    return false;
+  }
+
+  function isEnabled() {
+      return enabled;
+  }
+
+  function init(params) {
+      console.log("factory init");
+    if (inited) {
+      return false;
+    }
+    inited = true;
+    if (params.elem) {
+      elem = angular.element(params.elem);
+    }
+    if (params.scene) {
+      model.Scene = params.scene;
+    }
+
   }
 
 }
