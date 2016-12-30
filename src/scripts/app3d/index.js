@@ -30,40 +30,40 @@ scene.scene.background = new THREE.Color(0xd7e4ef);
 scene.scene.fog = new THREE.Fog(0xdeecf2, 5, 55);
 
 function loadMore(type) {
-    return function () {
-        const self = this;
-        this.isLoading = true;
-        let filters = {
-            skip: this.thumbs.length,
-            limit: 20
-        };
-
-        API.getProjects(type, filters).then(
-            data => {
-                if (data.length > 0) {
-                    const projects = data.map(i => {
-                        i.image = i.thumbnail || '/images/app3d/img/thumb.jpg';
-                        return new HelixThumb(i);
-                    });
-
-                    for (let i = 0; i < projects.length; i++) {
-                        projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
-                            if (self.concentrated && projects[i].helix.center == projects[i].index) {
-                                enterProject(projects[i], API);
-                            }
-                        });
-                    }
-
-                    self.addThumbs(projects);
-                }
-                this.isLoading = false;
-            },
-            err => {
-                console.log(err);
-                this.isLoading = false;
-            }
-        )
+  return function () {
+    const self = this;
+    this.isLoading = true;
+    let filters = {
+      skip: this.thumbs.length,
+      limit: 20
     };
+
+    API.getProjects(type, filters).then(
+      data => {
+        if (data.length > 0) {
+          const projects = data.map(i => {
+            i.image = i.thumbnail || '/images/app3d/img/thumb.jpg';
+            return new HelixThumb(i);
+          });
+
+          for (let i = 0; i < projects.length; i++) {
+            projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
+              if (self.concentrated && projects[i].helix.center == projects[i].index) {
+                enterProject(projects[i], API);
+              }
+            });
+          }
+
+          self.addThumbs(projects);
+        }
+        this.isLoading = false;
+      },
+      err => {
+        console.log(err);
+        this.isLoading = false;
+      }
+    )
+  };
 }
 
 /**
@@ -75,32 +75,32 @@ let helixParent = null;
 let helixCreated = false;
 
 const helixAnimation = new Animation('helix', {
-    rotation: {
-        y: Math.PI / 2
-    }
+  rotation: {
+    y: Math.PI / 2
+  }
 });
 helixAnimation.duration(500);
 
 function createHelix() {
-    helixCreated = true;
-    helixParent = new THREEObject(new THREE.Object3D());
-    helixParent.animator.add(helixAnimation);
+  helixCreated = true;
+  helixParent = new THREEObject(new THREE.Object3D());
+  helixParent.animator.add(helixAnimation);
 
-    helixParent.on(EVENT_NAMES.ANIMATION_COMPLETE, () => {
-        helix.loadMore();
+  helixParent.on(EVENT_NAMES.ANIMATION_COMPLETE, () => {
+    helix.loadMore();
+  });
+
+  helixParent.on('ready', () => {
+    scene.add(helixParent.object3D);
+    helix = new Helix();
+    helix.on('ready', (evt) => {
+      helixParent.object3D.add(evt.target.object3D);
+      evt.target.object3D.position.z = -2.5;
+      evt.target.object3D.position.y = scene.controls.userHeight;
     });
 
-    helixParent.on('ready', () => {
-        scene.add(helixParent.object3D);
-        helix = new Helix();
-        helix.on('ready', (evt) => {
-            helixParent.object3D.add(evt.target.object3D);
-            evt.target.object3D.position.z = -2.5;
-            evt.target.object3D.position.y = scene.controls.userHeight;
-        });
-
-        helix.loadMore = loadMore('all').bind(helix);
-    });
+    helix.loadMore = loadMore('all').bind(helix);
+  });
 }
 
 /**
@@ -111,29 +111,29 @@ let myHelix = null;
 let myHelixCreated = false;
 
 function createMyHelix() {
-    if (myHelix) {
-        return;
-    }
+  if (myHelix) {
+    return;
+  }
 
-    myHelix = new Helix();
-    icons._personal.slider.open();
-    icons._personal.lock();
-    icons._personal.centerX();
-    icons._public.slider.open();
-    icons._public.lock();
-    icons._public.centerX();
-    myHelix.on('ready', (evt) => {
-        scene.add(evt.target.object3D);
-        evt.target.object3D.position.z = -2.5;
-        evt.target.object3D.position.y = scene.controls.userHeight;
-        scene.scene.remove(icons._public.object3D);
-        helixParent.object3D.add(icons._public.object3D);
-    });
+  myHelix = new Helix();
+  icons._personal.slider.open();
+  icons._personal.lock();
+  icons._personal.centerX();
+  icons._public.slider.open();
+  icons._public.lock();
+  icons._public.centerX();
+  myHelix.on('ready', (evt) => {
+    scene.add(evt.target.object3D);
+    evt.target.object3D.position.z = -2.5;
+    evt.target.object3D.position.y = scene.controls.userHeight;
+    scene.scene.remove(icons._public.object3D);
+    helixParent.object3D.add(icons._public.object3D);
+  });
 
-    myHelix.loadMore = loadMore('my').bind(myHelix);
-    helixParent.animator.start('helix');
-    platform.aboutButtonParent.animator.start('rotate');
-    helix.clear();
+  myHelix.loadMore = loadMore('my').bind(myHelix);
+  helixParent.animator.start('helix');
+  platform.aboutButtonParent.animator.start('rotate');
+  helix.clear();
 }
 
 
@@ -141,22 +141,22 @@ let backButtonPressed0 = false;
 let backButtonPressed1 = false;
 
 function checkBackButton() {
-    const gamePads = navigator.getGamepads();
-    let gamepad0 = gamePads[0] || gamePads[1];
-    let gamepad1 = gamePads[1] || gamePads[0];
+  const gamePads = navigator.getGamepads();
+  let gamepad0 = gamePads[0] || gamePads[1];
+  let gamepad1 = gamePads[1] || gamePads[0];
 
-    if (!gamepad0 && !gamepad1) return requestAnimationFrame(checkBackButton);
+  if (!gamepad0 && !gamepad1) return requestAnimationFrame(checkBackButton);
 
-    if (backButtonPressed0 !== gamepad0.buttons[3].pressed || backButtonPressed1 !== gamepad1.buttons[3].pressed) {
-        backButtonPressed0 = gamepad0.buttons[3].pressed;
-        backButtonPressed1 = gamepad1.buttons[3].pressed;
+  if (backButtonPressed0 !== gamepad0.buttons[3].pressed || backButtonPressed1 !== gamepad1.buttons[3].pressed) {
+    backButtonPressed0 = gamepad0.buttons[3].pressed;
+    backButtonPressed1 = gamepad1.buttons[3].pressed;
 
-        if ((backButtonPressed0 || backButtonPressed1) && location.href.indexOf('project') !== -1) {
-            window.history.back();
-        }
+    if ((backButtonPressed0 || backButtonPressed1) && location.href.indexOf('project') !== -1) {
+      window.history.back();
     }
+  }
 
-    requestAnimationFrame(checkBackButton);
+  requestAnimationFrame(checkBackButton);
 }
 
 requestAnimationFrame(checkBackButton);
@@ -165,39 +165,47 @@ requestAnimationFrame(checkBackButton);
  * Icons
  */
 function goToNavigate() {
-    popups.notSignedInMobile.close();
-    requestedLogin = true;
-    API.navigate('/login');
-    window.removeEventListener('resize', goToNavigate);
+  popups.notSignedInMobile.close();
+  requestedLogin = true;
+  API.navigate('/login');
 }
 
+
+popups.notSignedInMobile.on("close", (evt) => {
+  window.removeEventListener('resize', goToNavigate);
+});
+
 icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
-    if (!API.isLoggedIn()) {
-        switch (window.device) {
-            case 'mobile':
-                popups.notSignedInMobile.open();
-                window.addEventListener('resize', goToNavigate, false);
-                return;
-
-            case 'vr':
-                popups.notSignedInVR.open();
-                let timer = setTimeout(function () {
-                    popups.notSignedInVR.close();
-                    requestedLogin = true;
-                    API.navigate('/login');
-                }, 5000);
-
-                popups.notSignedInVR.on('close', () => {
-                    clearTimeout(timer);
-                });
-                return;
+  if (!API.isLoggedIn()) {
+    switch (window.device) {
+      case 'mobile':
+        if (window.innerWidth < window.innerHeight) {
+          goToNavigate();
+        } else {
+          popups.notSignedInMobile.open();
+          window.addEventListener('resize', goToNavigate, false);
         }
-        requestedLogin = true;
-        API.navigate('/login');
+        return;
 
-    } else {
-        createMyHelix();
+      case 'vr':
+        popups.notSignedInVR.open();
+        let timer = setTimeout(function () {
+          popups.notSignedInVR.close();
+          requestedLogin = true;
+          API.navigate('/login');
+        }, 5000);
+
+        popups.notSignedInVR.on('close', () => {
+          clearTimeout(timer);
+        });
+        return;
     }
+    requestedLogin = true;
+    API.navigate('/login');
+
+  } else {
+    createMyHelix();
+  }
 });
 
 /**
@@ -205,39 +213,39 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
  */
 let buttons = MouseGamePad.getInstance().buttons;
 controllers.mouse.onValueChange = function (keyCode) {
-    let currentHelix = null;
-    for (let i = 0; i < controllers.mouse.intersected.length; i++) {
-        currentHelix = controllers.mouse.intersected[i].object.parent.Sculpt.helix
-    }
+  let currentHelix = null;
+  for (let i = 0; i < controllers.mouse.intersected.length; i++) {
+    currentHelix = controllers.mouse.intersected[i].object.parent.Sculpt.helix
+  }
 
-    if (!currentHelix) return;
+  if (!currentHelix) return;
 
-    const value = buttons[keyCode - 1].value;
-    const direction = value - buttons[keyCode - 1].prevValue > 0 ? 1 : -1;
-    currentHelix.concentrate(currentHelix.center + direction);
-    buttons[keyCode - 1].prevValue = value;
+  const value = buttons[keyCode - 1].value;
+  const direction = value - buttons[keyCode - 1].prevValue > 0 ? 1 : -1;
+  currentHelix.concentrate(currentHelix.center + direction);
+  buttons[keyCode - 1].prevValue = value;
 };
 
 if (window.device === `vr`) {
-    [controllers.vive.left, controllers.vive.right].map(controller => {
-        controller.onTouchDown = function (keyCode, gamepad) {
-            let currentHelix = null;
-            for (let i = 0; i < controller.intersected.length; i++) {
-                if (controller.intersected[i].object.parent.Sculpt && controller.intersected[i].object.parent.Sculpt.helix)
-                    currentHelix = controller.intersected[i].object.parent.Sculpt.helix
-            }
+  [controllers.vive.left, controllers.vive.right].map(controller => {
+    controller.onTouchDown = function (keyCode, gamepad) {
+      let currentHelix = null;
+      for (let i = 0; i < controller.intersected.length; i++) {
+        if (controller.intersected[i].object.parent.Sculpt && controller.intersected[i].object.parent.Sculpt.helix)
+          currentHelix = controller.intersected[i].object.parent.Sculpt.helix
+      }
 
-            if (!currentHelix) return;
+      if (!currentHelix) return;
 
-            gamepad.prevX = gamepad.prevX || gamepad.axes[0];
-            const delta = gamepad.axes[0] - gamepad.prevX;
-            if (Math.abs(delta) < .1) return;
+      gamepad.prevX = gamepad.prevX || gamepad.axes[0];
+      const delta = gamepad.axes[0] - gamepad.prevX;
+      if (Math.abs(delta) < .1) return;
 
-            gamepad.prevX = gamepad.axes[0];
-            const direction = delta > 0 ? -1 : 1;
-            currentHelix.concentrate(currentHelix.center + direction);
-        }
-    });
+      gamepad.prevX = gamepad.axes[0];
+      const direction = delta > 0 ? -1 : 1;
+      currentHelix.concentrate(currentHelix.center + direction);
+    }
+  });
 }
 
 /**
@@ -247,31 +255,31 @@ if (window.device === `vr`) {
 const fadeInSphere = new FadeInSphere();
 
 fadeInSphere.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
-    if (evt.animation === 'fadeIn') {
-        API.navigate('/project', {root: evt.target.requester.root, owner: evt.target.requester.owner});
-    }
-    if (evt.animation === 'fadeOut') {
-        scene.camera.remove(evt.target.object3D);
-    }
+  if (evt.animation === 'fadeIn') {
+    API.navigate('/project', {root: evt.target.requester.root, owner: evt.target.requester.owner});
+  }
+  if (evt.animation === 'fadeOut') {
+    scene.camera.remove(evt.target.object3D);
+  }
 });
 
 fadeInSphere.on(EVENT_NAMES.ANIMATION_START, (evt) => {
-    if (evt.animation === 'fadeIn') {
-        scene.camera.add(evt.target.object3D);
-    }
+  if (evt.animation === 'fadeIn') {
+    scene.camera.add(evt.target.object3D);
+  }
 });
 
 function enterProject(helixThumb, API) {
-    fadeInSphere.requester = helixThumb;
-    fadeInSphere.fadeIn();
+  fadeInSphere.requester = helixThumb;
+  fadeInSphere.fadeIn();
 }
 
 function init() {
-    fadeInSphere.animator.start('fadeOut');
+  fadeInSphere.animator.start('fadeOut');
 
-    if (!helixCreated) {
-        createHelix();
-    }
+  if (!helixCreated) {
+    createHelix();
+  }
 }
 
 
@@ -279,78 +287,78 @@ let checkCount = 0;
 let tim;
 
 function checkAndGoToVR() {
-    clearTimeout(tim);
-    if (checkCount++ > 20)
-        return;
+  clearTimeout(tim);
+  if (checkCount++ > 20)
+    return;
 
-    if (scene.webVRmanager.hmd && !scene.webVRmanager.hmd.isPresenting) {
-        scene.webVRmanager.enterVRMode_();
-        return;
-    }
+  if (scene.webVRmanager.hmd && !scene.webVRmanager.hmd.isPresenting) {
+    scene.webVRmanager.enterVRMode_();
+    return;
+  }
 
-    tim = setTimeout(checkAndGoToVR, 200);
+  tim = setTimeout(checkAndGoToVR, 200);
 }
 
 /**
  * Class App for Angular
  */
 export class APP {
-    static start(params) {
-        init();
-        if (!started) {
-            scene.enable();
-            started = true;
-        }
-
-        if (!scene._render)
-            scene.start();
-
-        API = params.API;
-        if (requestedLogin && API.isLoggedIn()) {
-            createMyHelix();
-        }
-        SceneManager.changeContainerDomElement(params.domElement);
-        window.dispatchEvent(new Event('resize'));
-
-        if (window.device == "vr") {
-            checkCount = 0;
-            checkAndGoToVR();
-        }
+  static start(params) {
+    init();
+    if (!started) {
+      scene.enable();
+      started = true;
     }
 
-    static stop() {
-        scene.stop();
+    if (!scene._render)
+      scene.start();
 
-        if (scene.webVRmanager.hmd && scene.webVRmanager.hmd.isPresenting) {
-            scene.webVRmanager.hmd.exitPresent();
-        }
+    API = params.API;
+    if (requestedLogin && API.isLoggedIn()) {
+      createMyHelix();
     }
+    SceneManager.changeContainerDomElement(params.domElement);
+    window.dispatchEvent(new Event('resize'));
+
+    if (window.device == "vr") {
+      checkCount = 0;
+      checkAndGoToVR();
+    }
+  }
+
+  static stop() {
+    scene.stop();
+
+    if (scene.webVRmanager.hmd && scene.webVRmanager.hmd.isPresenting) {
+      scene.webVRmanager.hmd.exitPresent();
+    }
+  }
 }
 
 APP.stop();
 
 window.onbeforeunload = function (e) {
-    APP.stop();
-    return;
+  APP.stop();
+  return;
 };
 
 document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
+  e.preventDefault();
 });
 
 document.addEventListener('keydown', (event) => {
-    // f*
-    if (event.keyCode >= 112 && event.keyCode <= 123) {
-        event.preventDefault();
-    }
+  // f*
+  if (event.keyCode >= 112 && event.keyCode <= 123) {
+    event.preventDefault();
+  }
 
-    // ctrl + shift + i
-    if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
-        event.preventDefault();
-    }
+  // ctrl + shift + i
+  if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+    event.preventDefault();
+  }
 
-    // ctrl + shift + r
-    if (event.ctrlKey && event.shiftKey && event.keyCode == 82) {
-        event.preventDefault();
-    }
+  // ctrl + shift + r
+  if (event.ctrlKey && event.shiftKey && event.keyCode == 82) {
+    event.preventDefault();
+  }
 });
