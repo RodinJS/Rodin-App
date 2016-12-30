@@ -159,7 +159,9 @@ function checkBackButton() {
   requestAnimationFrame(checkBackButton);
 }
 
-requestAnimationFrame(checkBackButton);
+if(window.device === 'vr') {
+    requestAnimationFrame(checkBackButton);
+}
 
 /**
  * Icons
