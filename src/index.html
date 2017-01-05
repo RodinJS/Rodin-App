@@ -22,6 +22,17 @@
 
 <div data-ui-view class="app-container clearfix"></div>
 
+<div class="clearfix loader" data-loader>
+  <div class="container">
+    <div class="row clearfix">
+      <img src="/images/loader-rodin-logo.png" alt="Rodin APP" class="center-block">
+    </div>
+    <div class="row clearfix">
+      <p class="text-center">Loading...</p>
+    </div>
+  </div>
+</div>
+
 <div class="clearfix hidden rodin-transition-canvas" data-rodin-transition-canvas></div>
 
 <script type="text/javascript" src="/scripts/vendor/systemjs/dist/system.js"></script>
@@ -45,16 +56,16 @@
 
   window.SCENE_MANAGER_AUTO_CREATE = false;
   function getQueryVariable(variable) {
-      let query = window.location.search.substring(1);
-      let vars = query.split('&');
-      for (let i = 0; i < vars.length; i++) {
-          let pair = vars[i].split('=');
-          if (decodeURIComponent(pair[0]) == variable) {
-              return decodeURIComponent(pair[1]);
-          }
+    let query = window.location.search.substring(1);
+    let vars = query.split('&');
+    for (let i = 0; i < vars.length; i++) {
+      let pair = vars[i].split('=');
+      if (decodeURIComponent(pair[0]) == variable) {
+        return decodeURIComponent(pair[1]);
       }
+    }
 
-      return 'desktop';
+    return 'desktop';
   }
   window.device = getQueryVariable('device');
 

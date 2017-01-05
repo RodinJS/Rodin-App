@@ -1,14 +1,14 @@
 function HomeConfig($stateProvider) {
-	'ngInject';
+  'ngInject';
 
-	$stateProvider
-		.state('main.home', {
-			url: '/',
-			controller: 'HomeCtrl',
-			controllerAs: '$ctrl',
-			templateUrl: 'app/pages/home/home.html',
-			title: 'Home'
-		});
+  $stateProvider
+    .state('main.home', {
+      url: '/',
+      controller: 'HomeCtrl',
+      controllerAs: '$ctrl',
+      templateUrl: 'app/pages/home/home.html',
+      title: 'Home'
+    });
 
 }
 

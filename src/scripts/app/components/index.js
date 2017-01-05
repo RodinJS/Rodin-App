@@ -10,6 +10,14 @@ const componentsModule = angular.module(MODULE_NAME, []);
 import Compile from './compile/index';
 componentsModule.directive('compile', Compile);
 
+
+import LoaderFactory from './loader/factory';
+componentsModule.factory('Loader', LoaderFactory);
+
+import Loader from './loader/index';
+componentsModule.directive('loader', Loader);
+
+
 /*
  * Rodin modules
  * */

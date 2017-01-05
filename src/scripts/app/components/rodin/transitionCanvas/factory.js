@@ -33,18 +33,18 @@ function TransitionCanvasFactory() {
 
       enabled = false;
       elem.addClass("hidden");
-        angular.element(document.getElementById("project_container")).removeClass("hidden");
-        return stop(cb);
+      angular.element(document.getElementById("project_container")).removeClass("hidden");
+      return stop(cb);
     }
     return false;
   }
 
   function isEnabled() {
-      return enabled;
+    return enabled;
   }
 
   function init(params) {
-      console.log("factory init");
+    console.log("factory init");
     if (inited) {
       return false;
     }

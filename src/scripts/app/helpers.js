@@ -120,7 +120,7 @@ window.extractDomain = () => {
           var name = parts[0].replace(rdecode, decodeURIComponent);
           cookie = converter.read ?
             converter.read(cookie, name) : converter(cookie, name) ||
-          cookie.replace(rdecode, decodeURIComponent);
+            cookie.replace(rdecode, decodeURIComponent);
 
           if (this.json) {
             try {
