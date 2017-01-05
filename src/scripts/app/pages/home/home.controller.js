@@ -1,5 +1,5 @@
 class HomeCtrl {
-  constructor(AppConstants, Project, User, RodinTransitionCanvas) {
+  constructor(AppConstants, $scope, Project, User, RodinTransitionCanvas) {
     'ngInject';
 
     this.appName = AppConstants.appName;
@@ -8,6 +8,12 @@ class HomeCtrl {
     angular.element(document.querySelectorAll(".webvr-button")).removeClass("hidden");
 
     RodinTransitionCanvas.disable();
+
+    window.RODINJAVA && window.RODINJAVA.navigateToMainPage();
+    $scope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+      window.RODINJAVA && window.RODINJAVA.navigateFromMainPage();
+    });
+
   }
 }
 

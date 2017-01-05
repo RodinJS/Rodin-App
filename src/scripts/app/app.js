@@ -15,6 +15,7 @@ import 'angular-sanitize/angular-sanitize.min';
 import 'angular-event-emitter/angular-event-emitter';
 import 'angular-messages/angular-messages.min';
 
+import 're-tree/re-tree.min';
 import 'ng-device-detector/ng-device-detector.min';
 import 'lodash/lodash.min';
 
@@ -43,7 +44,7 @@ const requires = [
   'ngSanitize',
   'ngEventEmitter',
   'ngMessages',
-  // 'ng.deviceDetector',
+  'ng.deviceDetector',
   //
   'angular-storage',
   'ui.router',
