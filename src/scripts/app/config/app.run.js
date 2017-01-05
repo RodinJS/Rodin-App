@@ -1,10 +1,10 @@
 /**
  * Created by kh.levon98 on 13-Sep-16.
  */
-function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce, RodinTransitionCanvas) {
+function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce, RodinTransitionCanvas, Loader) {
   'ngInject';
 
-  window.AppConstants = AppConstants;
+  let loader;
 
   Restangular.addFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
     headers["x-access-token"] = JWT.get();
@@ -26,7 +26,7 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
   });
 
   $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-
+    loader = Loader.show();
     if (toState.redirectToWhenAuthenticated && JWT.get()) {
       // User isn’t authenticated
       $state.go(toState.redirectToWhenAuthenticated);
@@ -40,6 +40,8 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     $rootScope.setPageTitle(toState.title);
 
     $rootScope.setPageClass(toState.pageClass);
+
+    Loader.hide();
 
     angular.element(document.querySelectorAll(".webvr-button")).addClass("hidden");
   });
