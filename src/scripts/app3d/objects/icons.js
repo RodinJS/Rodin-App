@@ -128,7 +128,7 @@ export const _public = new OpeningIcon(
         }
     },
     {
-        width: .7,
+        width: .68,
         height: iconSize,
         background: {
             color: 0x00bcff
@@ -137,9 +137,9 @@ export const _public = new OpeningIcon(
             radius: iconSize / 2
         },
         label: {
-            text: "Public Projects        ",
+            text: "Public Projects",
             color: 0x231f20,
-            position: {h: 50, v: 52},
+            position: {h: 39, v: 52},
             fontSize: 0.06
         },
         ppm: 1000
@@ -185,7 +185,7 @@ export const _personal = new OpeningIcon(
         }
     },
     {
-        width: .8,
+        width: .72,
         height: iconSize,
         background: {
             color: 0x00bcff
@@ -194,9 +194,9 @@ export const _personal = new OpeningIcon(
             radius: iconSize / 2
         },
         label: {
-            text: "        Personal Projects",
+            text: "Personal Projects",
             color: 0x231f20,
-            position: {h: 50, v: 52},
+            position: {h: 59, v: 52},
             fontSize: 0.06
         },
         ppm: 1000

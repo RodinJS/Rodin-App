@@ -95,7 +95,8 @@ export class HelixThumb extends THREEObject {
                 fontSize: 0.06,
                 fontFamily: 'Arial',
                 fontStyle: 'bold',
-                color: 0x231f20
+                color: 0x231f20,
+                ppm: 1000
             }
         );
 
@@ -107,7 +108,8 @@ export class HelixThumb extends THREEObject {
                 lineHeight: 0.08,
                 fontFamily: 'Arial',
                 fontStyle: 'normal',
-                color: 0x231f20
+                color: 0x231f20,
+                ppm: 1000
             }
         );
     }
