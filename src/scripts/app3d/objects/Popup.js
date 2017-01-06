@@ -91,8 +91,8 @@ export class Popup extends Element {
         this.emit('close', new Event(this));
     }
 
-    open () {
-        this.object3D.scale.set(1, 1, 1);
+    open (s = 1) {
+        this.object3D.scale.set(s, s, s);
         this.object3D.visible = true;
         this.emit('open', new Event(this));
     }
@@ -121,6 +121,7 @@ about.on('ready', (evt) => {
 });
 export const exitConfirm = new Popup('/images/app3d/img/exitBoardVR.png', 1.028, 0.660, false);
 exitConfirm.on('ready', (evt) => {
+    evt.target.object3D.renderOrder = 9;
     const yes = new Element({
         width: 0.414,
         height: 0.134,
@@ -147,9 +148,18 @@ exitConfirm.on('ready', (evt) => {
         exitConfirm.object3D.add(evt.target.object3D);
         evt.target.object3D.renderOrder = 10;
 
+        evt.target.object3D.material.opacity = 0.7;
+
     });
 
     yes.on(EVENT_NAMES.CONTROLLER_KEY_UP, () => {window.close()});
+
+    yes.on(EVENT_NAMES.CONTROLLER_HOVER, (evt) => {
+        evt.target.object3D.material.opacity = 1;
+    });
+    yes.on(EVENT_NAMES.CONTROLLER_HOVER_OUT, (evt) => {
+        evt.target.object3D.material.opacity = 0.7;
+    });
 
     const no = new Element({
         width: 0.414,
@@ -176,18 +186,25 @@ exitConfirm.on('ready', (evt) => {
         evt.target.object3D.position.y = - 0.2;
         exitConfirm.object3D.add(evt.target.object3D);
         evt.target.object3D.renderOrder = 10;
+        evt.target.object3D.material.opacity = 0.7;
     });
 
     no.on(EVENT_NAMES.CONTROLLER_KEY_UP, () => {exitConfirm.close()});
+    no.on(EVENT_NAMES.CONTROLLER_HOVER, (evt) => {
+        evt.target.object3D.material.opacity = 1;
+    });
+    no.on(EVENT_NAMES.CONTROLLER_HOVER_OUT, (evt) => {
+        evt.target.object3D.material.opacity = 0.7;
+    });
 });
 exitConfirm.on('open', (evt) => {
     scene.camera.add(evt.target.object3D);
-    evt.target.object3D.position.set(0,0,-2);
+    evt.target.object3D.position.set(0,0,-1.45);
     evt.target.object3D.rotation.set(0,0,0);
-    // highlighter.highlight(evt.target.object3D);
+    highlighter.highlight(evt.target.object3D);
     changeParent(evt.target.object3D, scene.scene);
 });
 exitConfirm.on('close', (evt) => {
-    // highlighter.close();
+    highlighter.close();
     scene.scene.remove(evt.target.object3D);
 });

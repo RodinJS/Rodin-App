@@ -197,12 +197,16 @@ function checkBackButtonOculus() {
 		}
 
         if(backButtonPressed0 && VRAPI.getCurrentPage() === 'home'){
-            popups.exitConfirm.open();
+            popups.exitConfirm.open(0.75);
         }
 	}
 
 	requestAnimationFrame(checkBackButtonOculus);
 }
+
+window.addEventListener('click', () => {
+    popups.exitConfirm.open(0.75);
+});
 
 if (window.device === 'vive') {
   requestAnimationFrame(checkBackButtonVive);
