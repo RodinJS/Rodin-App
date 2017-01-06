@@ -47,7 +47,19 @@ function loadMore(type) {
           });
 
           for (let i = 0; i < projects.length; i++) {
-            projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
+            projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
+              if(evt.controller.navigatorGamePadId === 'oculus') {
+				  if(evt.keyCode === 6) {
+				    projects[i].helix.concentrate(projects[i].helix.center + 1);
+                  }
+
+				  if(evt.keyCode === 5) {
+					  projects[i].helix.concentrate(projects[i].helix.center - 1);
+				  }
+
+				  if(evt.keyCode !== 1) return;
+			  }
+
               if (self.concentrated && projects[i].helix.center == projects[i].index) {
                 enterProject(projects[i], API);
               }
@@ -144,7 +156,7 @@ function createMyHelix() {
 let backButtonPressed0 = false;
 let backButtonPressed1 = false;
 
-function checkBackButton() {
+function checkBackButtonVive() {
   const gamePads = navigator.getGamepads();
   let gamepad0 = gamePads[0] || gamePads[1];
   let gamepad1 = gamePads[1] || gamePads[0];
@@ -160,11 +172,40 @@ function checkBackButton() {
     }
   }
 
-  requestAnimationFrame(checkBackButton);
+  requestAnimationFrame(checkBackButtonVive);
 }
 
-if (window.device === 'vr') {
-  requestAnimationFrame(checkBackButton);
+function checkBackButtonOculus() {
+	const gamePads = navigator.getGamepads();
+	let gamepad = null;
+	for(let i = 0; i < gamePads.length; i ++) {
+	  if(!gamePads[i]) continue;
+	  if(gamePads[i].id.match(new RegExp('oculus', 'gi'))){
+	    gamepad = gamePads[i];
+      }
+    }
+
+    if(!gamepad) {
+		return requestAnimationFrame(checkBackButtonOculus);
+    }
+
+	if (backButtonPressed0 !== gamepad.buttons[1].pressed) {
+		backButtonPressed0 = gamepad.buttons[1].pressed;
+
+		if ((backButtonPressed0) && location.href.indexOf('project') !== -1) {
+			window.history.back();
+		}
+	}
+
+	requestAnimationFrame(checkBackButtonOculus);
+}
+
+if (window.device === 'vive') {
+  requestAnimationFrame(checkBackButtonVive);
+}
+
+if(window.device === 'oculus') {
+	requestAnimationFrame(checkBackButtonOculus);
 }
 
 /**
@@ -193,7 +234,8 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
         }
         return;
 
-      case 'vr':
+      case 'oculus':
+      case 'vive':
         popups.notSignedInVR.open();
         let timer = setTimeout(function () {
           popups.notSignedInVR.close();
@@ -326,7 +368,7 @@ export class APP {
     SceneManager.changeContainerDomElement(params.domElement);
     window.dispatchEvent(new Event('resize'));
 
-    if (window.device == "vr") {
+    if (window.device == 'oculus' || window.device == 'vive') {
       checkCount = 0;
       checkAndGoToVR();
     }
