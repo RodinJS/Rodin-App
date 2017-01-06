@@ -6,6 +6,7 @@ import {Event} from 'https://cdn.rodin.io/v0.0.2/rodinjs/Event.js';
 import changeParent  from 'https://cdn.rodin.io/v0.0.2/rodinjs/utils/ChangeParent.js';
 
 import {HoverableElement} from './HoverableElement.js';
+import {highlighter} from './HighlightCone.js';
 
 const scene = SceneManager.get();
 
@@ -183,8 +184,10 @@ exitConfirm.on('open', (evt) => {
     scene.camera.add(evt.target.object3D);
     evt.target.object3D.position.set(0,0,-2);
     evt.target.object3D.rotation.set(0,0,0);
+    // highlighter.highlight(evt.target.object3D);
     changeParent(evt.target.object3D, scene.scene);
 });
 exitConfirm.on('close', (evt) => {
+    // highlighter.close();
     scene.scene.remove(evt.target.object3D);
 });

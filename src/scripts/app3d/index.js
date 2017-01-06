@@ -192,13 +192,13 @@ function checkBackButtonOculus() {
 	if (backButtonPressed0 !== gamepad.buttons[1].pressed) {
 		backButtonPressed0 = gamepad.buttons[1].pressed;
 
-		if ((backButtonPressed0) && VRAPI.getCurrentPage() === 'project') {
+		if (backButtonPressed0 && VRAPI.getCurrentPage() === 'project') {
 			window.history.back();
 		}
-        if((backButtonPressed0) && VRAPI.getCurrentPage() === 'home'){
+
+        if(backButtonPressed0 && VRAPI.getCurrentPage() === 'home'){
             popups.exitConfirm.open();
         }
-
 	}
 
 	requestAnimationFrame(checkBackButtonOculus);
