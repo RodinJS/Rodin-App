@@ -167,7 +167,7 @@ function checkBackButtonVive() {
     backButtonPressed0 = gamepad0.buttons[3].pressed;
     backButtonPressed1 = gamepad1.buttons[3].pressed;
 
-    if ((backButtonPressed0 || backButtonPressed1) && location.href.indexOf('project') !== -1) {
+    if ((backButtonPressed0 || backButtonPressed1) && VRAPI.getCurrentPage() === 'project') {
       window.history.back();
     }
   }
@@ -192,9 +192,13 @@ function checkBackButtonOculus() {
 	if (backButtonPressed0 !== gamepad.buttons[1].pressed) {
 		backButtonPressed0 = gamepad.buttons[1].pressed;
 
-		if ((backButtonPressed0) && location.href.indexOf('project') !== -1) {
+		if ((backButtonPressed0) && VRAPI.getCurrentPage() === 'project') {
 			window.history.back();
 		}
+        if((backButtonPressed0) && VRAPI.getCurrentPage() === 'home'){
+            popups.exitConfirm.open();
+        }
+
 	}
 
 	requestAnimationFrame(checkBackButtonOculus);
@@ -207,6 +211,7 @@ if (window.device === 'vive') {
 if(window.device === 'oculus') {
 	requestAnimationFrame(checkBackButtonOculus);
 }
+
 
 /**
  * Icons
