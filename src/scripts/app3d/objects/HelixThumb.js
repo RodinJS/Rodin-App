@@ -62,7 +62,7 @@ export class HelixThumb extends THREEObject {
             this.uv = {x: .5, y: .5}
         });
 
-        this.thumb.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
+        this.thumb.on(EVENT_NAMES.CONTROLLER_KEY, (evt) => {
             this.helix.concentrate(this.index);
         });
 
