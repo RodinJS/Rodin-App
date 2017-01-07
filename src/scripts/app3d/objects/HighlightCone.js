@@ -1,7 +1,7 @@
-import {THREEObject} from "https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/THREEObject.js";
-import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
-import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
-import changeParent  from 'https://cdn.rodin.io/v0.0.2/rodinjs/utils/ChangeParent.js';
+import {THREEObject} from "https://cdn.rodin.io/v0.0.3/rodinjs/sculpt/THREEObject.js";
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.3/rodinjs/scene/SceneManager.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.3/vendor/three/THREE.GLOBAL.js';
+import changeParent  from 'https://cdn.rodin.io/v0.0.3/rodinjs/utils/ChangeParent.js';
 
 export class HighlightCone extends THREEObject {
     constructor() {

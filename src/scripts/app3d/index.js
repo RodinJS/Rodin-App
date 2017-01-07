@@ -1,10 +1,10 @@
-import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
-import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
-import {MouseGamePad} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/gamePads/MouseGamePad.js';
-import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js';
-import {THREEObject} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/THREEObject.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
-import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.3/vendor/three/THREE.GLOBAL.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.3/rodinjs/scene/SceneManager.js';
+import {MouseGamePad} from 'https://cdn.rodin.io/v0.0.3/rodinjs/controllers/gamePads/MouseGamePad.js';
+import {Element} from 'https://cdn.rodin.io/v0.0.3/rodinjs/sculpt/elements/Element.js';
+import {THREEObject} from 'https://cdn.rodin.io/v0.0.3/rodinjs/sculpt/THREEObject.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.3/rodinjs/constants/constants.js';
+import {Animation} from 'https://cdn.rodin.io/v0.0.3/rodinjs/animation/Animation.js';
 
 import * as controllers from './controllers.js';
 import * as platform from './objects/platform.js';
@@ -48,17 +48,17 @@ function loadMore(type) {
 
           for (let i = 0; i < projects.length; i++) {
             projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
-              if(evt.controller.navigatorGamePadId === 'oculus') {
-				  if(evt.keyCode === 6) {
-				    projects[i].helix.concentrate(projects[i].helix.center + 1);
-                  }
+              if (evt.controller.navigatorGamePadId === 'oculus') {
+                if (evt.keyCode === 6) {
+                  projects[i].helix.concentrate(projects[i].helix.center + 1);
+                }
 
-				  if(evt.keyCode === 5) {
-					  projects[i].helix.concentrate(projects[i].helix.center - 1);
-				  }
+                if (evt.keyCode === 5) {
+                  projects[i].helix.concentrate(projects[i].helix.center - 1);
+                }
 
-				  if(evt.keyCode !== 1) return;
-			  }
+                if (evt.keyCode !== 1) return;
+              }
 
               if (self.concentrated && projects[i].helix.center == projects[i].index) {
                 enterProject(projects[i], API);
@@ -176,44 +176,44 @@ function checkBackButtonVive() {
 }
 
 function checkBackButtonOculus() {
-	const gamePads = navigator.getGamepads();
-	let gamepad = null;
-	for(let i = 0; i < gamePads.length; i ++) {
-	  if(!gamePads[i]) continue;
-	  if(gamePads[i].id.match(new RegExp('oculus', 'gi'))){
-	    gamepad = gamePads[i];
-      }
+  const gamePads = navigator.getGamepads();
+  let gamepad = null;
+  for (let i = 0; i < gamePads.length; i++) {
+    if (!gamePads[i]) continue;
+    if (gamePads[i].id.match(new RegExp('oculus', 'gi'))) {
+      gamepad = gamePads[i];
+    }
+  }
+
+  if (!gamepad) {
+    return requestAnimationFrame(checkBackButtonOculus);
+  }
+
+  if (backButtonPressed0 !== gamepad.buttons[1].pressed) {
+    backButtonPressed0 = gamepad.buttons[1].pressed;
+
+    if (backButtonPressed0 && VRAPI.getCurrentPage() === 'project') {
+      window.history.back();
     }
 
-    if(!gamepad) {
-		return requestAnimationFrame(checkBackButtonOculus);
+    if (backButtonPressed0 && VRAPI.getCurrentPage() === 'home') {
+      popups.exitConfirm.open(0.75);
     }
+  }
 
-	if (backButtonPressed0 !== gamepad.buttons[1].pressed) {
-		backButtonPressed0 = gamepad.buttons[1].pressed;
-
-		if (backButtonPressed0 && VRAPI.getCurrentPage() === 'project') {
-			window.history.back();
-		}
-
-        if(backButtonPressed0 && VRAPI.getCurrentPage() === 'home'){
-            popups.exitConfirm.open(0.75);
-        }
-	}
-
-	requestAnimationFrame(checkBackButtonOculus);
+  requestAnimationFrame(checkBackButtonOculus);
 }
-
-window.addEventListener('click', () => {
-    popups.exitConfirm.open(0.75);
-});
+/*
+ window.addEventListener('click', () => {
+ popups.exitConfirm.open(0.75);
+ });*/
 
 if (window.device === 'vive') {
   requestAnimationFrame(checkBackButtonVive);
 }
 
-if(window.device === 'oculus') {
-	requestAnimationFrame(checkBackButtonOculus);
+if (window.device === 'oculus') {
+  requestAnimationFrame(checkBackButtonOculus);
 }
 
 

@@ -30,6 +30,7 @@ class VRAPI {
    * navigation function
    *
    * @param {String} url
+   * @param {Object} params
    * */
   navigate(url = "", params = {}) {
 
@@ -60,6 +61,18 @@ class VRAPI {
 
       self._$location.href = self._AppConstants.SITE + url;
     }
+  }
+
+  /**
+   * @name getCurrentPage
+   *
+   * @description
+   * return current page name
+   *
+   * @return {String}
+   * */
+  getCurrentPage() {
+    return /[^.]+$/.exec(this._$state.current.name)[0].toLowerCase();
   }
 
   ///////////////
