@@ -22,6 +22,7 @@ SceneManager.addController(mouse);
 export let cardboard = null;
 if (window.device === 'mobile') {
     cardboard = new CardboardController();
+    cardboard.raycastLayers = 1;
     SceneManager.addController(cardboard);
 
     const target = new RODIN.THREEObject(new THREE.Mesh(new THREE.RingGeometry(.001, .01, 32), new THREE.MeshBasicMaterial({
@@ -67,6 +68,7 @@ if (window.device === 'mobile') {
 export let oculus = null;
 if (window.device === 'oculus') {
 	oculus = new OculusController();
+    oculus.raycastLayers = 1;
 	SceneManager.addController(oculus);
 
 	const target = new RODIN.THREEObject(new THREE.Mesh(new THREE.RingGeometry(.001, .01, 32), new THREE.MeshBasicMaterial({
