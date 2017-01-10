@@ -5,7 +5,7 @@
 let self;
 
 class VRAPI {
-  constructor(AppConstants, $state, $location, $q, Project, JWT, User) {
+  constructor(AppConstants, $state, $location, $q, Project, JWT, User, Modal) {
     'ngInject';
 
     self = this;
@@ -17,6 +17,7 @@ class VRAPI {
     this._$location = $location;
     this._$q = $q;
     this._JWT = JWT;
+    this._Modal = Modal;
   }
 
   ///////////////
@@ -40,7 +41,8 @@ class VRAPI {
         state = "main.home";
         break;
       case "/login":
-        state = "main.login";
+        this._Modal.login();
+        return;
         break;
       case "/project":
         state = "main.project";

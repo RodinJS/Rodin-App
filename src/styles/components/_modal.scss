@@ -1,0 +1,204 @@
+.modal {
+
+  .modal-dialog {
+    margin-top: 80px
+  }
+
+  .modal-dialog.modal-sm {
+    width: 441px
+  }
+
+  .modal-dialog.modal-center {
+    margin-top: 30vh
+  }
+
+  .modal-content {
+    border-radius: 0;
+    border: 0;
+    color: #fff;
+    background: #28282b;
+    box-shadow: 0 12px 24px 0 rgba(0, 0, 0, .5)
+  }
+
+  .modal-body {
+    padding: 30px 40px 40px
+  }
+
+  .modal-title {
+    font-weight: 400;
+    margin: 0 0 18px
+  }
+
+  .modal-form .form-group {
+    margin-bottom: 20px
+  }
+
+  .modal-form .form-group.row {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center
+  }
+
+  .modal-form .form-label {
+    font-size: 10px;
+    line-height: 14px;
+    margin-bottom: 8px
+  }
+
+  .modal-form .form-label[class*=col-] {
+    margin: 0;
+    padding-right: 0;
+    color: rgba(255, 255, 255, .6);
+    font-size: 12px
+  }
+
+  .modal-form .form-control {
+    border-radius: 0 !important;
+    height: 30px;
+    padding: 6px 12px;
+    line-height: 16px;
+    background-color: rgba(255, 255, 255, .05);
+    border-color: rgba(255, 255, 255, .1);
+    box-shadow: none;
+    color: #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 12px
+  }
+
+  .modal-form select.form-control {
+    font-size: 10px;
+    padding-right: 25px;
+    padding-left: 36px
+  }
+
+  .modal-form .btn-group.bootstrap-select.form-control .btn {
+    padding-left: 36px;
+    border-radius: 0;
+    background-color: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .1)
+  }
+
+  .modal-form .dropdown-wrapper {
+    position: relative
+  }
+
+  .modal-form .dropdown-wrapper .file-icon {
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    font-size: 20px;
+    z-index: 33
+  }
+
+  .modal-form .dropdown-wrapper .file-icon.red {
+    color: #f95957
+  }
+
+  .modal-form .dropdown-wrapper .file-icon.green {
+    color: #44ff64
+  }
+
+  .modal-form .dropdown-wrapper .dr-arrow {
+    position: absolute;
+    font-size: 10px;
+    color: #fff;
+    opacity: .5;
+    top: 10px;
+    right: 13px
+  }
+
+  .modal-form .dropdown-wrapper .dropdown-menu > li > a {
+    padding: 5px 20px
+  }
+
+  .modal-form .form-actions {
+    text-align: right;
+    padding-top: 10px
+  }
+
+  .modal-form .form-actions .btn {
+    text-transform: uppercase;
+    font-weight: 700;
+    text-decoration: none;
+    outline: 0 !important
+  }
+
+  .work-space-container #rodin-ace-editor-container .ace_editor .ace_search .ace_search_form.ace_nomatch, .work-space-container .sidebar-wrapper .btn-close-tab-editor {
+    outline: 0
+  }
+
+  .modal-form .form-actions .btn + .btn {
+    margin-left: 20px
+  }
+
+  .modal-form .form-actions .btn.btn-link {
+    border: none;
+    color: #ff9a2b
+  }
+
+  .modal-form .form-actions .btn.btn-primary {
+    border-color: #ff9a2b;
+    background-color: rgba(255, 255, 255, .02)
+  }
+
+  .modal-form .form-actions .btn.btn-primary:hover {
+    background-color: rgba(255, 255, 255, .05)
+  }
+
+  .modal-form .form-actions .btn:disabled, .modal-form .form-actions .btn[disabled] {
+    color: rgba(255, 255, 255, .5);
+    border-color: rgba(255, 255, 255, .2);
+    opacity: 1
+  }
+
+  .modal-alert {
+    padding: 20px
+  }
+
+  .modal-alert .modal-title {
+    line-height: 18px;
+    margin: 0
+  }
+
+  .material-icons, [class*=" icon-"], [class^=icon-] {
+    font-style: normal;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+  }
+
+  .modal-alert .modal-title i {
+    font-size: 18px;
+    color: #44ff64;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px
+  }
+
+  .modal-alert .modal-close {
+    text-decoration: none;
+    position: absolute;
+    display: block;
+    right: 20px;
+    margin-top: -12px;
+    top: 50%;
+    color: #fff;
+    opacity: .3
+  }
+
+  .editor-dropdown ul li, .modal-alert .modal-close i, .work-space-container .work-space-sidebar .sidebar-menu li.open > .sidebar-submenu {
+    display: block
+  }
+
+}
+
+.modal-open {
+  z-index: 9999 !important;
+}

@@ -46,7 +46,7 @@ const VENDORMAP = require('./vendor.json');
 
 
 const JS = ['src/scripts/**/**/*.js', '!src/scripts/systemjs-module/**', '!src/scripts/{vendor,vendor/**}'];
-const HTML = ['src/scripts/**/**/*.html', 'src/scripts/**/**/**/*.html'];
+const HTML = ['src/scripts/**/**/**/*.html'];
 const SASS = ['src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}'];
 const FONT = ['src/fonts/**/*.{ttf,woff,woff2,eof,svg,eot,json}'];
 const IMG = ['src/images/**/*'];
