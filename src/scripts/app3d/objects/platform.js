@@ -104,7 +104,6 @@ export const poweredBy = new Element({
     }
 });
 poweredBy.on('ready', (evt) => {
-    console.log('ready');
     evt.target.object3D.rotation.x = - Math.PI / 2;
     evt.target.object3D.position.y = 0.01;
     scene.add(evt.target.object3D);

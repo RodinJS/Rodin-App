@@ -75,7 +75,7 @@ function loadMore(type) {
         this.isLoading = false;
       },
       err => {
-        console.log(err);
+        // console.log(err);
         this.isLoading = false;
       }
     )
@@ -360,6 +360,10 @@ function checkAndGoToVR() {
  * Class App for Angular
  */
 export class APP {
+  static init(params){
+    API = params.API;
+  }
+
   static start(params) {
     init();
     if (!started) {
@@ -370,7 +374,7 @@ export class APP {
     if (!scene._render)
       scene.start();
 
-    API = params.API;
+
     if (requestedLogin && API.isLoggedIn()) {
       createMyHelix();
     }
@@ -396,6 +400,9 @@ APP.stop();
 
 window.onbeforeunload = function (e) {
   APP.stop();
+  let elm = document.getElementById("project_container");
+  elm && elm.contentWindow && elm.contentWindow.postMessage("exitVR", '*');
+
   return;
 };
 

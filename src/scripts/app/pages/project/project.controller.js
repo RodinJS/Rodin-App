@@ -1,5 +1,5 @@
 class ProjectCtrl {
-  constructor(AppConstants, User, $timeout, $window, $scope, $state, $stateParams, RodinTransitionCanvas, deviceDetector) {
+  constructor(AppConstants, User, $timeout, $window, $scope, $state, $stateParams, RodinTransitionCanvas, deviceDetector, Loader) {
     'ngInject';
 
     this.appName = AppConstants.appName;
@@ -17,9 +17,13 @@ class ProjectCtrl {
       RodinTransitionCanvas.enable();
     }, 50);
 
+	  let loader = Loader.show();
+
     window.addEventListener("message", (event) => {
       if (event.data != 'readyToCast')
         return;
+
+      Loader.hide(loader);
 
       setTimeout(function () {
         RodinTransitionCanvas.disable(function (prom) {
@@ -44,7 +48,6 @@ class ProjectCtrl {
 
         });
       }, 1000);
-
 
     }, false);
 
