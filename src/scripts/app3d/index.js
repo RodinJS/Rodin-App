@@ -167,7 +167,7 @@ function checkBackButtonVive() {
     backButtonPressed0 = gamepad0.buttons[3].pressed;
     backButtonPressed1 = gamepad1.buttons[3].pressed;
 
-    if ((backButtonPressed0 || backButtonPressed1) && VRAPI.getCurrentPage() === 'project') {
+    if ((backButtonPressed0 || backButtonPressed1) && API && API.getCurrentPage() === 'project') {
       window.history.back();
     }
   }
@@ -192,11 +192,11 @@ function checkBackButtonOculus() {
   if (backButtonPressed0 !== gamepad.buttons[1].pressed) {
     backButtonPressed0 = gamepad.buttons[1].pressed;
 
-    if (backButtonPressed0 && VRAPI.getCurrentPage() === 'project') {
+    if (backButtonPressed0 && API && API.getCurrentPage() === 'project') {
       window.history.back();
     }
 
-    if (backButtonPressed0 && VRAPI.getCurrentPage() === 'home') {
+    if (backButtonPressed0 && API && API.getCurrentPage() === 'home') {
       popups.exitConfirm.open(0.75);
     }
   }

@@ -18,12 +18,6 @@ class ProjectCtrl {
     }, 50);
 
     window.addEventListener("message", (event) => {
-      if (event.origin.indexOf('rodinapp.com') == -1 &&
-        event.origin.indexOf('rodin.space') == -1 &&
-        event.origin.indexOf('localhost') == -1 &&
-        event.origin.indexOf('rodin.io') == -1)
-        return;
-
       if (event.data != 'readyToCast')
         return;
 
