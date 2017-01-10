@@ -1,6 +1,6 @@
-import * as RODIN from 'https://cdn.rodin.io/v0.0.3/rodinjs/RODIN.js';
-import {THREE} from 'https://cdn.rodin.io/v0.0.3/vendor/three/THREE.GLOBAL.js';
-import {Animation} from 'https://cdn.rodin.io/v0.0.3/rodinjs/animation/Animation.js';
+import * as RODIN from 'https://cdn.rodin.io/v0.0.1/rodinjs/RODIN.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.1/vendor/three/THREE.GLOBAL.js';
+import {Animation} from 'https://cdn.rodin.io/v0.0.1/rodinjs/animation/Animation.js';
 
 const fadeInAnimation = new Animation('fadeIn', {material: {opacity: 1}});
 fadeInAnimation.duration(300);
