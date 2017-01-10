@@ -41,8 +41,7 @@ class VRAPI {
         state = "main.home";
         break;
       case "/login":
-        this._Modal.login();
-        return;
+        state = "main.login";
         break;
       case "/project":
         state = "main.project";
@@ -63,6 +62,30 @@ class VRAPI {
 
       self._$location.href = self._AppConstants.SITE + url;
     }
+  }
+
+  /**
+   * @name openModal
+   *
+   * @description
+   * open modal function
+   *
+   * @param {String} name
+   * @param {Object} params
+   * */
+  openModal(name = "", params = {}) {
+    let modal = this._Modal[name];
+
+    if(modal){
+      let data = {};
+
+      for(let key in params){
+        data[key] = ()=>params[key];
+      }
+
+      return modal(data).result;
+    }
+    return false;
   }
 
   /**

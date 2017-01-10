@@ -248,17 +248,16 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
         popups.notSignedInVR.open();
         let timer = setTimeout(function () {
           popups.notSignedInVR.close();
-          requestedLogin = true;
-          API.navigate('/login');
         }, 5000);
 
         popups.notSignedInVR.on('close', () => {
           clearTimeout(timer);
         });
-        return;
     }
     requestedLogin = true;
-    API.navigate('/login');
+    API.openModal('login').then(()=>{
+      createMyHelix();
+    });
 
   } else {
     createMyHelix();
