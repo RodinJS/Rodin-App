@@ -1,7 +1,10 @@
 /**
  * Created by kh.levon98 on 13-Sep-16.
  */
-function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce, RodinTransitionCanvas, Loader) {
+
+import {APP as VrScene} from "../../../../app3d/index";
+
+function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce, RodinTransitionCanvas, Loader, VRAPI) {
   'ngInject';
 
   let loader;
@@ -46,6 +49,10 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     angular.element(document.querySelectorAll(".webvr-button")).addClass("hidden");
   });
 
+
+  VrScene.init({
+    API: VRAPI
+  });
 
   // Helper method for setting the page's title
   $rootScope.setPageTitle = (title) => {

@@ -44,7 +44,6 @@ function TransitionCanvasFactory() {
   }
 
   function init(params) {
-    console.log("factory init");
     if (inited) {
       return false;
     }

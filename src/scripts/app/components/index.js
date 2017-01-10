@@ -17,6 +17,18 @@ componentsModule.factory('Loader', LoaderFactory);
 import Loader from './loader/index';
 componentsModule.directive('loader', Loader);
 
+/*
+ * Modals modules
+ */
+
+import ModalFactory from './modal/factory';
+componentsModule.factory('Modal', ModalFactory);
+
+/// login-modal module
+
+import LoginModal from './modal/login/index';
+componentsModule.component('loginModal', LoginModal);
+
 
 /*
  * Rodin modules

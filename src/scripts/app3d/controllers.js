@@ -1,11 +1,11 @@
-import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
-import 'https://cdn.rodin.io/v0.0.2/vendor/three/examples/js/loaders/OBJLoader.js';
-import * as RODIN from 'https://cdn.rodin.io/v0.0.2/rodinjs/RODIN.js';
-import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
-import {ViveController} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/ViveController.js';
-import {OculusController} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/OculusController.js';
-import {MouseController} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/MouseController.js';
-import {CardboardController} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/CardboardController.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.1/vendor/three/THREE.GLOBAL.js';
+import 'https://cdn.rodin.io/v0.0.1/vendor/three/examples/js/loaders/OBJLoader.js';
+import * as RODIN from 'https://cdn.rodin.io/v0.0.1/rodinjs/RODIN.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.1/rodinjs/scene/SceneManager.js';
+import {ViveController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/ViveController.js';
+import {OculusController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/OculusController.js';
+import {MouseController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/MouseController.js';
+import {CardboardController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/CardboardController.js';
 
 let scene = SceneManager.get();
 let controls = scene.controls;
@@ -17,17 +17,12 @@ export const mouse = new MouseController();
 SceneManager.addController(mouse);
 
 /**
- * Oculus Controller
- */
-export const oculus = new OculusController();
-SceneManager.addController(oculus);
-
-/**
  * Cardboard Controller
  */
 export let cardboard = null;
 if (window.device === 'mobile') {
     cardboard = new CardboardController();
+    cardboard.raycastLayers = 1;
     SceneManager.addController(cardboard);
 
     const target = new RODIN.THREEObject(new THREE.Mesh(new THREE.RingGeometry(.001, .01, 32), new THREE.MeshBasicMaterial({
@@ -70,13 +65,51 @@ if (window.device === 'mobile') {
     }, true);
 }
 
+export let oculus = null;
+if (window.device === 'oculus') {
+	oculus = new OculusController();
+    oculus.raycastLayers = 1;
+	SceneManager.addController(oculus);
+
+	const target = new RODIN.THREEObject(new THREE.Mesh(new THREE.RingGeometry(.001, .01, 32), new THREE.MeshBasicMaterial({
+		color: 0xc8d2dc,
+		depthTest: false,
+		transparent: true
+	})));
+	target.object3D.renderOrder=10000;
+
+	target.on('ready', (evt) => {
+		evt.target.object3D.position.z = -5;
+		scene.camera.add(target.object3D);
+	});
+
+	target.on('update', () => {
+		if (oculus.intersected.length === 0) {
+			target.alpha = .00000001;
+			target.object3D.position.z = -3;
+		} else {
+			target.alpha = .02;
+			target.object3D.position.z = -oculus.intersected[0].distance + .1;
+		}
+
+		target.currentAlpha = target.currentAlpha || target.alpha;
+		let delta = (target.alpha - target.currentAlpha) * RODIN.Time.deltaTime() * 0.01;
+		if (Math.abs(delta) < 0.0000001) return;
+		target.currentAlpha += delta;
+
+		target.object3D.geometry.dispose();
+		target.object3D.geometry = new THREE.RingGeometry(.00000001 + target.currentAlpha, .01 + target.currentAlpha, 32);
+	});
+}
+
 /**
- * Vive Controllers
+ * Vive and Oculus Controllers
  */
 let controllerL = new ViveController(RODIN.CONSTANTS.CONTROLLER_HANDS.LEFT, scene, scene.camera, 1);
 let controllerR = new ViveController(RODIN.CONSTANTS.CONTROLLER_HANDS.RIGHT, scene, scene.camera, 1);
-if (window.device === 'vr') {
-    controllerL.standingMatrix = controls.getStandingMatrix();
+if (window.device === 'vive') {
+
+	controllerL.standingMatrix = controls.getStandingMatrix();
     SceneManager.addController(controllerL);
     scene.add(controllerL);
 

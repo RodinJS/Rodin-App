@@ -7,6 +7,8 @@ class HomeCtrl {
     this._User = User;
     angular.element(document.querySelectorAll(".webvr-button")).removeClass("hidden");
 
+
+
     RodinTransitionCanvas.disable();
 
     window.RODINJAVA && window.RODINJAVA.navigateToMainPage();

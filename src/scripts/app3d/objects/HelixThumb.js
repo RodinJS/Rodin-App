@@ -1,15 +1,15 @@
-import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
-import * as RODIN from 'https://cdn.rodin.io/v0.0.2/rodinjs/RODIN.js';
-import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
-import {MouseController} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/MouseController.js';
-import {MouseGamePad} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/gamePads/MouseGamePad.js';
-import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js';
-import {Text} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Text.js';
-import {DynamicText} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/DynamicText.js';
-import {THREEObject} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/THREEObject.js';
-import {ANIMATION_TYPES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
-import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.1/vendor/three/THREE.GLOBAL.js';
+import * as RODIN from 'https://cdn.rodin.io/v0.0.1/rodinjs/RODIN.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.1/rodinjs/scene/SceneManager.js';
+import {MouseController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/MouseController.js';
+import {MouseGamePad} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/gamePads/MouseGamePad.js';
+import {Element} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/elements/Element.js';
+import {Text} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/elements/Text.js';
+import {DynamicText} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/elements/DynamicText.js';
+import {THREEObject} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/THREEObject.js';
+import {ANIMATION_TYPES} from 'https://cdn.rodin.io/v0.0.1/rodinjs/constants/constants.js';
+import {Animation} from 'https://cdn.rodin.io/v0.0.1/rodinjs/animation/Animation.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.1/rodinjs/constants/constants.js';
 
 export class HelixThumb extends THREEObject {
     constructor(thumbParams) {
@@ -62,7 +62,7 @@ export class HelixThumb extends THREEObject {
             this.uv = {x: .5, y: .5}
         });
 
-        this.thumb.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
+        this.thumb.on(EVENT_NAMES.CONTROLLER_KEY, (evt) => {
             this.helix.concentrate(this.index);
         });
 

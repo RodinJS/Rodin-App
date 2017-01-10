@@ -1,10 +1,10 @@
-import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
-import {ModelLoader} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/ModelLoader.js';
-import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
-import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
-import * as RODIN from 'https://cdn.rodin.io/v0.0.2/rodinjs/RODIN.js';
-import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.1/rodinjs/scene/SceneManager.js';
+import {ModelLoader} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/ModelLoader.js';
+import {Element} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/elements/Element.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.1/rodinjs/constants/constants.js';
+import {Animation} from 'https://cdn.rodin.io/v0.0.1/rodinjs/animation/Animation.js';
+import * as RODIN from 'https://cdn.rodin.io/v0.0.1/rodinjs/RODIN.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.1/vendor/three/THREE.GLOBAL.js';
 
 import {about} from './Popup.js';
 
@@ -14,6 +14,7 @@ export const platform = ModelLoader.load('/images/app3d/models/platform/landscap
 
 platform.on('ready', () => {
     scene.add(platform.object3D);
+    platform.object3D.position.y = -0.25;
 });
 
 const aboutButtonParentAnimation = new Animation('rotate', {
@@ -103,8 +104,7 @@ export const poweredBy = new Element({
     }
 });
 poweredBy.on('ready', (evt) => {
-    console.log('ready');
     evt.target.object3D.rotation.x = - Math.PI / 2;
-    evt.target.object3D.position.y = 0.1;
+    evt.target.object3D.position.y = 0.01;
     scene.add(evt.target.object3D);
 });

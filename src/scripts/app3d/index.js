@@ -1,10 +1,10 @@
-import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
-import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
-import {MouseGamePad} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/gamePads/MouseGamePad.js';
-import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js';
-import {THREEObject} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/THREEObject.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
-import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.1/vendor/three/THREE.GLOBAL.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.1/rodinjs/scene/SceneManager.js';
+import {MouseGamePad} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/gamePads/MouseGamePad.js';
+import {Element} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/elements/Element.js';
+import {THREEObject} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/THREEObject.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.1/rodinjs/constants/constants.js';
+import {Animation} from 'https://cdn.rodin.io/v0.0.1/rodinjs/animation/Animation.js';
 
 import * as controllers from './controllers.js';
 import * as platform from './objects/platform.js';
@@ -47,7 +47,19 @@ function loadMore(type) {
           });
 
           for (let i = 0; i < projects.length; i++) {
-            projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
+            projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
+              if (evt.controller.navigatorGamePadId === 'oculus') {
+                if (evt.keyCode === 6) {
+                  projects[i].helix.concentrate(projects[i].helix.center + 1);
+                }
+
+                if (evt.keyCode === 5) {
+                  projects[i].helix.concentrate(projects[i].helix.center - 1);
+                }
+
+                if (evt.keyCode !== 1) return;
+              }
+
               if (self.concentrated && projects[i].helix.center == projects[i].index) {
                 enterProject(projects[i], API);
               }
@@ -63,7 +75,7 @@ function loadMore(type) {
         this.isLoading = false;
       },
       err => {
-        console.log(err);
+        // console.log(err);
         this.isLoading = false;
       }
     )
@@ -144,7 +156,7 @@ function createMyHelix() {
 let backButtonPressed0 = false;
 let backButtonPressed1 = false;
 
-function checkBackButton() {
+function checkBackButtonVive() {
   const gamePads = navigator.getGamepads();
   let gamepad0 = gamePads[0] || gamePads[1];
   let gamepad1 = gamePads[1] || gamePads[0];
@@ -155,17 +167,55 @@ function checkBackButton() {
     backButtonPressed0 = gamepad0.buttons[3].pressed;
     backButtonPressed1 = gamepad1.buttons[3].pressed;
 
-    if ((backButtonPressed0 || backButtonPressed1) && location.href.indexOf('project') !== -1) {
+    if ((backButtonPressed0 || backButtonPressed1) && API && API.getCurrentPage() === 'project') {
       window.history.back();
     }
   }
 
-  requestAnimationFrame(checkBackButton);
+  requestAnimationFrame(checkBackButtonVive);
 }
 
-if (window.device === 'vr') {
-  requestAnimationFrame(checkBackButton);
+function checkBackButtonOculus() {
+  const gamePads = navigator.getGamepads();
+  let gamepad = null;
+  for (let i = 0; i < gamePads.length; i++) {
+    if (!gamePads[i]) continue;
+    if (gamePads[i].id.match(new RegExp('oculus', 'gi'))) {
+      gamepad = gamePads[i];
+    }
+  }
+
+  if (!gamepad) {
+    return requestAnimationFrame(checkBackButtonOculus);
+  }
+
+  if (backButtonPressed0 !== gamepad.buttons[1].pressed) {
+    backButtonPressed0 = gamepad.buttons[1].pressed;
+
+    if (backButtonPressed0 && API && API.getCurrentPage() === 'project') {
+      window.history.back();
+    }
+
+    if (backButtonPressed0 && API && API.getCurrentPage() === 'home') {
+      popups.exitConfirm.open(0.75);
+    }
+  }
+
+  requestAnimationFrame(checkBackButtonOculus);
 }
+/*
+ window.addEventListener('click', () => {
+ popups.exitConfirm.open(0.75);
+ });*/
+
+if (window.device === 'vive') {
+  requestAnimationFrame(checkBackButtonVive);
+}
+
+if (window.device === 'oculus') {
+  requestAnimationFrame(checkBackButtonOculus);
+}
+
 
 /**
  * Icons
@@ -193,21 +243,21 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
         }
         return;
 
-      case 'vr':
+      case 'oculus':
+      case 'vive':
         popups.notSignedInVR.open();
         let timer = setTimeout(function () {
           popups.notSignedInVR.close();
-          requestedLogin = true;
-          API.navigate('/login');
         }, 5000);
 
         popups.notSignedInVR.on('close', () => {
           clearTimeout(timer);
         });
-        return;
     }
     requestedLogin = true;
-    API.navigate('/login');
+    API.openModal('login').then(()=>{
+      createMyHelix();
+    });
 
   } else {
     createMyHelix();
@@ -309,6 +359,10 @@ function checkAndGoToVR() {
  * Class App for Angular
  */
 export class APP {
+  static init(params){
+    API = params.API;
+  }
+
   static start(params) {
     init();
     if (!started) {
@@ -319,14 +373,14 @@ export class APP {
     if (!scene._render)
       scene.start();
 
-    API = params.API;
+
     if (requestedLogin && API.isLoggedIn()) {
       createMyHelix();
     }
     SceneManager.changeContainerDomElement(params.domElement);
     window.dispatchEvent(new Event('resize'));
 
-    if (window.device == "vr") {
+    if (window.device == 'oculus' || window.device == 'vive') {
       checkCount = 0;
       checkAndGoToVR();
     }
@@ -345,6 +399,9 @@ APP.stop();
 
 window.onbeforeunload = function (e) {
   APP.stop();
+  let elm = document.getElementById("project_container");
+  elm && elm.contentWindow && elm.contentWindow.postMessage("exitVR", '*');
+
   return;
 };
 
