@@ -107,7 +107,7 @@ if (window.device === 'oculus') {
  */
 let controllerL = new ViveController(RODIN.CONSTANTS.CONTROLLER_HANDS.LEFT, scene, scene.camera, 1);
 let controllerR = new ViveController(RODIN.CONSTANTS.CONTROLLER_HANDS.RIGHT, scene, scene.camera, 1);
-if (window.device === 'vive') {
+if (window.device === 'vr') {
 
 	controllerL.standingMatrix = controls.getStandingMatrix();
     SceneManager.addController(controllerL);

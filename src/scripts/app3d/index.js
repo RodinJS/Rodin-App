@@ -208,7 +208,7 @@ function checkBackButtonOculus() {
  popups.exitConfirm.open(0.75);
  });*/
 
-if (window.device === 'vive') {
+if (window.device === 'vr') {
   requestAnimationFrame(checkBackButtonVive);
 }
 
@@ -244,7 +244,7 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
         return;
 
       case 'oculus':
-      case 'vive':
+      case 'vr':
         popups.notSignedInVR.open();
         let timer = setTimeout(function () {
           popups.notSignedInVR.close();
@@ -380,7 +380,7 @@ export class APP {
     SceneManager.changeContainerDomElement(params.domElement);
     window.dispatchEvent(new Event('resize'));
 
-    if (window.device == 'oculus' || window.device == 'vive') {
+    if (window.device == 'oculus' || window.device == 'vr') {
       checkCount = 0;
       checkAndGoToVR();
     }
