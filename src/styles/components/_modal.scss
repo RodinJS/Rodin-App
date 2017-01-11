@@ -1,7 +1,9 @@
 .modal {
 
   .modal-dialog {
-    margin-top: 80px
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%) !important;
   }
 
   .modal-dialog.modal-sm {
