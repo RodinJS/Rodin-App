@@ -1,8 +1,9 @@
 /**
  * Created by kh.levon98 on 20-Sep-16.
  */
+let verificationPromise;
 class User {
-  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, $window, $timeout) {
+  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, $window, $timeout, Analyser) {
     'ngInject';
 
     this._JWT = JWT;
@@ -15,6 +16,7 @@ class User {
     this._$window = $window;
     this._$timeout = $timeout;
     this._Validator = new Validator();
+    this._Analyser = Analyser;
 
     this.current = null;
     this._inProgress = false;
@@ -44,12 +46,38 @@ class User {
     return deferred.promise;
   }
 
+  signUp(fields = {}) {
+    return this.create(fields).then((res) => {
+      this._JWT.save(res.token);
+      this.current = res.user;
+
+      return res;
+    }, err => {
+      return err;
+    })
+  }
+
+  update(userId = null, fields = {}) {
+    let Analyser = new this._Analyser();
+
+    this._User.put(fields).then(Analyser.resolve, Analyser.reject);
+
+    return Analyser.promise;
+  }
+
+  create(fields = {}) {
+    let Analyser = new this._Analyser();
+
+    this._User.post(fields).then(Analyser.resolve, Analyser.reject);
+
+    return Analyser.promise;
+  }
+
   logout() {
     this.current = null;
     this._JWT.destroy();
-    this._$timeout(()=> {
-      this._$state.go(this._$state.$current, null, {reload: true});
-    }, 100);
+
+    this._$state.go('main.home');
   }
 
   verifyAuth() {
@@ -63,13 +91,22 @@ class User {
     if (this.current) {
       deferred.resolve(true);
     } else {
+
+      if (verificationPromise) {
+        return verificationPromise;
+      }
+
       this._User.one("me").get().then((res) => {
         this.current = res.data;
+        verificationPromise = null;
         deferred.resolve(true);
       }, (err) => {
         this._JWT.destroy();
+        verificationPromise = null;
         deferred.resolve(false);
       });
+
+      verificationPromise = deferred.promise;
     }
 
     return deferred.promise;
@@ -83,7 +120,7 @@ class User {
       deferred.resolve(authValid);
 
       if (!authValid) {
-        this._$state.go('main.login');
+        this._$state.go('main.home');
       }
 
     });

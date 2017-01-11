@@ -8,29 +8,34 @@ const AppConstants = {
 
   local: {
     COOKIEDOMAIN: ['localhost', '.rodin.space'],
-    // API: 'http://192.168.0.30:3000/api',
+    // API: 'https://api.rodin.space/api',
     API: 'https://api.rodin.space/api',
-    // SITE: 'http://localhost:3000/api',
-    SITE: 'http://localhost:8585/#/',
-    PREVIEW: 'https://api.rodin.space/preview/',
-    PUBLIC: 'https://api.rodin.space/public/',
+    SOCKET: 'https://ss.rodin.space/api',
+    SITE: 'http://localhost:8000/#/',
+    PREVIEW: 'https://rodin.space/projects/',
+    PUBLIC: 'https://rodin.space/public/',
+    PUBLISH: `https://rodin.space/`,
     EDITOR: 'http://localhost:8000/#/',
   },
   dev: {
     COOKIEDOMAIN: ['.rodin.space'],
     API: 'https://api.rodin.space/api',
+    SOCKET: 'https://ss.rodin.space/api',
     SITE: 'https://rodin.space/',
-    PREVIEW: 'https://api.rodin.space/preview/',
-    PUBLIC: 'https://api.rodin.space/public/',
+    PREVIEW: 'https://rodin.space/projects/',
+    PUBLIC: 'https://rodin.space/public/',
+    PUBLISH: `https://rodin.space/`,
     EDITOR: 'https://editor.rodin.space/',
   },
   prod: {
-    COOKIEDOMAIN: ['.rodinapp.com'],
-    API: 'https://api.' + window.extractDomain() + '/api',
-    SITE: 'https://' + window.extractDomain() + '/',
-    PREVIEW: 'https://api.' + window.extractDomain() + '/preview/',
-    PUBLIC: 'https://api.' + window.extractDomain() + '/public/',
-    EDITOR: 'https://editor.' + window.extractDomain() + '/',
+    COOKIEDOMAIN: ['.rodinapp.com', '.rodin.io', '.rodin.space'],
+    API: `${window.location.protocol}//api.${window.extractDomain()}/api`,
+    SOCKET: `${window.location.protocol}//ss.${window.extractDomain()}/api`,
+    SITE: `${window.location.protocol}//${window.extractDomain()}/`,
+    PREVIEW: `${window.location.protocol}//${window.extractDomain()}/projects/`,
+    PUBLIC: `${window.location.protocol}//${window.extractDomain()}/public/`,
+    PUBLISH: `${window.location.protocol}//${window.extractDomain()}/`,
+    EDITOR: `${window.location.protocol}//editor.${window.extractDomain()}/`,
   },
 
   get API() {
@@ -41,12 +46,20 @@ const AppConstants = {
     return this[this.env].SITE;
   },
 
+  get SOCKET() {
+    return this[this.env].SOCKET;
+  },
+
   get PREVIEW() {
     return this[this.env].PREVIEW;
   },
 
   get PUBLIC() {
     return this[this.env].PUBLIC;
+  },
+
+  get PUBLISH() {
+    return this[this.env].PUBLISH;
   },
 
   get EDITOR() {
@@ -61,6 +74,10 @@ const AppConstants = {
   ERRORCODES: {
     "400": {
       "message": "BAD_REQUEST",
+      "field": ""
+    },
+    "500": {
+      "message": "INTERNAL_SERVER_ERROR",
       "field": ""
     },
     "404": {
@@ -193,6 +210,18 @@ const AppConstants = {
     },
     "604": {
       "message": "UNKNOWN_SOCKET_ACTION",
+      "field": ""
+    },
+    "605": {
+      "message": "SOCKET_ACTION_SUCCESS",
+      "field": ""
+    },
+    "606": {
+      "message": "SOCKET_ACTION_FAIL",
+      "field": ""
+    },
+    "607": {
+      "message": "SOCKET_ACTION_IN_PROGRESS",
       "field": ""
     }
   }

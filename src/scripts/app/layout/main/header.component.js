@@ -1,14 +1,14 @@
 class MainHeaderCtrl {
-	constructor(AppConstants, $scope) {
-		'ngInject';
+  constructor(AppConstants, $scope) {
+    'ngInject';
 
-		this.appName = AppConstants.appName;
-	}
+    this.appName = AppConstants.appName;
+  }
 }
 
 let MainHeader = {
-	controller: MainHeaderCtrl,
-	templateUrl: 'layout/main/header.html'
+  controller: MainHeaderCtrl,
+  templateUrl: './layout/main/header.html'
 };
 
 export default MainHeader;

@@ -1,0 +1,6 @@
+{
+  "systemjs-module": {
+    "src": "./src/scripts/systemjs-module/**/*.*",
+    "dest": "/systemjs-module/"
+  }
+}

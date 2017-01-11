@@ -10,7 +10,7 @@ class AppFooterCtrl {
 
 let AppFooter = {
   controller: AppFooterCtrl,
-  templateUrl: 'layout/app/footer.html'
+  templateUrl: './layout/app/footer.html'
 };
 
 export default AppFooter;

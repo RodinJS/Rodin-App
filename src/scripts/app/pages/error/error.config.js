@@ -1,15 +1,15 @@
 function ErrorConfig($stateProvider) {
-	'ngInject';
+  'ngInject';
 
-	$stateProvider
-		.state('main.error', {
-			url: '/error',
-			controller: 'ErrorCtrl',
-			controllerAs: '$ctrl',
-			templateUrl: 'pages/error/error.html',
-			title: 'Error',
-			pageClass: 'page-404',
-		});
+  $stateProvider
+    .state('main.error', {
+      url: '/error',
+      controller: 'ErrorCtrl',
+      controllerAs: '$ctrl',
+      templateUrl: 'app/pages/error/error.html',
+      title: 'Error',
+      pageClass: 'page-404',
+    });
 
 }
 

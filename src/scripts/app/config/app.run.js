@@ -1,10 +1,13 @@
 /**
  * Created by kh.levon98 on 13-Sep-16.
  */
-function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce) {
+
+import {APP as VrScene} from "../../../../app3d/index";
+
+function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce, RodinTransitionCanvas, Loader, VRAPI) {
   'ngInject';
 
-  window.AppConstants = AppConstants;
+  let loader;
 
   Restangular.addFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
     headers["x-access-token"] = JWT.get();
@@ -25,20 +28,30 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     return true; // error not handled
   });
 
-
-  // change page title based on state
-  $rootScope.$on('$stateChangeSuccess', (event, toState) => {
-    $rootScope.setPageTitle(toState.title);
-
-    $rootScope.setPageClass(toState.pageClass);
-  });
-
   $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+    loader = Loader.show();
     if (toState.redirectToWhenAuthenticated && JWT.get()) {
       // User isn’t authenticated
       $state.go(toState.redirectToWhenAuthenticated);
       event.preventDefault();
     }
+  });
+
+  // change page title based on state
+  $rootScope.$on('$stateChangeSuccess', (event, toState) => {
+
+    $rootScope.setPageTitle(toState.title);
+
+    $rootScope.setPageClass(toState.pageClass);
+
+    Loader.hide();
+
+    angular.element(document.querySelectorAll(".webvr-button")).addClass("hidden");
+  });
+
+
+  VrScene.init({
+    API: VRAPI
   });
 
   // Helper method for setting the page's title
@@ -82,9 +95,9 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
       console.info('$viewContentLoading - view begins loading - dom not rendered ----', viewConfig);
     });
-    $rootScope.$on('$viewContentLoaded',function(event){
+    $rootScope.$on('$viewContentLoaded', function (event) {
       // runs on individual scopes, so putting it in "run" doesn't work.
-      console.log('$viewContentLoaded - fired after dom rendered',event);
+      console.log('$viewContentLoaded - fired after dom rendered', event);
     });
     $rootScope.$on('$stateNotFound', function (event, unfoundState, fromState, fromParams) {
       console.error('$stateNotFound ----' + unfoundState.to + '---- fired when a state cannot be found by its name.');

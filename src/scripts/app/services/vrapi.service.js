@@ -5,7 +5,7 @@
 let self;
 
 class VRAPI {
-  constructor(AppConstants, $state, $location, $q, Project, JWT, User) {
+  constructor(AppConstants, $state, $location, $q, Project, JWT, User, Modal) {
     'ngInject';
 
     self = this;
@@ -17,6 +17,7 @@ class VRAPI {
     this._$location = $location;
     this._$q = $q;
     this._JWT = JWT;
+    this._Modal = Modal;
   }
 
   ///////////////
@@ -30,8 +31,10 @@ class VRAPI {
    * navigation function
    *
    * @param {String} url
+   * @param {Object} params
    * */
-  navigate(url = "") {
+  navigate(url = "", params = {}) {
+
     let state;
     switch (url) {
       case "/":
@@ -39,6 +42,9 @@ class VRAPI {
         break;
       case "/login":
         state = "main.login";
+        break;
+      case "/project":
+        state = "main.project";
         break;
       case "/dashboard":
         state = "app.dashboard";
@@ -48,7 +54,7 @@ class VRAPI {
     }
 
     if (state) {
-      self._$state.go(state);
+      self._$state.go(state, params);
     } else {
       url = url.replace(/\\/g, "");
       while (url.charAt(0) === '/')
@@ -56,6 +62,42 @@ class VRAPI {
 
       self._$location.href = self._AppConstants.SITE + url;
     }
+  }
+
+  /**
+   * @name openModal
+   *
+   * @description
+   * open modal function
+   *
+   * @param {String} name
+   * @param {Object} params
+   * */
+  openModal(name = "", params = {}) {
+    let modal = this._Modal[name];
+
+    if(modal){
+      let data = {};
+
+      for(let key in params){
+        data[key] = ()=>params[key];
+      }
+
+      return modal(data).result;
+    }
+    return false;
+  }
+
+  /**
+   * @name getCurrentPage
+   *
+   * @description
+   * return current page name
+   *
+   * @return {String}
+   * */
+  getCurrentPage() {
+    return /[^.]+$/.exec(this._$state.current.name)[0].toLowerCase();
   }
 
   ///////////////
