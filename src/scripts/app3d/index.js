@@ -1,10 +1,10 @@
-import {THREE} from 'https://cdn.rodin.io/v0.0.1/vendor/three/THREE.GLOBAL.js';
-import {SceneManager} from 'https://cdn.rodin.io/v0.0.1/rodinjs/scene/SceneManager.js';
-import {MouseGamePad} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/gamePads/MouseGamePad.js';
-import {Element} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/elements/Element.js';
-import {THREEObject} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/THREEObject.js';
-import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.1/rodinjs/constants/constants.js';
-import {Animation} from 'https://cdn.rodin.io/v0.0.1/rodinjs/animation/Animation.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
+import {MouseGamePad} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/gamePads/MouseGamePad.js';
+import {Element} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/elements/Element.js';
+import {THREEObject} from 'https://cdn.rodin.io/v0.0.2/rodinjs/sculpt/THREEObject.js';
+import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.2/rodinjs/constants/constants.js';
+import {Animation} from 'https://cdn.rodin.io/v0.0.2/rodinjs/animation/Animation.js';
 
 import * as controllers from './controllers.js';
 import * as platform from './objects/platform.js';
@@ -208,7 +208,7 @@ function checkBackButtonOculus() {
  popups.exitConfirm.open(0.75);
  });*/
 
-if (window.device === 'vr') {
+if (window.device === 'vive') {
   requestAnimationFrame(checkBackButtonVive);
 }
 
@@ -244,7 +244,7 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
         return;
 
       case 'oculus':
-      case 'vr':
+      case 'vive':
         popups.notSignedInVR.open();
         let timer = setTimeout(function () {
           popups.notSignedInVR.close();
@@ -380,7 +380,7 @@ export class APP {
     SceneManager.changeContainerDomElement(params.domElement);
     window.dispatchEvent(new Event('resize'));
 
-    if (window.device == 'oculus' || window.device == 'vr') {
+    if (window.device == 'oculus' || window.device == 'vive') {
       checkCount = 0;
       checkAndGoToVR();
     }
