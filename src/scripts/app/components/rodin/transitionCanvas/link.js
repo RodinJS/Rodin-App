@@ -5,7 +5,7 @@
 import {init as SceneInit} from "./backgroundWebVr";
 
 function TransitionCanvasLink(scope, elem, attrs, ngModel) {
-  if (window.device == 'oculus' || window.device == 'vive') {
+  if (window.device == 'oculus' || window.device == 'vr') {
     let elm = elem[0];
     SceneInit(elm);
 
