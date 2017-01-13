@@ -32,9 +32,9 @@ const AppConstants = {
     API: `${window.location.protocol}//api.${window.extractDomain()}/api`,
     SOCKET: `${window.location.protocol}//ss.${window.extractDomain()}/api`,
     SITE: `${window.location.protocol}//${window.extractDomain()}/`,
-    PREVIEW: `${window.location.protocol}//${window.extractDomain()}/projects/`,
-    PUBLIC: `${window.location.protocol}//${window.extractDomain()}/public/`,
-    PUBLISH: `${window.location.protocol}//${window.extractDomain()}/`,
+    PREVIEW: `${window.location.protocol}//app.${window.extractDomain()}/projects/`,
+    PUBLIC: `${window.location.protocol}//app.${window.extractDomain()}/public/`,
+    PUBLISH: `${window.location.protocol}//app.${window.extractDomain()}/`,
     EDITOR: `${window.location.protocol}//editor.${window.extractDomain()}/`,
   },
 
