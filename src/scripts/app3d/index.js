@@ -148,7 +148,7 @@ function createMyHelix() {
 
   myHelix.loadMore = loadMore('my').bind(myHelix);
   helixParent.animator.start('helix');
-  platform.aboutButtonParent.animator.start('rotate');
+    platform.aboutButtonParent.animator.start('rotate');
   helix.clear();
 }
 
@@ -203,10 +203,9 @@ function checkBackButtonOculus() {
 
   requestAnimationFrame(checkBackButtonOculus);
 }
-/*
- window.addEventListener('click', () => {
- popups.exitConfirm.open(0.75);
- });*/
+// window.addEventListener('click', () => {
+//  popups.exitConfirm.open(0.75);
+//});
 
 if (window.device === 'vr') {
   requestAnimationFrame(checkBackButtonVive);
@@ -255,8 +254,12 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
         });
     }
     requestedLogin = true;
+    controllers.mouse.disable();
     API.openModal('login').then(()=>{
       createMyHelix();
+      controllers.mouse.enable();
+    }).catch(()=>{
+      controllers.mouse.enable();
     });
 
   } else {
@@ -271,6 +274,7 @@ let buttons = MouseGamePad.getInstance().buttons;
 controllers.mouse.onValueChange = function (keyCode) {
   let currentHelix = null;
   for (let i = 0; i < controllers.mouse.intersected.length; i++) {
+    if(!controllers.mouse.intersected[i].object.parent.Sculpt) continue;
     currentHelix = controllers.mouse.intersected[i].object.parent.Sculpt.helix
   }
 

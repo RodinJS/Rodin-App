@@ -62,15 +62,20 @@ aboutButton.on(EVENT_NAMES.CONTROLLER_HOVER_OUT, (evt) => {
 });
 
 aboutButton.on(EVENT_NAMES.CONTROLLER_KEY_UP, () => {
-    aboutButton.object3D.scale.y = 0.000001;
-    aboutButton.object3D.visible = false;
+    aboutButton.raycastable = false;
+    //aboutButton.object3D.visible = false;
     about.open();
 });
 
-about.on('close', () => {
+about.on('close', (evt) => {
     if(!aboutButton.object3D) return;
-    aboutButton.object3D.scale.y = 1;
-    aboutButton.object3D.visible = true;
+    aboutButton.object3D.remove(evt.target.object3D);
+    //aboutButton.object3D.visible = true;
+    aboutButton.raycastable = true;
+});
+about.on('open', (evt) => {
+    aboutButton.object3D.add(evt.target.object3D);
+    console.log(evt.target.object3D);
 });
 
 aboutButton.on('update', (evt) => {
