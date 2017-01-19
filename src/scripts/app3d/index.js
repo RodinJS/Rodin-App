@@ -161,7 +161,7 @@ function checkBackButtonVive() {
   let gamepad0 = gamePads[0] || gamePads[1];
   let gamepad1 = gamePads[1] || gamePads[0];
 
-  if (!gamepad0 && !gamepad1) return requestAnimationFrame(checkBackButton);
+  if (!gamepad0 && !gamepad1) return requestAnimationFrame(checkBackButtonVive);
 
   if (backButtonPressed0 !== gamepad0.buttons[3].pressed || backButtonPressed1 !== gamepad1.buttons[3].pressed) {
     backButtonPressed0 = gamepad0.buttons[3].pressed;

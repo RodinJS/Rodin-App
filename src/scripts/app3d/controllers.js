@@ -71,26 +71,30 @@ let controllerR = new ViveController(RODIN.CONSTANTS.CONTROLLER_HANDS.RIGHT, sce
 if (window.device === 'vr') {
 
 	controllerL.standingMatrix = controls.getStandingMatrix();
+	controllerL.initControllerModel();
+	controllerL.initRaycastingLine();
     SceneManager.addController(controllerL);
     scene.add(controllerL);
 
     controllerR.standingMatrix = controls.getStandingMatrix();
+    controllerR.initControllerModel();
+    controllerR.initRaycastingLine();
     SceneManager.addController(controllerR);
     scene.add(controllerR);
 
-    let loader = new THREE.OBJLoader();
-    loader.setPath('/images/app3d/models/');
-    loader.load('viveController/vr_controller_vive_1_5.obj', function (object) {
-
-        let loader = new THREE.TextureLoader();
-        loader.setPath('/images/app3d/models/');
-
-        object.children[0].material.map = loader.load('./viveController/onepointfive_texture.png');
-        object.children[0].material.specularMap = loader.load('./viveController/onepointfive_spec.png');
-
-        controllerL.add(object.clone());
-        controllerR.add(object.clone());
-    });
+    // let loader = new THREE.OBJLoader();
+    // loader.setPath('/images/app3d/models/');
+    // loader.load('viveController/vr_controller_vive_1_5.obj', function (object) {
+    //
+    //     let loader = new THREE.TextureLoader();
+    //     loader.setPath('/images/app3d/models/');
+    //
+    //     object.children[0].material.map = loader.load('./viveController/onepointfive_texture.png');
+    //     object.children[0].material.specularMap = loader.load('./viveController/onepointfive_spec.png');
+    //
+    //     controllerL.add(object.clone());
+    //     controllerR.add(object.clone());
+    // });
 }
 
 export const vive = {
