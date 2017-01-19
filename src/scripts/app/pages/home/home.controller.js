@@ -8,12 +8,11 @@ class HomeCtrl {
     angular.element(document.querySelectorAll(".webvr-button")).removeClass("hidden");
 
 
-
     RodinTransitionCanvas.disable();
 
     window.RODINJAVA && window.RODINJAVA.navigateToMainPage();
     $scope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-      window.RODINJAVA && window.RODINJAVA.navigateFromMainPage();
+        window.RODINJAVA && window.RODINJAVA.navigateFromMainPage();
     });
 
   }

@@ -348,7 +348,7 @@ let tim;
 
 function checkAndGoToVR() {
   clearTimeout(tim);
-  if (checkCount++ > 20)
+  if (checkCount++ > 500)
     return;
 
   if (scene.webVRmanager.hmd && !scene.webVRmanager.hmd.isPresenting) {
