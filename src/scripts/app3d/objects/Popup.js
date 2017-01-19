@@ -6,7 +6,7 @@ import {Event} from 'https://cdn.rodin.io/v0.0.2/rodinjs/Event.js';
 import changeParent  from 'https://cdn.rodin.io/v0.0.2/rodinjs/utils/ChangeParent.js';
 
 import {HoverableElement} from './HoverableElement.js';
-import {highlighter} from './HighlightCone.js';
+import {dimmer} from './DimmCone.js';
 
 const scene = SceneManager.get();
 
@@ -89,12 +89,19 @@ export class Popup extends Element {
         this.object3D.scale.set(0.00001, 0.00001, 0.00001);
         this.object3D.visible = false;
         this.emit('close', new Event(this));
+        dimmer.close();
     }
 
     open (s = 1) {
         this.object3D.scale.set(s, s, s);
         this.object3D.visible = true;
         this.emit('open', new Event(this));
+        let radius = 0;
+        if(this.closeButton){
+            this.object3D.geometry.computeBoundingSphere();
+            radius = this.object3D.geometry.boundingSphere.radius + this.closeButton.width + 0.001;
+        }
+        dimmer.dimm(this.object3D, radius);
     }
 }
 
@@ -114,10 +121,9 @@ notSignedInVR.on('ready', (evt) => {
 
 export const about = new Popup('/images/app3d/img/about.png', 1.474, 1.002);
 about.on('ready', (evt) => {
-    scene.add(evt.target.object3D);
-    evt.target.object3D.position.z = 2;
-    evt.target.object3D.rotation.y = Math.PI;
-    evt.target.object3D.position.y = scene.controls.userHeight;
+    evt.target.object3D.position.z = 0.2;
+    //evt.target.object3D.rotation.y = Math.PI;
+    //evt.target.object3D.position.y = scene.controls.userHeight;
 });
 export const exitConfirm = new Popup('/images/app3d/img/exitBoardVR.png', 1.028, 0.660, false);
 exitConfirm.on('ready', (evt) => {
@@ -198,13 +204,16 @@ exitConfirm.on('ready', (evt) => {
     });
 });
 exitConfirm.on('open', (evt) => {
-    scene.camera.add(evt.target.object3D);
-    evt.target.object3D.position.set(0,0,-1.45);
-    evt.target.object3D.rotation.set(0,0,0);
-    highlighter.highlight(evt.target.object3D);
-    changeParent(evt.target.object3D, scene.scene);
+    let vector = scene.camera.getWorldDirection();
+    vector.y = 0;
+    vector.normalize();
+    scene.add(evt.target.object3D);
+    vector.multiplyScalar(1.5).y = scene.controls.userHeight;
+    evt.target.object3D.position.copy(vector);
+    evt.target.object3D.rotation.y = Math.atan2(evt.target.object3D.position.x, evt.target.object3D.position.z) + Math.PI;
+    //dimmer.dimm(evt.target.object3D);
 });
 exitConfirm.on('close', (evt) => {
-    highlighter.close();
+    //dimmer.close();
     scene.scene.remove(evt.target.object3D);
 });
