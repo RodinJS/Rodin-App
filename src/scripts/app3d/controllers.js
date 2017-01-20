@@ -1,11 +1,11 @@
-import {THREE} from 'https://cdn.rodin.io/v0.0.2/vendor/three/THREE.GLOBAL.js';
-import 'https://cdn.rodin.io/v0.0.2/vendor/three/examples/js/loaders/OBJLoader.js';
-import * as RODIN from 'https://cdn.rodin.io/v0.0.2/rodinjs/RODIN.js';
-import {SceneManager} from 'https://cdn.rodin.io/v0.0.2/rodinjs/scene/SceneManager.js';
-import {ViveController} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/ViveController.js';
-import {OculusController} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/OculusController.js';
-import {MouseController} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/MouseController.js';
-import {CardboardController} from 'https://cdn.rodin.io/v0.0.2/rodinjs/controllers/CardboardController.js';
+import {THREE} from 'https://cdn.rodin.io/v0.0.1/vendor/three/THREE.GLOBAL.js';
+import 'https://cdn.rodin.io/v0.0.1/vendor/three/examples/js/loaders/OBJLoader.js';
+import * as RODIN from 'https://cdn.rodin.io/v0.0.1/rodinjs/RODIN.js';
+import {SceneManager} from 'https://cdn.rodin.io/v0.0.1/rodinjs/scene/SceneManager.js';
+import {ViveController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/ViveController.js';
+import {OculusController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/OculusController.js';
+import {MouseController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/MouseController.js';
+import {CardboardController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/CardboardController.js';
 
 import {DimmCone} from './objects/DimmCone.js';
 let scene = SceneManager.get();
