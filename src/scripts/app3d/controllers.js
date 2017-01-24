@@ -12,18 +12,18 @@ let scene = SceneManager.get();
 let controls = scene.controls;
 
 function setupGazePointUpdate(gazePoint) {
-    gazePoint.Sculpt.object3D.renderOrder=10000;
+    gazePoint.Sculpt.object3D.renderOrder = 10000;
 
     gazePoint.Sculpt.on('update', () => {
         gazePoint.alpha = gazePoint.controller.intersected.length === 0 ? .00000001 : .02;
-        if(gazePoint.controller.intersected.length !== 0){
-          if(gazePoint.controller.intersected[0].object.Sculpt && gazePoint.controller.intersected[0].object.Sculpt instanceof DimmCone){
-              gazePoint.alpha = .00000001;
-              gazePoint.fixedDistance = gazePoint.defaultDistance;
-          }
-            else{
-              gazePoint.fixedDistance = 0;
-          }
+        if (gazePoint.controller.intersected.length !== 0) {
+            if (gazePoint.controller.intersected[0].object.Sculpt && gazePoint.controller.intersected[0].object.Sculpt instanceof DimmCone) {
+                gazePoint.alpha = .00000001;
+                gazePoint.fixedDistance = gazePoint.defaultDistance;
+            }
+            else {
+                gazePoint.fixedDistance = 0;
+            }
         }
         gazePoint.currentAlpha = gazePoint.currentAlpha || gazePoint.alpha;
         let delta = (gazePoint.alpha - gazePoint.currentAlpha) * RODIN.Time.deltaTime() * 0.01;
@@ -49,7 +49,9 @@ if (window.device === 'mobile') {
     cardboard = new CardboardController();
     cardboard.raycastLayers = 1;
     SceneManager.addController(cardboard);
-    setupGazePointUpdate(cardboard.gazePoint);
+    setTimeout(() => {
+        setupGazePointUpdate(cardboard.gazePoint);
+    }, 2000);
 }
 
 /**
@@ -57,10 +59,12 @@ if (window.device === 'mobile') {
  */
 export let oculus = null;
 if (window.device === 'oculus') {
-	oculus = new OculusController();
-  oculus.raycastLayers = 1;
-	SceneManager.addController(oculus);
-  setupGazePointUpdate(oculus.gazePoint);
+    oculus = new OculusController();
+    oculus.raycastLayers = 1;
+    SceneManager.addController(oculus);
+    setTimeout(() => {
+        setupGazePointUpdate(oculus.gazePoint);
+    }, 2000);
 }
 
 /**
@@ -70,9 +74,9 @@ let controllerL = new ViveController(RODIN.CONSTANTS.CONTROLLER_HANDS.LEFT, scen
 let controllerR = new ViveController(RODIN.CONSTANTS.CONTROLLER_HANDS.RIGHT, scene, scene.camera, 1);
 if (window.device === 'vr') {
 
-	controllerL.standingMatrix = controls.getStandingMatrix();
-	controllerL.initControllerModel();
-	controllerL.initRaycastingLine();
+    controllerL.standingMatrix = controls.getStandingMatrix();
+    controllerL.initControllerModel();
+    controllerL.initRaycastingLine();
     SceneManager.addController(controllerL);
     scene.add(controllerL);
 
