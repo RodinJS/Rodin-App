@@ -318,6 +318,7 @@ const fadeInSphere = new FadeInSphere();
 
 fadeInSphere.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
     if (evt.animation === 'fadeIn') {
+        window.mustEnterVRMode = (scene.webVRmanager.mode === 3);
         API.navigate('/project', {root: evt.target.requester.root, owner: evt.target.requester.owner});
     }
     if (evt.animation === 'fadeOut') {

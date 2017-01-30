@@ -3,7 +3,7 @@ function ProjectConfig($stateProvider) {
 
   $stateProvider
     .state('main.project', {
-      url: '/project/:owner/:root',
+      url: '/project/:owner/:root?no_fullscreen=&start_mode=',
       controller: 'ProjectCtrl',
       controllerAs: '$ctrl',
       templateUrl: 'app/pages/project/project.html',
