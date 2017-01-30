@@ -30,56 +30,56 @@ scene.scene.background = new THREE.Color(0xd7e4ef);
 scene.scene.fog = new THREE.Fog(0xdeecf2, 5, 55);
 
 function loadMore(type) {
-  return function () {
-    const self = this;
-    this.isLoading = true;
-    let filters = {
-      skip: this.thumbs.length,
-      limit: 20
+    return function () {
+        const self = this;
+        this.isLoading = true;
+        let filters = {
+            skip: this.thumbs.length,
+            limit: 20
+        };
+
+        API.getProjects(type, filters).then(
+            data => {
+                if (data.length > 0) {
+                    const projects = data.map(i => {
+                        i.image = i.thumbnail || '/images/app3d/img/thumb.jpg';
+                        return new HelixThumb(i);
+                    });
+
+                    for (let i = 0; i < projects.length; i++) {
+                        projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
+                            if (evt.controller.navigatorGamePadId === 'oculus') {
+                                if (evt.keyCode === 6) {
+                                    projects[i].helix.concentrate(projects[i].helix.center + 1);
+                                }
+
+                                if (evt.keyCode === 5) {
+                                    projects[i].helix.concentrate(projects[i].helix.center - 1);
+                                }
+
+                                if (evt.keyCode !== 1) return;
+                            }
+
+                            if (self.concentrated && projects[i].helix.center == projects[i].index) {
+                                enterProject(projects[i], API);
+                            }
+                        });
+
+                        projects[i].thumb.on("ready", (evt) => {
+                            window.dispatchEvent(new Event('resize'));
+                        });
+                    }
+
+                    self.addThumbs(projects);
+                }
+                this.isLoading = false;
+            },
+            err => {
+                // console.log(err);
+                this.isLoading = false;
+            }
+        )
     };
-
-    API.getProjects(type, filters).then(
-      data => {
-        if (data.length > 0) {
-          const projects = data.map(i => {
-            i.image = i.thumbnail || '/images/app3d/img/thumb.jpg';
-            return new HelixThumb(i);
-          });
-
-          for (let i = 0; i < projects.length; i++) {
-            projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
-              if (evt.controller.navigatorGamePadId === 'oculus') {
-                if (evt.keyCode === 6) {
-                  projects[i].helix.concentrate(projects[i].helix.center + 1);
-                }
-
-                if (evt.keyCode === 5) {
-                  projects[i].helix.concentrate(projects[i].helix.center - 1);
-                }
-
-                if (evt.keyCode !== 1) return;
-              }
-
-              if (self.concentrated && projects[i].helix.center == projects[i].index) {
-                enterProject(projects[i], API);
-              }
-            });
-
-            projects[i].thumb.on("ready", (evt) => {
-              window.dispatchEvent(new Event('resize'));
-            });
-          }
-
-          self.addThumbs(projects);
-        }
-        this.isLoading = false;
-      },
-      err => {
-        // console.log(err);
-        this.isLoading = false;
-      }
-    )
-  };
 }
 
 /**
@@ -91,32 +91,32 @@ let helixParent = null;
 let helixCreated = false;
 
 const helixAnimation = new Animation('helix', {
-  rotation: {
-    y: Math.PI / 2
-  }
+    rotation: {
+        y: Math.PI / 2
+    }
 });
 helixAnimation.duration(500);
 
 function createHelix() {
-  helixCreated = true;
-  helixParent = new THREEObject(new THREE.Object3D());
-  helixParent.animator.add(helixAnimation);
+    helixCreated = true;
+    helixParent = new THREEObject(new THREE.Object3D());
+    helixParent.animator.add(helixAnimation);
 
-  helixParent.on(EVENT_NAMES.ANIMATION_COMPLETE, () => {
-    helix.loadMore();
-  });
-
-  helixParent.on('ready', () => {
-    scene.add(helixParent.object3D);
-    helix = new Helix();
-    helix.on('ready', (evt) => {
-      helixParent.object3D.add(evt.target.object3D);
-      evt.target.object3D.position.z = -2.5;
-      evt.target.object3D.position.y = scene.controls.userHeight;
+    helixParent.on(EVENT_NAMES.ANIMATION_COMPLETE, () => {
+        helix.loadMore();
     });
 
-    helix.loadMore = loadMore('all').bind(helix);
-  });
+    helixParent.on('ready', () => {
+        scene.add(helixParent.object3D);
+        helix = new Helix();
+        helix.on('ready', (evt) => {
+            helixParent.object3D.add(evt.target.object3D);
+            evt.target.object3D.position.z = -2.5;
+            evt.target.object3D.position.y = scene.controls.userHeight;
+        });
+
+        helix.loadMore = loadMore('all').bind(helix);
+    });
 }
 
 /**
@@ -127,29 +127,29 @@ let myHelix = null;
 let myHelixCreated = false;
 
 function createMyHelix() {
-  if (myHelix) {
-    return;
-  }
+    if (myHelix) {
+        return;
+    }
 
-  myHelix = new Helix();
-  icons._personal.slider.open();
-  icons._personal.lock();
-  icons._personal.centerX();
-  icons._public.slider.open();
-  icons._public.lock();
-  icons._public.centerX();
-  myHelix.on('ready', (evt) => {
-    scene.add(evt.target.object3D);
-    evt.target.object3D.position.z = -2.5;
-    evt.target.object3D.position.y = scene.controls.userHeight;
-    scene.scene.remove(icons._public.object3D);
-    helixParent.object3D.add(icons._public.object3D);
-  });
+    myHelix = new Helix();
+    icons._personal.slider.open();
+    icons._personal.lock();
+    icons._personal.centerX();
+    icons._public.slider.open();
+    icons._public.lock();
+    icons._public.centerX();
+    myHelix.on('ready', (evt) => {
+        scene.add(evt.target.object3D);
+        evt.target.object3D.position.z = -2.5;
+        evt.target.object3D.position.y = scene.controls.userHeight;
+        scene.scene.remove(icons._public.object3D);
+        helixParent.object3D.add(icons._public.object3D);
+    });
 
-  myHelix.loadMore = loadMore('my').bind(myHelix);
-  helixParent.animator.start('helix');
+    myHelix.loadMore = loadMore('my').bind(myHelix);
+    helixParent.animator.start('helix');
     platform.aboutButtonParent.animator.start('rotate');
-  helix.clear();
+    helix.clear();
 }
 
 
@@ -157,62 +157,64 @@ let backButtonPressed0 = false;
 let backButtonPressed1 = false;
 
 function checkBackButtonVive() {
-  const gamePads = navigator.getGamepads();
-  let gamepad0 = gamePads[0] || gamePads[1];
-  let gamepad1 = gamePads[1] || gamePads[0];
+    const gamePads = navigator.getGamepads();
+    let gamepad0 = gamePads[0] || gamePads[1];
+    let gamepad1 = gamePads[1] || gamePads[0];
 
-  if (!gamepad0 && !gamepad1) return requestAnimationFrame(checkBackButtonVive);
+    if (!gamepad0 && !gamepad1) return requestAnimationFrame(checkBackButtonVive);
 
-  if (backButtonPressed0 !== gamepad0.buttons[3].pressed || backButtonPressed1 !== gamepad1.buttons[3].pressed) {
-    backButtonPressed0 = gamepad0.buttons[3].pressed;
-    backButtonPressed1 = gamepad1.buttons[3].pressed;
+    if (backButtonPressed0 !== gamepad0.buttons[3].pressed || backButtonPressed1 !== gamepad1.buttons[3].pressed) {
+        backButtonPressed0 = gamepad0.buttons[3].pressed;
+        backButtonPressed1 = gamepad1.buttons[3].pressed;
 
-    if ((backButtonPressed0 || backButtonPressed1) && API && API.getCurrentPage() === 'project') {
-      window.history.back();
+        if ((backButtonPressed0 || backButtonPressed1) && API && API.getCurrentPage() === 'project') {
+            window.history.back();
+        }
+
+        if ((!backButtonPressed0 || !backButtonPressed1) && API && API.getCurrentPage() === 'home') {
+            popups.exitConfirm.open(0.75);
+        }
     }
-  }
 
-  requestAnimationFrame(checkBackButtonVive);
+    requestAnimationFrame(checkBackButtonVive);
 }
 
 function checkBackButtonOculus() {
-  const gamePads = navigator.getGamepads();
-  let gamepad = null;
-  for (let i = 0; i < gamePads.length; i++) {
-    if (!gamePads[i]) continue;
-    if (gamePads[i].id.match(new RegExp('oculus', 'gi'))) {
-      gamepad = gamePads[i];
-    }
-  }
-
-  if (!gamepad) {
-    return requestAnimationFrame(checkBackButtonOculus);
-  }
-
-  if (backButtonPressed0 !== gamepad.buttons[1].pressed) {
-    backButtonPressed0 = gamepad.buttons[1].pressed;
-
-    if (backButtonPressed0 && API && API.getCurrentPage() === 'project') {
-      window.history.back();
+    const gamePads = navigator.getGamepads();
+    let gamepad = null;
+    for (let i = 0; i < gamePads.length; i++) {
+        if (!gamePads[i]) continue;
+        if (gamePads[i].id.match(new RegExp('oculus', 'gi'))) {
+            gamepad = gamePads[i];
+        }
     }
 
-    if (backButtonPressed0 && API && API.getCurrentPage() === 'home') {
-      popups.exitConfirm.open(0.75);
+    if (!gamepad) {
+        return requestAnimationFrame(checkBackButtonOculus);
     }
-  }
 
-  requestAnimationFrame(checkBackButtonOculus);
+    if (backButtonPressed0 !== gamepad.buttons[1].pressed) {
+        backButtonPressed0 = gamepad.buttons[1].pressed;
+        console.log(backButtonPressed0);
+
+        if (backButtonPressed0 && API && API.getCurrentPage() === 'project') {
+            window.history.back();
+        }
+
+        if (!backButtonPressed0 && API && API.getCurrentPage() === 'home') {
+            popups.exitConfirm.open(0.75);
+        }
+    }
+
+    requestAnimationFrame(checkBackButtonOculus);
 }
-// window.addEventListener('click', () => {
-//  popups.exitConfirm.open(0.75);
-//});
 
 if (window.device === 'vr') {
-  requestAnimationFrame(checkBackButtonVive);
+    requestAnimationFrame(checkBackButtonVive);
 }
 
 if (window.device === 'oculus') {
-  requestAnimationFrame(checkBackButtonOculus);
+    requestAnimationFrame(checkBackButtonOculus);
 }
 
 
@@ -220,51 +222,51 @@ if (window.device === 'oculus') {
  * Icons
  */
 function goToNavigate() {
-  popups.notSignedInMobile.close();
-  requestedLogin = true;
-  API.navigate('/login');
+    popups.notSignedInMobile.close();
+    requestedLogin = true;
+    API.navigate('/login');
 }
 
 
 popups.notSignedInMobile.on("close", (evt) => {
-  window.removeEventListener('resize', goToNavigate);
+    window.removeEventListener('resize', goToNavigate);
 });
 
 icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
-  if (!API.isLoggedIn()) {
-    switch (window.device) {
-      case 'mobile':
-        if (window.innerWidth < window.innerHeight) {
-          goToNavigate();
-        } else {
-          popups.notSignedInMobile.open();
-          window.addEventListener('resize', goToNavigate, false);
+    if (!API.isLoggedIn()) {
+        switch (window.device) {
+            case 'mobile':
+                if (window.innerWidth < window.innerHeight) {
+                    goToNavigate();
+                } else {
+                    popups.notSignedInMobile.open();
+                    window.addEventListener('resize', goToNavigate, false);
+                }
+                return;
+
+            case 'oculus':
+            case 'vr':
+                popups.notSignedInVR.open();
+                let timer = setTimeout(function () {
+                    popups.notSignedInVR.close();
+                }, 5000);
+
+                popups.notSignedInVR.on('close', () => {
+                    clearTimeout(timer);
+                });
         }
-        return;
-
-      case 'oculus':
-      case 'vr':
-        popups.notSignedInVR.open();
-        let timer = setTimeout(function () {
-          popups.notSignedInVR.close();
-        }, 5000);
-
-        popups.notSignedInVR.on('close', () => {
-          clearTimeout(timer);
+        requestedLogin = true;
+        controllers.mouse.disable();
+        API.openModal('login').then(() => {
+            createMyHelix();
+            controllers.mouse.enable();
+        }).catch(() => {
+            controllers.mouse.enable();
         });
-    }
-    requestedLogin = true;
-    controllers.mouse.disable();
-    API.openModal('login').then(()=>{
-      createMyHelix();
-      controllers.mouse.enable();
-    }).catch(()=>{
-      controllers.mouse.enable();
-    });
 
-  } else {
-    createMyHelix();
-  }
+    } else {
+        createMyHelix();
+    }
 });
 
 /**
@@ -272,40 +274,40 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
  */
 let buttons = MouseGamePad.getInstance().buttons;
 controllers.mouse.onValueChange = function (keyCode) {
-  let currentHelix = null;
-  for (let i = 0; i < controllers.mouse.intersected.length; i++) {
-    if(!controllers.mouse.intersected[i].object.parent.Sculpt) continue;
-    currentHelix = controllers.mouse.intersected[i].object.parent.Sculpt.helix
-  }
+    let currentHelix = null;
+    for (let i = 0; i < controllers.mouse.intersected.length; i++) {
+        if (!controllers.mouse.intersected[i].object.parent.Sculpt) continue;
+        currentHelix = controllers.mouse.intersected[i].object.parent.Sculpt.helix
+    }
 
-  if (!currentHelix) return;
+    if (!currentHelix) return;
 
-  const value = buttons[keyCode - 1].value;
-  const direction = value - buttons[keyCode - 1].prevValue > 0 ? 1 : -1;
-  currentHelix.concentrate(currentHelix.center + direction);
-  buttons[keyCode - 1].prevValue = value;
+    const value = buttons[keyCode - 1].value;
+    const direction = value - buttons[keyCode - 1].prevValue > 0 ? 1 : -1;
+    currentHelix.concentrate(currentHelix.center + direction);
+    buttons[keyCode - 1].prevValue = value;
 };
 
 if (window.device === `vr`) {
-  [controllers.vive.left, controllers.vive.right].map(controller => {
-    controller.onTouchDown = function (keyCode, gamepad) {
-      let currentHelix = null;
-      for (let i = 0; i < controller.intersected.length; i++) {
-        if (controller.intersected[i].object.parent.Sculpt && controller.intersected[i].object.parent.Sculpt.helix)
-          currentHelix = controller.intersected[i].object.parent.Sculpt.helix
-      }
+    [controllers.vive.left, controllers.vive.right].map(controller => {
+        controller.onTouchDown = function (keyCode, gamepad) {
+            let currentHelix = null;
+            for (let i = 0; i < controller.intersected.length; i++) {
+                if (controller.intersected[i].object.parent.Sculpt && controller.intersected[i].object.parent.Sculpt.helix)
+                    currentHelix = controller.intersected[i].object.parent.Sculpt.helix
+            }
 
-      if (!currentHelix) return;
+            if (!currentHelix) return;
 
-      gamepad.prevX = gamepad.prevX || gamepad.axes[0];
-      const delta = gamepad.axes[0] - gamepad.prevX;
-      if (Math.abs(delta) < .1) return;
+            gamepad.prevX = gamepad.prevX || gamepad.axes[0];
+            const delta = gamepad.axes[0] - gamepad.prevX;
+            if (Math.abs(delta) < .1) return;
 
-      gamepad.prevX = gamepad.axes[0];
-      const direction = delta > 0 ? -1 : 1;
-      currentHelix.concentrate(currentHelix.center + direction);
-    }
-  });
+            gamepad.prevX = gamepad.axes[0];
+            const direction = delta > 0 ? -1 : 1;
+            currentHelix.concentrate(currentHelix.center + direction);
+        }
+    });
 }
 
 /**
@@ -315,31 +317,31 @@ if (window.device === `vr`) {
 const fadeInSphere = new FadeInSphere();
 
 fadeInSphere.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
-  if (evt.animation === 'fadeIn') {
-    API.navigate('/project', {root: evt.target.requester.root, owner: evt.target.requester.owner});
-  }
-  if (evt.animation === 'fadeOut') {
-    scene.camera.remove(evt.target.object3D);
-  }
+    if (evt.animation === 'fadeIn') {
+        API.navigate('/project', {root: evt.target.requester.root, owner: evt.target.requester.owner});
+    }
+    if (evt.animation === 'fadeOut') {
+        scene.camera.remove(evt.target.object3D);
+    }
 });
 
 fadeInSphere.on(EVENT_NAMES.ANIMATION_START, (evt) => {
-  if (evt.animation === 'fadeIn') {
-    scene.camera.add(evt.target.object3D);
-  }
+    if (evt.animation === 'fadeIn') {
+        scene.camera.add(evt.target.object3D);
+    }
 });
 
 function enterProject(helixThumb, API) {
-  fadeInSphere.requester = helixThumb;
-  fadeInSphere.fadeIn();
+    fadeInSphere.requester = helixThumb;
+    fadeInSphere.fadeIn();
 }
 
 function init() {
-  fadeInSphere.animator.start('fadeOut');
+    fadeInSphere.animator.start('fadeOut');
 
-  if (!helixCreated) {
-    createHelix();
-  }
+    if (!helixCreated) {
+        createHelix();
+    }
 }
 
 
@@ -347,85 +349,85 @@ let checkCount = 0;
 let tim;
 
 function checkAndGoToVR() {
-  clearTimeout(tim);
-  if (checkCount++ > 500)
-    return;
+    clearTimeout(tim);
+    if (checkCount++ > 500)
+        return;
 
-  if (scene.webVRmanager.hmd && !scene.webVRmanager.hmd.isPresenting) {
-    scene.webVRmanager.enterVRMode_();
-    return;
-  }
+    if (scene.webVRmanager.hmd && !scene.webVRmanager.hmd.isPresenting) {
+        scene.webVRmanager.enterVRMode_();
+        return;
+    }
 
-  tim = setTimeout(checkAndGoToVR, 200);
+    tim = setTimeout(checkAndGoToVR, 200);
 }
 
 /**
  * Class App for Angular
  */
 export class APP {
-  static init(params){
-    API = params.API;
-  }
-
-  static start(params) {
-    init();
-    if (!started) {
-      scene.enable();
-      started = true;
+    static init(params) {
+        API = params.API;
     }
 
-    if (!scene._render)
-      scene.start();
+    static start(params) {
+        init();
+        if (!started) {
+            scene.enable();
+            started = true;
+        }
+
+        if (!scene._render)
+            scene.start();
 
 
-    if (requestedLogin && API.isLoggedIn()) {
-      createMyHelix();
+        if (requestedLogin && API.isLoggedIn()) {
+            createMyHelix();
+        }
+        SceneManager.changeContainerDomElement(params.domElement);
+        window.dispatchEvent(new Event('resize'));
+
+        if (window.device == 'oculus' || window.device == 'vr') {
+            checkCount = 0;
+            checkAndGoToVR();
+        }
     }
-    SceneManager.changeContainerDomElement(params.domElement);
-    window.dispatchEvent(new Event('resize'));
 
-    if (window.device == 'oculus' || window.device == 'vr') {
-      checkCount = 0;
-      checkAndGoToVR();
+    static stop() {
+        scene.stop();
+
+        if (scene.webVRmanager.hmd && scene.webVRmanager.hmd.isPresenting) {
+            scene.webVRmanager.hmd.exitPresent();
+        }
     }
-  }
-
-  static stop() {
-    scene.stop();
-
-    if (scene.webVRmanager.hmd && scene.webVRmanager.hmd.isPresenting) {
-      scene.webVRmanager.hmd.exitPresent();
-    }
-  }
 }
 
 APP.stop();
 
 window.onbeforeunload = function (e) {
-  APP.stop();
-  let elm = document.getElementById("project_container");
-  elm && elm.contentWindow && elm.contentWindow.postMessage("exitVR", '*');
+    APP.stop();
+    let elm = document.getElementById("project_container");
+    elm && elm.contentWindow && elm.contentWindow.postMessage("exitVR", '*');
 
-  return;
+    return;
 };
 
 document.addEventListener('contextmenu', (e) => {
-  e.preventDefault();
+    e.preventDefault();
 });
 
 document.addEventListener('keydown', (event) => {
-  // f*
-  if (event.keyCode >= 112 && event.keyCode <= 123) {
-    event.preventDefault();
-  }
+    // f*
+    if (event.keyCode >= 112 && event.keyCode <= 123) {
+        event.preventDefault();
+    }
 
-  // ctrl + shift + i
-  if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
-    event.preventDefault();
-  }
+    // ctrl + shift + i
+    if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+        event.preventDefault();
+    }
 
-  // ctrl + shift + r
-  if (event.ctrlKey && event.shiftKey && event.keyCode == 82) {
-    event.preventDefault();
-  }
+    // ctrl + shift + r
+    if (event.ctrlKey && event.shiftKey && event.keyCode == 82) {
+        event.preventDefault();
+    }
 });
