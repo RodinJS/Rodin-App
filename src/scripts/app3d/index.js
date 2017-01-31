@@ -195,7 +195,6 @@ function checkBackButtonOculus() {
 
     if (backButtonPressed0 !== gamepad.buttons[1].pressed) {
         backButtonPressed0 = gamepad.buttons[1].pressed;
-        console.log(backButtonPressed0);
 
         if (backButtonPressed0 && API && API.getCurrentPage() === 'project') {
             window.history.back();
@@ -232,7 +231,7 @@ popups.notSignedInMobile.on("close", (evt) => {
     window.removeEventListener('resize', goToNavigate);
 });
 
-icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
+icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
     if (!API.isLoggedIn()) {
         switch (window.device) {
             case 'mobile':

@@ -2,6 +2,7 @@ import {THREE} from 'https://cdn.rodin.io/v0.0.1/vendor/three/THREE.GLOBAL.js';
 import * as RODIN from 'https://cdn.rodin.io/v0.0.1/rodinjs/RODIN.js';
 import {SceneManager} from 'https://cdn.rodin.io/v0.0.1/rodinjs/scene/SceneManager.js';
 import {MouseController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/MouseController.js';
+import {OculusController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/OculusController.js';
 import {MouseGamePad} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/gamePads/MouseGamePad.js';
 import {Element} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/elements/Element.js';
 import {Text} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/elements/Text.js';
@@ -63,6 +64,12 @@ export class HelixThumb extends THREEObject {
         });
 
         this.thumb.on(EVENT_NAMES.CONTROLLER_KEY, (evt) => {
+            if(evt.controller instanceof OculusController) {
+                if(evt.keyCode === 0) {
+                    this.helix.concentrate(this.index);
+                }
+                return;
+            }
             this.helix.concentrate(this.index);
         });
 
