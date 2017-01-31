@@ -27,7 +27,7 @@ class ProjectCtrl {
             if(window.device === 'mobile' && window.mustEnterVRMode) {
                 setTimeout(function () {
                     document.getElementById("project_container").contentWindow.postMessage("enterVR", '*');
-                }, 2000);
+                }, 1);
             }
 
             Loader.hide(loader);
