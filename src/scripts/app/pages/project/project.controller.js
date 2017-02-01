@@ -19,10 +19,6 @@ class ProjectCtrl {
 
         let loader = Loader.show();
 
-        $scope.$on('$destroy', () => {
-            window.mustEnterVRMode = document.getElementById("project_container").contentWindow.isVRMode;
-        });
-
         window.addEventListener("message", (event) => {
             console.log(event);
             if (event.data != 'readyToCast')
@@ -65,6 +61,7 @@ class ProjectCtrl {
         let isExeted = false;
 
         $scope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+            window.mustEnterVRMode = document.getElementById("project_container").contentWindow.isVRMode
             if (!isExeted) {
                 event.preventDefault();
 
