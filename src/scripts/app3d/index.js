@@ -393,6 +393,7 @@ export class APP {
 
         if(window.device == 'mobile' && window.mustEnterVRMode) {
             checkCount = 0;
+            window.mustShowRotateInstructions = false;
             checkAndGoToVR();
         }
     }
