@@ -61,8 +61,8 @@ class ProjectCtrl {
         let isExeted = false;
 
         $scope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-            window.mustEnterVRMode = document.getElementById("project_container").contentWindow.isVRMode
             if (!isExeted) {
+                window.mustEnterVRMode = document.getElementById("project_container").contentWindow.isVRMode;
                 event.preventDefault();
 
                 if (RodinTransitionCanvas.isEnabled) {
