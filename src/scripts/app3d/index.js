@@ -390,6 +390,11 @@ export class APP {
             checkCount = 0;
             checkAndGoToVR();
         }
+
+        if(window.device == 'mobile' && window.mustEnterVRMode) {
+            checkCount = 0;
+            checkAndGoToVR();
+        }
     }
 
     static stop() {

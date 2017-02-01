@@ -1,5 +1,5 @@
 class ProjectCtrl {
-    constructor(AppConstants, User, $timeout, $window, $scope, $state, $stateParams, RodinTransitionCanvas, deviceDetector, Loader) {
+    constructor($scope, AppConstants, User, $timeout, $window, $state, $stateParams, RodinTransitionCanvas, deviceDetector, Loader) {
         'ngInject';
 
         this.appName = AppConstants.appName;
@@ -18,6 +18,10 @@ class ProjectCtrl {
         }, 50);
 
         let loader = Loader.show();
+
+        $scope.$on('$destroy', () => {
+            window.mustEnterVRMode = document.getElementById("project_container").contentWindow.isVRMode;
+        });
 
         window.addEventListener("message", (event) => {
             console.log(event);
