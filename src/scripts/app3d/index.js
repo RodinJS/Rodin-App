@@ -226,7 +226,6 @@ function goToNavigate() {
     API.navigate('/login');
 }
 
-
 popups.notSignedInMobile.on("close", (evt) => {
     window.removeEventListener('resize', goToNavigate);
 });
@@ -242,6 +241,19 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
                     window.addEventListener('resize', goToNavigate, false);
                 }
                 return;
+                if(window.isVRMode) {
+                    popups.notSignedInMobile.open();
+                    function vrdisplaypresentchangehandler(e) {
+                        const display = e.display || e.detail.display;
+                        if(!display.isPresenting) {
+                            window.removeEventListener('vrdisplaypresentchange', vrdisplaypresentchangehandler);
+                            goToNavigate();
+                        }
+                    }
+                    window.addEventListener('vrdisplaypresentchange', vrdisplaypresentchangehandler, true);
+                } else {
+                    goToNavigate();
+                }
 
             case 'oculus':
             case 'vr':
