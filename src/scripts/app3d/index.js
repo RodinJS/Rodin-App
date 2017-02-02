@@ -247,6 +247,7 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
                 } else {
                     goToNavigate();
                 }
+                return;
 
             case 'oculus':
             case 'vr':
