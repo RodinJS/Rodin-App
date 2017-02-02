@@ -63,7 +63,7 @@ export class HelixThumb extends THREEObject {
             this.uv = {x: .5, y: .5}
         });
 
-        this.thumb.on(EVENT_NAMES.CONTROLLER_KEY, (evt) => {
+        this.thumb.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
             if(evt.controller instanceof OculusController) {
                 if(evt.keyCode === 0) {
                     this.helix.concentrate(this.index);
