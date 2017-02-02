@@ -234,13 +234,6 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
     if (!API.isLoggedIn()) {
         switch (window.device) {
             case 'mobile':
-                if (window.innerWidth < window.innerHeight) {
-                    goToNavigate();
-                } else {
-                    popups.notSignedInMobile.open();
-                    window.addEventListener('resize', goToNavigate, false);
-                }
-                return;
                 if(window.isVRMode) {
                     popups.notSignedInMobile.open();
                     function vrdisplaypresentchangehandler(e) {
