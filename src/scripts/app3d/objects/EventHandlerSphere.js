@@ -25,9 +25,9 @@ eventHandlerSphere.on('ready', (evt) => {
 });
 
 eventHandlerSphere.on(EVENT_NAMES.CONTROLLER_HOVER, (evt) => {
-    parent.postMessage("scrollon");
+    parent.postMessage("scrollon", "scrollon");
 });
 
 eventHandlerSphere.on(EVENT_NAMES.CONTROLLER_HOVER_OUT, (evt) => {
-    parent.postMessage("scrolloff");
+    parent.postMessage("scrolloff", "scrolloff");
 });
