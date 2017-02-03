@@ -8,6 +8,7 @@ import {MouseController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/M
 import {CardboardController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/CardboardController.js';
 
 import {DimmCone} from './objects/DimmCone.js';
+import {EventHandlerSphere} from './objects/EventHandlerSphere.js';
 let scene = SceneManager.get();
 let controls = scene.controls;
 
@@ -17,7 +18,7 @@ function setupGazePointUpdate(gazePoint) {
     gazePoint.Sculpt.on('update', () => {
         gazePoint.alpha = gazePoint.controller.intersected.length === 0 ? .00000001 : .02;
         if (gazePoint.controller.intersected.length !== 0) {
-            if (gazePoint.controller.intersected[0].object.Sculpt && gazePoint.controller.intersected[0].object.Sculpt instanceof DimmCone) {
+            if (gazePoint.controller.intersected[0].object.Sculpt && (gazePoint.controller.intersected[0].object.Sculpt instanceof DimmCone || gazePoint.controller.intersected[0].object.Sculpt instanceof EventHandlerSphere)) {
                 gazePoint.alpha = .00000001;
                 gazePoint.fixedDistance = gazePoint.defaultDistance;
             }
