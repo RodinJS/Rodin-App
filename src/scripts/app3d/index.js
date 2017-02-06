@@ -240,10 +240,12 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
                         const display = e.display || e.detail.display;
                         if(!display.isPresenting) {
                             window.removeEventListener('vrdisplaypresentchange', vrdisplaypresentchangehandler);
+                            window.removeEventListener('resize', vrdisplaypresentchangehandler);
                             goToNavigate();
                         }
                     }
                     window.addEventListener('vrdisplaypresentchange', vrdisplaypresentchangehandler, true);
+                    window.addEventListener('resize', vrdisplaypresentchangehandler, true);
                 } else {
                     goToNavigate();
                 }
