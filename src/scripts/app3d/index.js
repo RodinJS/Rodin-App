@@ -237,13 +237,25 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
                 if(window.isVRMode) {
                     popups.notSignedInMobile.open();
                     function vrdisplaypresentchangehandler(e) {
-                        const display = e.display || e.detail.display;
-                        if(!display.isPresenting) {
-                            window.removeEventListener('vrdisplaypresentchange', vrdisplaypresentchangehandler);
+                        if(e.display || (e.detail && e.detail.display)) {
+                            const display = e.display || e.detail.display;
+                            if (!display.isPresenting) {
+                                window.removeEventListener('orientationchange', vrdisplaypresentchangehandler);
+                                goToNavigate();
+                            }
+                        } else {
+                            window.removeEventListener('orientationchange', vrdisplaypresentchangehandler);
                             goToNavigate();
                         }
                     }
-                    window.addEventListener('vrdisplaypresentchange', vrdisplaypresentchangehandler, true);
+
+                    function closeHandler() {
+                        window.removeEventListener('orientationchange', vrdisplaypresentchangehandler);
+                        popups.notSignedInMobile.removeEventListener('close', closeHandler)
+                    }
+
+                    window.addEventListener('orientationchange', vrdisplaypresentchangehandler);
+                    popups.notSignedInMobile.on('close', closeHandler);
                 } else {
                     goToNavigate();
                 }
