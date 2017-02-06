@@ -108,7 +108,7 @@ export class Popup extends Element {
 export const notSignedInMobile = new Popup('/images/app3d/img/not_signed_in_mobile.png', 1.474, 1.002);
 notSignedInMobile.on('ready', (evt) => {
     scene.add(evt.target.object3D);
-    evt.target.object3D.position.z = -2;
+    evt.target.object3D.position.z = -1.7;
     evt.target.object3D.position.y = scene.controls.userHeight;
 });
 
