@@ -445,3 +445,7 @@ document.addEventListener('keydown', (event) => {
         event.preventDefault();
     }
 });
+
+document.addEventListener('wheel', (e)=>{
+    parent.postMessage({wheel:true}, "*");
+});
