@@ -42,6 +42,20 @@ function setupGazePointUpdate(gazePoint) {
 export const mouse = new MouseController();
 SceneManager.addController(mouse);
 
+let mouseControllerState = 0;
+
+scene.preRender(() => {
+    if(mouseControllerState === 0 && mouse.intersected.length > 0) {
+        parent.postMessage({scroll:false}, "*");
+        mouseControllerState = 1;
+    }
+
+    if(mouseControllerState === 1 && mouse.intersected.length === 0) {
+        parent.postMessage({scroll:true}, "*");
+        mouseControllerState = 0;
+    }
+});
+
 /**
  * Cardboard Controller
  */
