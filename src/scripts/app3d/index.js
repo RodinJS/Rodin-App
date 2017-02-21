@@ -163,9 +163,14 @@ function checkBackButtonVive() {
 
     if (!gamepad0 && !gamepad1) return requestAnimationFrame(checkBackButtonVive);
 
-    if (backButtonPressed0 !== gamepad0.buttons[3].pressed || backButtonPressed1 !== gamepad1.buttons[3].pressed) {
-        backButtonPressed0 = gamepad0.buttons[3].pressed;
-        backButtonPressed1 = gamepad1.buttons[3].pressed;
+    let buttonId = 3;
+    if(!gamepad0.hand) {
+        buttonId = 0;
+    }
+
+    if (backButtonPressed0 !== gamepad0.buttons[buttonId].pressed || backButtonPressed1 !== gamepad1.buttons[buttonId].pressed) {
+        backButtonPressed0 = gamepad0.buttons[buttonId].pressed;
+        backButtonPressed1 = gamepad1.buttons[buttonId].pressed;
 
         if ((backButtonPressed0 || backButtonPressed1) && API && API.getCurrentPage() === 'project') {
             window.history.back();

@@ -45,13 +45,13 @@ SceneManager.addController(mouse);
 let mouseControllerState = 0;
 
 scene.preRender(() => {
-    if(mouseControllerState === 0 && mouse.intersected.length > 0) {
-        parent.postMessage({scroll:false}, "*");
+    if (mouseControllerState === 0 && mouse.intersected.length > 0) {
+        parent.postMessage({scroll: false}, "*");
         mouseControllerState = 1;
     }
 
-    if(mouseControllerState === 1 && mouse.intersected.length === 0) {
-        parent.postMessage({scroll:true}, "*");
+    if (mouseControllerState === 1 && mouse.intersected.length === 0) {
+        parent.postMessage({scroll: true}, "*");
         mouseControllerState = 0;
     }
 });
@@ -85,6 +85,7 @@ if (window.device === 'oculus') {
 /**
  * Vive Controllers
  */
+
 let controllerL = new ViveController(RODIN.CONSTANTS.CONTROLLER_HANDS.LEFT, scene, scene.camera, 1);
 let controllerR = new ViveController(RODIN.CONSTANTS.CONTROLLER_HANDS.RIGHT, scene, scene.camera, 1);
 if (window.device === 'vr') {
@@ -94,6 +95,23 @@ if (window.device === 'vr') {
     controllerL.initRaycastingLine();
     SceneManager.addController(controllerL);
     scene.add(controllerL);
+
+    let foundL = false;
+    let foundR = false;
+    scene.preRender(() => {
+        if(foundL && foundR) return;
+
+        if (!foundL && controllerL.navigatorGamePad && !controllerL.navigatorGamePad.hand) {
+            controllerL.buttons = [4, 2, 3, 1];
+            foundL = true;
+
+        }
+
+        if (!foundR && controllerR.navigatorGamePad && !controllerR.navigatorGamePad.hand) {
+            controllerR.buttons = [4, 2, 3, 1];
+            foundL = true;
+        }
+    });
 
     controllerR.standingMatrix = controls.getStandingMatrix();
     controllerR.initControllerModel();
