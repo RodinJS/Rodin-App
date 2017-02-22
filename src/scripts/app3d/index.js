@@ -197,7 +197,7 @@ function checkBackButtonOculus() {
     let gamepad = null;
     for (let i = 0; i < gamePads.length; i++) {
         if (!gamePads[i]) continue;
-        if (gamePads[i].id.match(new RegExp('oculus', 'gi'))) {
+        if (gamePads[i].id.match(new RegExp('oculus', 'gi') && gamePads[i].hand === 'right')) {
             gamepad = gamePads[i];
         }
     }
@@ -206,8 +206,8 @@ function checkBackButtonOculus() {
         return requestAnimationFrame(checkBackButtonOculus);
     }
 
-    if (backButtonPressed[0] !== gamepad.buttons[1].pressed) {
-        backButtonPressed[0] = gamepad.buttons[1].pressed;
+    if (backButtonPressed[0] !== gamepad.buttons[3].pressed) {
+        backButtonPressed[0] = gamepad.buttons[3].pressed;
 
         if (backButtonPressed[0] && API && API.getCurrentPage() === 'project') {
             API.navigate('/');
