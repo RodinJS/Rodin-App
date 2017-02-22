@@ -225,7 +225,9 @@ if (window.device === 'vr') {
     requestAnimationFrame(checkBackButtonVive);
 }
 
+console.log('asd');
 if (window.device === 'oculus') {
+    console.log('asd oculus');
     requestAnimationFrame(checkBackButtonOculus);
 }
 
