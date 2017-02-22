@@ -173,7 +173,6 @@ function checkBackButtonVive() {
     const gamePads = navigator.getGamepads();
 
     if (!gamePads[0] && !gamePads[1]) return requestAnimationFrame(checkBackButtonVive);
-
     let buttonId = 3;
 
     for (let i of [0, 1]) {
@@ -184,6 +183,7 @@ function checkBackButtonVive() {
 
         if (backButtonPressed[i] !== gamePads[i].buttons[buttonId].pressed) {
             backButtonPressed[i] = gamePads[i].buttons[buttonId].pressed;
+            alert(API.getCurrentPage());
 
             if (backButtonPressed[i] && API && API.getCurrentPage() === 'project') {
                 API.navigate('/');

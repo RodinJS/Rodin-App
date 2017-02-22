@@ -108,7 +108,6 @@ class ProjectCtrl {
     }
 
     back() {
-        alert('asd');
         this._$window.history.back();
     }
 }
