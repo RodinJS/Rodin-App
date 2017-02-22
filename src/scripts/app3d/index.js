@@ -157,6 +157,7 @@ let backButtonPressed0 = false;
 let backButtonPressed1 = false;
 
 let changeDetected = false;
+let lastBack = 0;
 
 function checkBackButtonVive() {
     const gamePads = navigator.getGamepads();
@@ -173,8 +174,10 @@ function checkBackButtonVive() {
 
 
         if ((backButtonPressed0 || backButtonPressed1) && API && API.getCurrentPage() === 'project') {
-            alert('ase');
-            window.history.back();
+            if(Date.now() - lastBack > 2000) {
+                window.history.back();
+                lastBack = Date.now();
+            }
         } else if ((!backButtonPressed0 || !backButtonPressed1) && API && API.getCurrentPage() === 'home') {
             popups.exitConfirm.open(0.75);
         }
