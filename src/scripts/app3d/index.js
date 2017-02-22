@@ -61,6 +61,7 @@ function loadMore(type) {
                             }
 
                             if (self.concentrated && projects[i].helix.center == projects[i].index) {
+                                alert('ste chpti mtni');
                                 enterProject(projects[i], API);
                             }
                         });
