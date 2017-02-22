@@ -166,9 +166,6 @@ function createMyHelix() {
 
 let backButtonPressed = [false, false];
 
-let changeDetected = false;
-let lastBack = 0;
-
 function checkBackButtonVive() {
     const gamePads = navigator.getGamepads();
 
@@ -183,11 +180,11 @@ function checkBackButtonVive() {
 
         if (backButtonPressed[i] !== gamePads[i].buttons[buttonId].pressed) {
             backButtonPressed[i] = gamePads[i].buttons[buttonId].pressed;
+            console.log(backButtonPressed[i], gamePads[i].buttons[buttonId].pressed);
 
             if (backButtonPressed[i] && API && API.getCurrentPage() === 'project') {
                 API.navigate('/');
             } else if (!backButtonPressed[i] && API && API.getCurrentPage() === 'home') {
-                alert(API.getCurrentPage());
                 popups.exitConfirm.open(0.75);
             }
         }
