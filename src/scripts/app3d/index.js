@@ -48,7 +48,7 @@ function loadMore(type) {
                     });
 
                     for (let i = 0; i < projects.length; i++) {
-                        projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
+                        projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
 
                             if (evt.controller.navigatorGamePadId === 'oculus') {
                                 if (evt.keyCode === 6) {
