@@ -164,7 +164,7 @@ function checkBackButtonVive() {
     if (!gamePads[0] && !gamePads[1]) return requestAnimationFrame(checkBackButtonVive);
 
     let buttonId = 3;
-    if (Date.now() - lastBack > 2000) {
+    if (Date.now() - lastBack > 5000) {
         for (let i of [0, 1]) {
 
             if (!gamePads[i]) {
