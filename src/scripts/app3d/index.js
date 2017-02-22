@@ -216,7 +216,7 @@ function checkBackButtonOculus() {
 
         if (backButtonPressed[0] && API && API.getCurrentPage() === 'project') {
             API.navigate('/');
-        } else if (!backButtonPressed[0] && API && API.getCurrentPage() === 'home') {
+        } else if (backButtonPressed[0] && API && API.getCurrentPage() === 'home') {
             popups.exitConfirm.open(0.75);
         }
     }
