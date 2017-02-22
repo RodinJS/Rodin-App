@@ -193,7 +193,6 @@ function checkBackButtonVive() {
 }
 
 function checkBackButtonOculus() {
-    console.log('animationframe');
     const gamePads = navigator.getGamepads();
     let gamepad = null;
     for (let i = 0; i < gamePads.length; i++) {
@@ -203,12 +202,10 @@ function checkBackButtonOculus() {
         }
     }
 
-    console.log(gamepad);
     if (!gamepad) {
         return requestAnimationFrame(checkBackButtonOculus);
     }
 
-    console.log(gamepad.buttons.map(i => i.pressed));
     if (backButtonPressed[0] !== gamepad.buttons[2].pressed) {
         backButtonPressed[0] = gamepad.buttons[2].pressed;
 
