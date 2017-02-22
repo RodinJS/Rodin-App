@@ -171,7 +171,7 @@ function checkBackButtonVive() {
         }
 
         if (backButtonPressed[i] !== gamePads[i].buttons[buttonId].pressed) {
-            backButtonPressed[1] = gamePads[i].buttons[buttonId].pressed;
+            backButtonPressed[i] = gamePads[i].buttons[buttonId].pressed;
 
             if (Date.now() - lastBack > 2000) {
                 if (backButtonPressed[i] && API && API.getCurrentPage() === 'project') {
