@@ -153,32 +153,30 @@ function createMyHelix() {
 }
 
 
-let backButtonPressed0 = false;
-let backButtonPressed1 = false;
+let backButtonPressed = [false, false];
 
 let changeDetected = false;
 let lastBack = 0;
 
 function checkBackButtonVive() {
     const gamePads = navigator.getGamepads();
-    let gamepad0 = gamePads[0] || gamePads[1];
-    let gamepad1 = gamePads[1] || gamePads[0];
 
     if (!gamepad0 && !gamepad1) return requestAnimationFrame(checkBackButtonVive);
 
     let buttonId = 3;
+    for (let i of [0,1]) {
 
-    if (backButtonPressed0 !== gamepad0.buttons[buttonId].pressed || backButtonPressed1 !== gamepad1.buttons[buttonId].pressed) {
-        backButtonPressed0 = gamepad0.buttons[buttonId].pressed;
-        backButtonPressed1 = gamepad1.buttons[buttonId].pressed;
+        if (backButtonPressed[i] !== gamePads[i].buttons[buttonId].pressed) {
+            backButtonPressed[1] = gamePads[i].buttons[buttonId].pressed;
 
-        if (Date.now() - lastBack > 2000) {
-            if ((backButtonPressed0 || backButtonPressed1) && API && API.getCurrentPage() === 'project') {
-                window.history.back();
-                lastBack = Date.now();
-            } else if ((!backButtonPressed0 || !backButtonPressed1) && API && API.getCurrentPage() === 'home') {
-                popups.exitConfirm.open(0.75);
-                lastBack = Date.now();
+            if (Date.now() - lastBack > 2000) {
+                if (backButtonPressed[i] && API && API.getCurrentPage() === 'project') {
+                    window.history.back();
+                    lastBack = Date.now();
+                } else if (!backButtonPressed[i] && API && API.getCurrentPage() === 'home') {
+                    popups.exitConfirm.open(0.75);
+                    lastBack = Date.now();
+                }
             }
         }
     }
