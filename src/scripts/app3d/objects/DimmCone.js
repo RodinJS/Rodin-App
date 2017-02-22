@@ -25,7 +25,8 @@ export class DimmCone extends THREEObject {
             evt.stopPropagation();
         });
 
-        this.on(EVENT_NAMES.CONTROLLER_KEY_UP, () => {
+        this.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
+            if(evt.controller instanceof ViveController && evt.keyCode !== 1 && evt.keyCode !== 2) return;
             if (this.focusObject && this.focusObject.Sculpt && this.focusObject.Sculpt.close) {
                 this.focusObject.Sculpt.close();
             }
