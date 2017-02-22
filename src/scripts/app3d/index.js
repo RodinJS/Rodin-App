@@ -202,10 +202,12 @@ function checkBackButtonOculus() {
         }
     }
 
+    console.log(gamepad);
     if (!gamepad) {
         return requestAnimationFrame(checkBackButtonOculus);
     }
 
+    console.log(gamepad.buttons.map(i => i.pressed));
     if (backButtonPressed[0] !== gamepad.buttons[2].pressed) {
         backButtonPressed[0] = gamepad.buttons[2].pressed;
 
