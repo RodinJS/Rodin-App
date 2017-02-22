@@ -166,6 +166,10 @@ function checkBackButtonVive() {
     let buttonId = 3;
     for (let i of [0,1]) {
 
+        if(!gamePads[i]) {
+            continue;
+        }
+
         if (backButtonPressed[i] !== gamePads[i].buttons[buttonId].pressed) {
             backButtonPressed[1] = gamePads[i].buttons[buttonId].pressed;
 
