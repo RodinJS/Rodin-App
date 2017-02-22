@@ -199,12 +199,12 @@ function checkBackButtonOculus() {
         return requestAnimationFrame(checkBackButtonOculus);
     }
 
-    if (backButtonPressed0 !== gamepad.buttons[1].pressed) {
-        backButtonPressed0 = gamepad.buttons[1].pressed;
+    if (backButtonPressed[0] !== gamepad.buttons[1].pressed) {
+        backButtonPressed[0] = gamepad.buttons[1].pressed;
 
-        if (backButtonPressed0 && API && API.getCurrentPage() === 'project') {
+        if (backButtonPressed[0] && API && API.getCurrentPage() === 'project') {
             API.navigate('/');
-        } else if (!backButtonPressed0 && API && API.getCurrentPage() === 'home') {
+        } else if (!backButtonPressed[0] && API && API.getCurrentPage() === 'home') {
             popups.exitConfirm.open(0.75);
         }
     }
@@ -340,6 +340,7 @@ const fadeInSphere = new FadeInSphere();
 fadeInSphere.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
     if (evt.animation === 'fadeIn') {
         window.mustEnterVRMode = (scene.webVRmanager.mode === 3);
+        alert('asd1');
         API.navigate('/project', {root: evt.target.requester.root, owner: evt.target.requester.owner});
     }
     if (evt.animation === 'fadeOut') {
