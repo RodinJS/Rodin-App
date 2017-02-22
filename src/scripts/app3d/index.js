@@ -172,14 +172,14 @@ function checkBackButtonVive() {
         backButtonPressed0 = gamepad0.buttons[buttonId].pressed;
         backButtonPressed1 = gamepad1.buttons[buttonId].pressed;
 
-
-        if ((backButtonPressed0 || backButtonPressed1) && API && API.getCurrentPage() === 'project') {
-            if(Date.now() - lastBack > 2000) {
+        if (Date.now() - lastBack > 2000) {
+            if ((backButtonPressed0 || backButtonPressed1) && API && API.getCurrentPage() === 'project') {
                 window.history.back();
                 lastBack = Date.now();
+            } else if ((!backButtonPressed0 || !backButtonPressed1) && API && API.getCurrentPage() === 'home') {
+                popups.exitConfirm.open(0.75);
+                lastBack = Date.now();
             }
-        } else if ((!backButtonPressed0 || !backButtonPressed1) && API && API.getCurrentPage() === 'home') {
-            popups.exitConfirm.open(0.75);
         }
     }
 
