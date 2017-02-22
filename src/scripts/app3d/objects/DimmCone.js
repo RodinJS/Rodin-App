@@ -3,6 +3,7 @@ import {SceneManager} from 'https://cdn.rodin.io/v0.0.1/rodinjs/scene/SceneManag
 import {THREE} from 'https://cdn.rodin.io/v0.0.1/vendor/three/THREE.GLOBAL.js';
 import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.1/rodinjs/constants/constants.js';
 import {ViveController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/ViveController.js';
+import {OculusTouchController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/OculusTouchController.js';
 
 const scene = SceneManager.get();
 
@@ -28,6 +29,9 @@ export class DimmCone extends THREEObject {
 
         this.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
             if(evt.controller instanceof ViveController && evt.keyCode !== 1 && evt.keyCode !== 2) return;
+            console.log(evt.keyCode);
+            if(evt.controller instanceof OculusTouchController && evt.keyCode == 3) return;
+
             if (this.focusObject && this.focusObject.Sculpt && this.focusObject.Sculpt.close) {
                 this.focusObject.Sculpt.close();
             }
