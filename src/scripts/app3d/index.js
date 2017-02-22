@@ -206,8 +206,8 @@ function checkBackButtonOculus() {
         return requestAnimationFrame(checkBackButtonOculus);
     }
 
-    if (backButtonPressed[0] !== gamepad.buttons[3].pressed) {
-        backButtonPressed[0] = gamepad.buttons[3].pressed;
+    if (backButtonPressed[0] !== gamepad.buttons[2].pressed) {
+        backButtonPressed[0] = gamepad.buttons[2].pressed;
 
         if (backButtonPressed[0] && API && API.getCurrentPage() === 'project') {
             API.navigate('/');
