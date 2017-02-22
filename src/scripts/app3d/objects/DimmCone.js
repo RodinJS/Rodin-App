@@ -2,6 +2,7 @@ import {THREEObject} from "https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/THREEObjec
 import {SceneManager} from 'https://cdn.rodin.io/v0.0.1/rodinjs/scene/SceneManager.js';
 import {THREE} from 'https://cdn.rodin.io/v0.0.1/vendor/three/THREE.GLOBAL.js';
 import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.1/rodinjs/constants/constants.js';
+import {ViveController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/ViveController.js';
 
 const scene = SceneManager.get();
 
