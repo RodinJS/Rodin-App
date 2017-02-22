@@ -156,6 +156,8 @@ function createMyHelix() {
 let backButtonPressed0 = false;
 let backButtonPressed1 = false;
 
+let changeDetected = false;
+
 function checkBackButtonVive() {
     const gamePads = navigator.getGamepads();
     let gamepad0 = gamePads[0] || gamePads[1];
@@ -169,8 +171,9 @@ function checkBackButtonVive() {
         backButtonPressed0 = gamepad0.buttons[buttonId].pressed;
         backButtonPressed1 = gamepad1.buttons[buttonId].pressed;
 
-        if ((!backButtonPressed0 || !backButtonPressed1) && API && API.getCurrentPage() === 'project') {
-            alert('asd');
+
+        if ((backButtonPressed0 || backButtonPressed1) && API && API.getCurrentPage() === 'project') {
+            alert('ase');
             window.history.back();
         } else if ((!backButtonPressed0 || !backButtonPressed1) && API && API.getCurrentPage() === 'home') {
             popups.exitConfirm.open(0.75);
