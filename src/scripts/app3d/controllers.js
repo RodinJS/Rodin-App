@@ -4,6 +4,7 @@ import * as RODIN from 'https://cdn.rodin.io/v0.0.1/rodinjs/RODIN.js';
 import {SceneManager} from 'https://cdn.rodin.io/v0.0.1/rodinjs/scene/SceneManager.js';
 import {ViveController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/ViveController.js';
 import {OculusController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/OculusController.js';
+import {OculusTouchController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/OculusTouchController.js';
 import {MouseController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/MouseController.js';
 import {CardboardController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/CardboardController.js';
 
@@ -80,6 +81,24 @@ if (window.device === 'oculus') {
     setTimeout(() => {
         setupGazePointUpdate(oculus.gazePoint);
     }, 2000);
+}
+
+/**
+ * Oculus Touch Controllers
+ */
+let controllerOculusL = new OculusTouchController(RODIN.CONSTANTS.CONTROLLER_HANDS.LEFT, scene, scene.camera, 1);
+let controllerOculusR = new OculusTouchController(RODIN.CONSTANTS.CONTROLLER_HANDS.RIGHT, scene, scene.camera, 1);
+if (window.device === 'oculus') {
+
+    controllerOculusL.initControllerModel();
+    controllerOculusL.initRaycastingLine();
+    SceneManager.addController(controllerOculusL);
+    scene.add(controllerOculusL);
+
+    controllerOculusR.initControllerModel();
+    controllerOculusR.initRaycastingLine();
+    SceneManager.addController(controllerOculusR);
+    scene.add(controllerOculusR);
 }
 
 /**
