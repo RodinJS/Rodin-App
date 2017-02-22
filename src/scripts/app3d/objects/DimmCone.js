@@ -29,7 +29,8 @@ export class DimmCone extends THREEObject {
 
         this.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
             if(evt.controller instanceof ViveController && evt.keyCode !== 1 && evt.keyCode !== 2) return;
-            if(evt.controller instanceof OculusTouchController && evt.keyCode == 2) return;
+            if(evt.controller instanceof OculusTouchController && evt.keyCode == 2)
+                alert(evt.keyCode);
 
             if (this.focusObject && this.focusObject.Sculpt && this.focusObject.Sculpt.close) {
                 this.focusObject.Sculpt.close();
