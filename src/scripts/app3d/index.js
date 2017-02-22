@@ -161,7 +161,7 @@ let lastBack = 0;
 function checkBackButtonVive() {
     const gamePads = navigator.getGamepads();
 
-    if (!gamepad0 && !gamepad1) return requestAnimationFrame(checkBackButtonVive);
+    if (!gamePads[0] && !gamePads[1]) return requestAnimationFrame(checkBackButtonVive);
 
     let buttonId = 3;
     for (let i of [0,1]) {
