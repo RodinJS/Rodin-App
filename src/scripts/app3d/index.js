@@ -193,6 +193,7 @@ function checkBackButtonVive() {
 }
 
 function checkBackButtonOculus() {
+    console.log('animationframe');
     const gamePads = navigator.getGamepads();
     let gamepad = null;
     for (let i = 0; i < gamePads.length; i++) {
@@ -225,9 +226,7 @@ if (window.device === 'vr') {
     requestAnimationFrame(checkBackButtonVive);
 }
 
-console.log('asd');
 if (window.device === 'oculus') {
-    console.log('asd oculus');
     requestAnimationFrame(checkBackButtonOculus);
 }
 
