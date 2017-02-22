@@ -194,6 +194,8 @@ function checkBackButtonVive() {
 
 function checkBackButtonOculus() {
     console.log('animationframe');
+    console.log(requestAnimationFrame);
+    requestAnimationFrame(console.log);
     const gamePads = navigator.getGamepads();
     let gamepad = null;
     for (let i = 0; i < gamePads.length; i++) {
