@@ -175,7 +175,7 @@ function checkBackButtonVive() {
                 backButtonPressed[i] = gamePads[i].buttons[buttonId].pressed;
 
                 if (backButtonPressed[i] && API && API.getCurrentPage() === 'project') {
-                    window.history.back();
+                    API.navigate('/');
                     lastBack = Date.now();
                 } else if (!backButtonPressed[i] && API && API.getCurrentPage() === 'home') {
                     popups.exitConfirm.open(0.75);
