@@ -164,23 +164,20 @@ function checkBackButtonVive() {
     if (!gamePads[0] && !gamePads[1]) return requestAnimationFrame(checkBackButtonVive);
 
     let buttonId = 3;
-    if (Date.now() - lastBack > 5000) {
-        for (let i of [0, 1]) {
 
-            if (!gamePads[i]) {
-                continue;
-            }
+    for (let i of [0, 1]) {
 
-            if (backButtonPressed[i] !== gamePads[i].buttons[buttonId].pressed) {
-                backButtonPressed[i] = gamePads[i].buttons[buttonId].pressed;
+        if (!gamePads[i]) {
+            continue;
+        }
 
-                if (backButtonPressed[i] && API && API.getCurrentPage() === 'project') {
-                    API.navigate('/');
-                    lastBack = Date.now();
-                } else if (!backButtonPressed[i] && API && API.getCurrentPage() === 'home') {
-                    popups.exitConfirm.open(0.75);
-                    lastBack = Date.now();
-                }
+        if (backButtonPressed[i] !== gamePads[i].buttons[buttonId].pressed) {
+            backButtonPressed[i] = gamePads[i].buttons[buttonId].pressed;
+
+            if (backButtonPressed[i] && API && API.getCurrentPage() === 'project') {
+                API.navigate('/');
+            } else if (!backButtonPressed[i] && API && API.getCurrentPage() === 'home') {
+                popups.exitConfirm.open(0.75);
             }
         }
     }
