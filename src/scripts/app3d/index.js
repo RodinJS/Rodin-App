@@ -63,10 +63,16 @@ function loadMore(type) {
                             }
 
                             alert(evt.keyCode);
-                            if (evt.controller instanceof ViveController && (evt.keyCode === 0 || evt.keyCode === 1))
+                            if (evt.controller instanceof ViveController && (evt.keyCode === 0 || evt.keyCode === 1)) {
                                 if (self.concentrated && projects[i].helix.center == projects[i].index) {
                                     enterProject(projects[i], API);
                                 }
+                                return;
+                            }
+
+                            if (self.concentrated && projects[i].helix.center == projects[i].index) {
+                                enterProject(projects[i], API);
+                            }
                         });
 
                         projects[i].thumb.on("ready", (evt) => {
