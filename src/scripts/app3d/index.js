@@ -164,9 +164,6 @@ function checkBackButtonVive() {
     if (!gamepad0 && !gamepad1) return requestAnimationFrame(checkBackButtonVive);
 
     let buttonId = 3;
-    if(!gamepad0.hand) {
-        buttonId = 0;
-    }
 
     if (backButtonPressed0 !== gamepad0.buttons[buttonId].pressed || backButtonPressed1 !== gamepad1.buttons[buttonId].pressed) {
         backButtonPressed0 = gamepad0.buttons[buttonId].pressed;
@@ -174,9 +171,7 @@ function checkBackButtonVive() {
 
         if ((backButtonPressed0 || backButtonPressed1) && API && API.getCurrentPage() === 'project') {
             window.history.back();
-        }
-
-        if ((!backButtonPressed0 || !backButtonPressed1) && API && API.getCurrentPage() === 'home') {
+        } else if ((!backButtonPressed0 || !backButtonPressed1) && API && API.getCurrentPage() === 'home') {
             popups.exitConfirm.open(0.75);
         }
     }
@@ -203,9 +198,7 @@ function checkBackButtonOculus() {
 
         if (backButtonPressed0 && API && API.getCurrentPage() === 'project') {
             window.history.back();
-        }
-
-        if (!backButtonPressed0 && API && API.getCurrentPage() === 'home') {
+        } else if (!backButtonPressed0 && API && API.getCurrentPage() === 'home') {
             popups.exitConfirm.open(0.75);
         }
     }
@@ -239,10 +232,10 @@ icons._personal.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
     if (!API.isLoggedIn()) {
         switch (window.device) {
             case 'mobile':
-                if(window.isVRMode) {
+                if (window.isVRMode) {
                     popups.notSignedInMobile.open();
                     function vrdisplaypresentchangehandler(e) {
-                        if(e.display || (e.detail && e.detail.display)) {
+                        if (e.display || (e.detail && e.detail.display)) {
                             const display = e.display || e.detail.display;
                             if (!display.isPresenting) {
                                 window.removeEventListener('orientationchange', vrdisplaypresentchangehandler);
@@ -414,7 +407,7 @@ export class APP {
             checkAndGoToVR();
         }
 
-        if(window.device == 'mobile' && window.mustEnterVRMode) {
+        if (window.device == 'mobile' && window.mustEnterVRMode) {
             checkCount = 0;
             window.mustShowRotateInstructions = false;
             checkAndGoToVR();
@@ -461,6 +454,6 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-document.addEventListener('wheel', (e)=>{
-    parent.postMessage({wheel:true}, "*");
+document.addEventListener('wheel', (e) => {
+    parent.postMessage({wheel: true}, "*");
 });
