@@ -62,17 +62,14 @@ function loadMore(type) {
                                 if (evt.keyCode !== 1) return;
                             }
 
-                            // if (evt.controller instanceof ViveController) {
-                            //     if(evt.keyCode === 2 || evt.keyCode === 1) {
-                            //         alert(self.concentrated);
-                            //         alert(projects[i].helix.center == projects[i].index);
-                            //         if (self.concentrated && projects[i].helix.center == projects[i].index) {
-                            //             alert('enterProject');
-                            //             enterProject(projects[i], API);
-                            //         }
-                            //     }
-                            //     return;
-                            // }
+                            if (evt.controller instanceof ViveController) {
+                                if(evt.keyCode === 2 || evt.keyCode === 1) {
+                                    if (self.concentrated && projects[i].helix.center == projects[i].index) {
+                                        enterProject(projects[i], API);
+                                    }
+                                }
+                                return;
+                            }
 
                             if (self.concentrated && projects[i].helix.center == projects[i].index) {
                                 enterProject(projects[i], API);
@@ -352,10 +349,8 @@ if (window.device === `vr`) {
 const fadeInSphere = new FadeInSphere();
 
 fadeInSphere.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
-    alert('animation end');
     if (evt.animation === 'fadeIn' && evt.target.requester) {
         window.mustEnterVRMode = (scene.webVRmanager.mode === 3);
-        alert('entering project');
         API.navigate('/project', {root: evt.target.requester.root, owner: evt.target.requester.owner});
         delete evt.target.requester;
     }
@@ -371,7 +366,6 @@ fadeInSphere.on(EVENT_NAMES.ANIMATION_START, (evt) => {
 });
 
 function enterProject(helixThumb, API) {
-    alert('started');
     fadeInSphere.requester = helixThumb;
     fadeInSphere.fadeIn();
 }
