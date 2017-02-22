@@ -64,10 +64,11 @@ function loadMore(type) {
 
                             alert(evt.keyCode);
                             if (evt.controller instanceof ViveController && (evt.keyCode === 2 || evt.keyCode === 1)) {
-                                alert('enter1');
-                                if (self.concentrated && projects[i].helix.center == projects[i].index) {
-                                    alert('enterProject');
-                                    enterProject(projects[i], API);
+                                if(evt.keyCode === 2 || evt.keyCode === 1) {
+                                    if (self.concentrated && projects[i].helix.center == projects[i].index) {
+                                        alert('enterProject');
+                                        enterProject(projects[i], API);
+                                    }
                                 }
                                 return;
                             }
