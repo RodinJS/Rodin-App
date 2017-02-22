@@ -73,15 +73,15 @@ if (window.device === 'mobile') {
 /**
  * Oculus Controller
  */
-export let oculus = null;
-if (window.device === 'oculus') {
-    oculus = new OculusController();
-    oculus.raycastLayers = 1;
-    SceneManager.addController(oculus);
-    setTimeout(() => {
-        setupGazePointUpdate(oculus.gazePoint);
-    }, 2000);
-}
+// export let oculus = null;
+// if (window.device === 'oculus') {
+//     oculus = new OculusController();
+//     oculus.raycastLayers = 1;
+//     SceneManager.addController(oculus);
+//     setTimeout(() => {
+//         setupGazePointUpdate(oculus.gazePoint);
+//     }, 2000);
+// }
 
 /**
  * Oculus Touch Controllers
