@@ -193,7 +193,7 @@ function checkBackButtonVive() {
 }
 
 function checkBackButtonOculus() {
-    console.log(SceneManager.get().webVRManager.hmd.getShouldQuit);
+    console.log(SceneManager.get().webVRmanager.hmd.getShouldQuit);
     if(SceneManager.get().webVRManager.hmd.getShouldQuit()) {
         window.close();
     }
