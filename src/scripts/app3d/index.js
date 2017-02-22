@@ -180,11 +180,12 @@ function checkBackButtonVive() {
 
         if (backButtonPressed[i] !== gamePads[i].buttons[buttonId].pressed) {
             backButtonPressed[i] = gamePads[i].buttons[buttonId].pressed;
-            console.log(backButtonPressed[i], gamePads[i].buttons[buttonId].pressed);
+
+            alert(gamePads[i].buttons[buttonId].pressed);
 
             if (backButtonPressed[i] && API && API.getCurrentPage() === 'project') {
                 API.navigate('/');
-            } else if (!backButtonPressed[i] && API && API.getCurrentPage() === 'home') {
+            } else if (backButtonPressed[i] && API && API.getCurrentPage() === 'home') {
                 popups.exitConfirm.open(0.75);
             }
         }
