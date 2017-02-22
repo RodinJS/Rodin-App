@@ -227,7 +227,8 @@ if (window.device === 'vr') {
 }
 
 if (window.device === 'oculus') {
-    requestAnimationFrame(checkBackButtonOculus);
+    checkBackButtonOculus();
+    // requestAnimationFrame(checkBackButtonOculus);
 }
 
 
