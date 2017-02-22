@@ -194,8 +194,8 @@ function checkBackButtonVive() {
 
 window.scene = SceneManager.get();
 function checkBackButtonOculus() {
-    if(SceneManager.get().webVRManager && SceneManager.get().webVRManager.hmd) window.title = SceneManager.get().webVRManager.hmd.getShouldQuit();
-    if(SceneManager.get().webVRManager && SceneManager.get().webVRManager.hmd && SceneManager.get().webVRManager.hmd.getShouldQuit()) {
+    if(SceneManager.get().webVRmanager && SceneManager.get().webVRmanager.hmd) window.title = SceneManager.get().webVRmanager.hmd.getShouldQuit();
+    if(SceneManager.get().webVRmanager && SceneManager.get().webVRmanager.hmd && SceneManager.get().webVRmanager.hmd.getShouldQuit()) {
         window.close();
     }
 
