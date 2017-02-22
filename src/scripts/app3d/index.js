@@ -193,6 +193,11 @@ function checkBackButtonVive() {
 }
 
 function checkBackButtonOculus() {
+    console.log(SceneManager.get().webVRManager.hmd.getShouldQuit);
+    if(SceneManager.get().webVRManager.hmd.getShouldQuit()) {
+        window.close();
+    }
+
     const gamePads = navigator.getGamepads();
     let gamepad = null;
     for (let i = 0; i < gamePads.length; i++) {
