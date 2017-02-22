@@ -5,6 +5,7 @@ import {Element} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/elements/Eleme
 import {THREEObject} from 'https://cdn.rodin.io/v0.0.1/rodinjs/sculpt/THREEObject.js';
 import {EVENT_NAMES} from 'https://cdn.rodin.io/v0.0.1/rodinjs/constants/constants.js';
 import {Animation} from 'https://cdn.rodin.io/v0.0.1/rodinjs/animation/Animation.js';
+import {ViveController} from 'https://cdn.rodin.io/v0.0.1/rodinjs/controllers/ViveController.js';
 
 import * as controllers from './controllers.js';
 import * as platform from './objects/platform.js';
@@ -47,7 +48,8 @@ function loadMore(type) {
                     });
 
                     for (let i = 0; i < projects.length; i++) {
-                        projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_DOWN, (evt) => {
+                        projects[i].thumb.on(EVENT_NAMES.CONTROLLER_KEY_UP, (evt) => {
+
                             if (evt.controller.navigatorGamePadId === 'oculus') {
                                 if (evt.keyCode === 6) {
                                     projects[i].helix.concentrate(projects[i].helix.center + 1);
@@ -60,9 +62,10 @@ function loadMore(type) {
                                 if (evt.keyCode !== 1) return;
                             }
 
-                            if (self.concentrated && projects[i].helix.center == projects[i].index) {
-                                enterProject(projects[i], API);
-                            }
+                            if (evt.controller instanceof ViveController && (evt.keyCode === 0 || evt.keyCode === 1))
+                                if (self.concentrated && projects[i].helix.center == projects[i].index) {
+                                    enterProject(projects[i], API);
+                                }
                         });
 
                         projects[i].thumb.on("ready", (evt) => {
