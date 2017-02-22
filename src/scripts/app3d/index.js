@@ -203,7 +203,7 @@ function checkBackButtonOculus() {
         backButtonPressed0 = gamepad.buttons[1].pressed;
 
         if (backButtonPressed0 && API && API.getCurrentPage() === 'project') {
-            window.history.back();
+            API.navigate('/');
         } else if (!backButtonPressed0 && API && API.getCurrentPage() === 'home') {
             popups.exitConfirm.open(0.75);
         }
