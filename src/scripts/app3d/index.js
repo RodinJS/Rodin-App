@@ -62,11 +62,9 @@ function loadMore(type) {
                                 if (evt.keyCode !== 1) return;
                             }
 
-                            alert(evt.controller instanceof ViveController);
                             if (evt.controller instanceof ViveController) {
-                                alert(evt.keyCode === 2 || evt.keyCode === 1);
                                 if(evt.keyCode === 2 || evt.keyCode === 1) {
-                                    alert(self.concentrated && projects[i].helix.center == projects[i].index);
+                                    alert(self.concentrated + ' ' + projects[i].helix.center == projects[i].index);
                                     if (self.concentrated && projects[i].helix.center == projects[i].index) {
                                         alert('enterProject');
                                         enterProject(projects[i], API);
