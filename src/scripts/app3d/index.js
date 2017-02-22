@@ -164,16 +164,16 @@ function checkBackButtonVive() {
     if (!gamePads[0] && !gamePads[1]) return requestAnimationFrame(checkBackButtonVive);
 
     let buttonId = 3;
-    for (let i of [0,1]) {
+    if (Date.now() - lastBack > 2000) {
+        for (let i of [0, 1]) {
 
-        if(!gamePads[i]) {
-            continue;
-        }
+            if (!gamePads[i]) {
+                continue;
+            }
 
-        if (backButtonPressed[i] !== gamePads[i].buttons[buttonId].pressed) {
-            backButtonPressed[i] = gamePads[i].buttons[buttonId].pressed;
+            if (backButtonPressed[i] !== gamePads[i].buttons[buttonId].pressed) {
+                backButtonPressed[i] = gamePads[i].buttons[buttonId].pressed;
 
-            if (Date.now() - lastBack > 2000) {
                 if (backButtonPressed[i] && API && API.getCurrentPage() === 'project') {
                     window.history.back();
                     lastBack = Date.now();
