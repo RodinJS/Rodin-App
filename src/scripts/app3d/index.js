@@ -338,10 +338,10 @@ if (window.device === `vr`) {
 const fadeInSphere = new FadeInSphere();
 
 fadeInSphere.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
-    if (evt.animation === 'fadeIn') {
+    if (evt.animation === 'fadeIn' && evt.target.requester) {
         window.mustEnterVRMode = (scene.webVRmanager.mode === 3);
-        alert('asd1');
         API.navigate('/project', {root: evt.target.requester.root, owner: evt.target.requester.owner});
+        delete evt.target.requester;
     }
     if (evt.animation === 'fadeOut') {
         scene.camera.remove(evt.target.object3D);
