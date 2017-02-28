@@ -7,6 +7,11 @@ import {HoverableElement} from './HoverableElement.js';
 
 const scene = SceneManager.get();
 
+function hide(obj) {
+    obj.visible = false;
+    obj.children.map(i => hide(i));
+}
+
 export class OpeningIcon extends HoverableElement {
     constructor(params, hoverParams, sliderParams) {
         super(params, hoverParams);
@@ -148,6 +153,7 @@ export const _public = new OpeningIcon(
 );
 
 _public.on('ready', (evt) => {
+    hide(_public.object3D);
     evt.target.object3D.position.z = -2.5;
     evt.target.object3D.position.y = scene.controls.userHeight + .65;
     evt.target.object3D.position.x = -.15;
@@ -205,6 +211,7 @@ export const _personal = new OpeningIcon(
 );
 
 _personal.on('ready', (evt) => {
+    hide(_personal.object3D);
     evt.target.object3D.position.z = -2.5;
     evt.target.object3D.position.y = scene.controls.userHeight + .65;
     evt.target.object3D.position.x = .15;
