@@ -475,5 +475,5 @@ document.addEventListener('keydown', (event) => {
 });
 
 document.addEventListener('wheel', (e) => {
-    parent.postMessage({wheel: true}, "*");
+    parent.postMessage({wheel: e.deltaY}, "*");
 });
