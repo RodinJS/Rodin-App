@@ -69,7 +69,7 @@
     "angular-ui-tree": "2.22.1",
     "bootstrap-sass": "3.3.7",
     "font-awesome": "4.7.0",
-    "ng-device-detector": "^3.0.1",
+    "ng-device-detector": "^4.0.0",
     "query-string": "4.2.3",
     "restangular": "1.5.2",
     "socket.io-client": "1.7.2",
