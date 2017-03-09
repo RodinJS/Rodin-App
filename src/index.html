@@ -68,6 +68,7 @@
     return 'desktop';
   }
   window.device = getQueryVariable('device');
+  window.showBackButtonOnProjectPage = getQueryVariable('backbutton');
 
   (function (System) {
     var systemnormalize = System.normalize;

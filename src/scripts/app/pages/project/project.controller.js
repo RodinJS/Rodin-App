@@ -11,7 +11,7 @@ class ProjectCtrl {
         this._$state = $state;
         this._$stateParams = $stateParams;
         this._RodinTransitionCanvas = RodinTransitionCanvas;
-        this.showBackBtn = deviceDetector.isMobile()/* && window.innerWidth <= window.innerHeight*/;
+        this.showBackBtn = deviceDetector.isMobile() || window.showBackButtonOnProjectPage;/* && window.innerWidth <= window.innerHeight*/;
 
         setTimeout(function () {
             RodinTransitionCanvas.enable();
