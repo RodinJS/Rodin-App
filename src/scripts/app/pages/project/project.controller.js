@@ -20,7 +20,7 @@ class ProjectCtrl {
         let loader = Loader.show();
 
         window.addEventListener("message", (event) => {
-            console.log(event);
+            //console.log(event);
             if (event.data != 'readyToCast')
                 return;
 
