@@ -74,6 +74,6 @@
     "restangular": "1.5.2",
     "socket.io-client": "1.7.2",
     "systemjs": "0.19.41",
-    "three": "0.83.0"
+    "three": "0.85.1"
   }
 }
