@@ -45,7 +45,8 @@ const VENDOR = require('./package.json').dependencies;
 const VENDORMAP = require('./vendor.json');
 
 
-const JS = ['src/scripts/**/**/*.js', '!src/scripts/systemjs-module/**', '!src/scripts/{vendor,vendor/**}'];
+const JS = ['src/scripts/**/**/*.js', '!src/scripts/systemjs-module/**', '!src/scripts/init/**', '!src/scripts/{vendor,vendor/**}'];
+const SYSTEMINIT = ['src/scripts/init/**/*.js'];
 const HTML = ['src/scripts/**/**/**/*.html'];
 const SASS = ['src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}'];
 const FONT = ['src/fonts/**/*.{ttf,woff,woff2,eof,svg,eot,json}'];
@@ -72,6 +73,19 @@ const UGLIFY_AGRESIVE = {
 const ERROR_MESSAGE = {
   errorHandler: notify.onError("Error: <%= error.message %>")
 };
+
+gulp.task('system:init', () => {
+    const s = size({title: 'Sysytem Init -> ', pretty: false});
+    return gulp.src(SYSTEMINIT)
+        .pipe(plumber(ERROR_MESSAGE))
+        .pipe(s)
+        .pipe(plumber.stop())
+        .pipe(gulp.dest('./build/init'))
+        .pipe(notify({
+            onLast: true,
+            message: () => `Sysytem(init) - Total size ${s.prettySize}`
+        }));
+});
 
 gulp.task('vendor', () => {
   let vendor_tasks = generate_vendor(VENDOR);
@@ -268,9 +282,9 @@ gulp.task('build-template', (done) => {
 
 
 gulp.task('prod', (done) => {
-  sequence('clean', 'vendor', ['generate-index', 'template', 'js-prod', 'sass-prod', 'font', 'img'], done);
+  sequence('clean', 'vendor', 'system:init', ['generate-index', 'template', 'js-prod', 'sass-prod', 'font', 'img'], done);
 });
 
 gulp.task('default', (done) => {
-  sequence('clean', 'vendor', ['generate-index', 'template', 'js', 'sass', 'font', 'img', 'connect', 'watch'], done);
+  sequence('clean', 'vendor', 'system:init', ['generate-index', 'template', 'js', 'sass', 'font', 'img', 'connect', 'watch'], done);
 });
