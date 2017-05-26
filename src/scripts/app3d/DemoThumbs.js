@@ -12,6 +12,8 @@ const grigsData = [
     {thumbnail: '/images/app3d/models/control_panel/images/03.jpg'}
 ];
 
+let instance = null;
+
 /**
  *
  */
@@ -79,5 +81,13 @@ export class DemoThumbs extends RODIN.Sculpt {
             thumb.alpha = (i - center) / 2;
             //console.log(thumb.alpha);
         }
+    }
+
+    static getInstance() {
+        if(!instance) {
+            instance = new DemoThumbs();
+        }
+
+        return instance;
     }
 }

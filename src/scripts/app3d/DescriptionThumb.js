@@ -1,6 +1,10 @@
-import * as RODIN from 'rodin/core'
+import * as RODIN from 'rodin/core';
+import {Popup} from './Popup.js';
+import {DemoThumbs} from './DemoThumbs.js';
+import {FeaturedProjectsThumbs} from './FeaturedProjectsThumbs.js';
+import {UserProjectsThumbs} from './UserProjectsThumbs.js';
 
-export class DescriptionThumb extends RODIN.Sculpt {
+export class DescriptionThumb extends Popup {
     constructor(data) {
         super();
 
@@ -136,6 +140,23 @@ export class DescriptionThumb extends RODIN.Sculpt {
         });
         this.backBtn.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
             this.backBtn._threeObject.children[0].material.color = new THREE.Color(0xb2b2b2);
+        });
+        this.backBtn.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+            this.close();
+        });
+
+        this.on('open', () => {
+            DemoThumbs.getInstance().visible = false;
+            FeaturedProjectsThumbs.getInstance().visible = false;
+            UserProjectsThumbs.getInstance().visible = false;
+        });
+
+        this.on('close', () => {
+            DemoThumbs.getInstance().visible = true;
+            FeaturedProjectsThumbs.getInstance().visible = true;
+            UserProjectsThumbs.getInstance().visible = true;
+            // todo: dispose it
+            this.parent.remove(this);
         });
     }
 }

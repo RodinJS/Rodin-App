@@ -91,8 +91,23 @@ export class UserHeader extends RODIN.Sculpt {
             this.logOutIcon.position.z = 0.006;
             this.logOutIconBG.add(this.logOutIcon);
         });
-        this.logOutIconBG.on(RODIN.CONST.GAMEPAD_HOVER, () => {
 
+        const logOut = new RODIN.Text({
+            text: 'Log Out',
+            color: 0x666666,
+            fontSize: 0.06
+        });
+        logOut.position.x = 0.35;
+        logOut.visible = false;
+        this.add(logOut);
+
+        this.logOutIconBG.on(RODIN.CONST.GAMEPAD_HOVER, () => {
+            logOut.visible = true;
+            this.logOutIconBG._threeObject.children[0].material.color = new THREE.Color(0xd8d8d8);
+        });
+        this.logOutIconBG.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
+            logOut.visible = false;
+            this.logOutIconBG._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
         });
 
 

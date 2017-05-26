@@ -14,6 +14,8 @@ const userData = [{
     avatar: '/images/app3d/models/control_panel/images/01.jpg'
 }];
 
+let instance = null;
+
 export class UserProjectsThumbs extends RODIN.Sculpt {
     constructor(_loggedIn = true) {
         super();
@@ -105,5 +107,13 @@ export class UserProjectsThumbs extends RODIN.Sculpt {
         }
 
         this.userHeader.loggedIn = value;
+    }
+
+    static getInstance() {
+        if(!instance) {
+            instance = new UserProjectsThumbs();
+        }
+
+        return instance;
     }
 }

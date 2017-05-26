@@ -2,6 +2,8 @@ import * as RODIN from 'rodin/core'
 import {ScrollBarHorizontal} from './ScrollBarHorizontal.js';
 import {SortBar} from './SortBar.js';
 
+let instance = null;
+
 export class FeaturedProjectsThumbs extends RODIN.Sculpt {
     constructor() {
         super();
@@ -38,5 +40,13 @@ export class FeaturedProjectsThumbs extends RODIN.Sculpt {
             this.sortBar.position.y = 0.45;
             this.add(this.sortBar);
         });
+    }
+
+    static getInstance() {
+        if(!instance) {
+            instance = new FeaturedProjectsThumbs();
+        }
+
+        return instance;
     }
 }
