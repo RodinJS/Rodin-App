@@ -1,17 +1,19 @@
 import * as RODIN from 'rodin/core';
+import {controlPanel} from './ControlPanel.js';
 
 RODIN.start();
 
 /**
- * Load gugenhaim .obj model, when it's ready add to the scene
+ * Load gugenhaim .obj model, add to the scene
  */
-const gugenhaimModel = new RODIN.Sculpt('../../images/app3d/models/gugenhaim.obj');
+const gugenhaimModel = new RODIN.Sculpt('images/app3d/models/gugenhaim.obj');
 gugenhaimModel.on(RODIN.CONST.READY, () => {
-    console.log('gugenhaim',gugenhaimModel);
     RODIN.Scene.add(gugenhaimModel);
 });
 
-RODIN.Scene.active._scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+RODIN.Scene.add(controlPanel);
+controlPanel.position.z = -2;
+controlPanel.position.y = 1.6;
 
 
 /**
