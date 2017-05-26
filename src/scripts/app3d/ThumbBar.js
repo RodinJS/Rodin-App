@@ -4,36 +4,36 @@ import {DescriptionThumb} from './DescriptionThumb.js';
 export class ThumbBar extends RODIN.Sculpt {
     constructor(url, data) {
         super(url);
-        let a = new RODIN.Box(0.5, 0.3, 0.1);
         this.on(RODIN.CONST.READY, () => {
             this._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 map: RODIN.Loader.loadTexture(data.thumbnail)
             });
-            this.add(a);
         });
 
         /**
          *
          */
-        a.on(RODIN.CONST.GAMEPAD_HOVER, () => {
-            this.hoverThumdb = new RODIN.Sculpt(url);
-            this.hoverThumdb.on(RODIN.CONST.READY, () => {
-                this.hoverThumdb.position.z = -0.006;
-                this.hoverThumdb.scale.set(1.05, 1.08, 1.08);
+        this.hoverThumdb = new RODIN.Sculpt(url);
+        this.hoverThumdb.on(RODIN.CONST.READY, () => {
+            this.hoverThumdb.position.z = -0.006;
+            this.hoverThumdb.scale.set(1.05, 1.08, 1.08);
+            this.hoverThumdb.visible = false;
 
-                this.hoverThumdb._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                    side: THREE.DoubleSide,
-                    color: 0xFFFFFF
-                });
-                if (this.isReady) {
-                    this.add(this.hoverThumdb)
-                }
+            this.hoverThumdb._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+                color: 0xFFFFFF
             });
+            if (this.isReady) {
+                this.add(this.hoverThumdb)
+            }
+        });
+        this.on(RODIN.CONST.GAMEPAD_HOVER, () => {
+            this.hoverThumdb.visible = true;
         });
 
-        a.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
-            this.hoverThumdb.parent = null;
+        this.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
+            this.hoverThumdb.visible = false;
         });
 
         /**
@@ -46,13 +46,13 @@ export class ThumbBar extends RODIN.Sculpt {
                 z: 0.95,
             }
         });
-        scaleDown.duration(100);
+        scaleDown.duration(200);
         this.animation.add(scaleDown);
 
-        a.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+        this.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
             this.animation.start('scaleDown');
         });
-        a.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
+        this.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
             this.scale.set(1, 1, 1);
             this.showDescriptionThumb(data);
         });

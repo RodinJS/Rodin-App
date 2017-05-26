@@ -67,6 +67,7 @@
     "angular-ui-notification": "0.2.0",
     "angular-ui-router": "0.3.2",
     "angular-ui-tree": "2.22.1",
+    "babel-preset-es2016": "^6.24.1",
     "bootstrap-sass": "3.3.7",
     "font-awesome": "4.7.0",
     "ng-device-detector": "^3.0.1",

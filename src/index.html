@@ -36,7 +36,7 @@
 <div class="clearfix hidden rodin-transition-canvas" data-rodin-transition-canvas></div>
 
 <script type="text/javascript" src="/scripts/vendor/systemjs/dist/system.js"></script>
-<script type="text/javascript" src="https://cdn.rodin.io/v0.0.6/vendor/vendor.js"></script>
+<script type="text/javascript" src="https://cdn.rodin.io/v0.0.7-dev/vendor/vendor.js"></script>
 <script>
 
     window.SCENE_MANAGER_AUTO_CREATE = false;
@@ -99,7 +99,7 @@
             'app/*': 'app/*',
             'app3d/*': 'app3d/*',
             'scripts/*': 'scripts/*',
-            'npm:': 'https://cdn.rodin.io/v0.0.6/',
+            'npm:': 'https://cdn.rodin.io/v0.0.7-dev/',
         },
         packages: {
             'dist': {main: 'index.js', defaultExtension: 'js'},
@@ -138,6 +138,9 @@
             'npm:core/camera': {main: 'index.js', defaultExtension: 'js'},
             'npm:core/avatar': {main: 'index.js', defaultExtension: 'js'},
             'npm:core/math': {main: 'index.js', defaultExtension: 'js'},
+            'npm:core/grid': {main: 'index.js', defaultExtension: 'js'},
+            'npm:core/transport': {main: 'index.js', defaultExtension: 'js'},
+            'npm:core/device': {main: 'index.js', defaultExtension: 'js'},
         }
     });
 
