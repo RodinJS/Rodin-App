@@ -18,22 +18,24 @@ export class DescriptionThumb extends Popup {
         });
 
         this.projectName = new RODIN.Text({
-            text: data.displayName,
-            color: 0x000000,
+            text: data.displayName || 'Project name',
+            color: 0x333333,
             fontSize: 0.09
         });
         this.projectName.position.set(-0.3, 0.42, 0.006);
         this.add(this.projectName);
 
+
         this.projectDescription = new RODIN.DynamicText({
-            text: data.description,
-            color: 0x000000,
+            text: data.description || 'There is no description',
+            color: 0x333333,
             width: 1.2,
             fontSize: 0.04,
             lineHeight: 0.076
         });
         this.projectDescription.position.set(-0.3, 0, 0.006);
         this.add(this.projectDescription);
+
 
         const widthRight = 0.66;
 
@@ -72,25 +74,15 @@ export class DescriptionThumb extends Popup {
         this.createBy.position.set(widthRight, -0.05, 0.006);
         this.add(this.createBy);
 
-        if (data.name) {
-            this.userName = new RODIN.Text({
-                text: data.name,
-                color: 0x000000,
-                fontSize: 0.06,
-                width: 0.5
-            });
-            this.userName.position.set(widthRight, -0.12, 0.006);
-            this.add(this.userName);
-        } else {
-            this.userName = new RODIN.Text({
-                text: 'Rodin team',
-                color: 0x000000,
-                fontSize: 0.06,
-                width: 0.5
-            });
-            this.userName.position.set(widthRight, -0.12, 0.006);
-            this.add(this.userName);
-        }
+        this.userName = new RODIN.Text({
+            text: data.name || 'Rodin team',
+            color: 0x333333,
+            fontSize: 0.06,
+            width: 0.5
+        });
+        this.userName.position.set(widthRight, -0.12, 0.006);
+        this.add(this.userName);
+
 
         this.startExperience = new RODIN.Sculpt('/images/app3d/models/control_panel/log_in.obj');
         this.startExperience.on(RODIN.CONST.READY, () => {

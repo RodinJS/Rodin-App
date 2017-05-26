@@ -1,4 +1,5 @@
 import * as RODIN from 'rodin/core'
+import {Exit} from './Exit.js';
 
 export class UserHeader extends RODIN.Sculpt {
     constructor(_loggedIn = false, data) {
@@ -55,23 +56,15 @@ export class UserHeader extends RODIN.Sculpt {
             this.loggedInSculpt.add(this.userInfoBar);
         });
 
-        if (data.name) {
-            this.userName = new RODIN.Text({
-                text: data.name.toString(),
-                color: 0x666666,
-                fontSize: 0.07
-            });
-            this.userName.position.x = -0.35;
-            this.loggedInSculpt.add(this.userName);
-        } else {
-            this.userName = new RODIN.Text({
-                text: 'Rodin team',
-                color: 0x666666,
-                fontSize: 0.07
-            });
-            this.userName.position.x = -0.35;
-            this.loggedInSculpt.add(this.userName);
-        }
+
+        this.userName = new RODIN.Text({
+            text: data.name || 'Rodin team',
+            color: 0x666666,
+            fontSize: 0.07
+        });
+        this.userName.position.x = -0.35;
+        this.loggedInSculpt.add(this.userName);
+
 
         this.logOutIconBG = new RODIN.Sculpt('/images/app3d/models/control_panel/user_icon.obj');
         this.logOutIconBG.on(RODIN.CONST.READY, () => {
@@ -109,7 +102,13 @@ export class UserHeader extends RODIN.Sculpt {
             logOut.visible = false;
             this.logOutIconBG._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
         });
-
+        this.logOutIconBG.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
+            const exitBar = new Exit();
+            exitBar.open();
+            exitBar.position.y = 1.6;
+            exitBar.position.z = -1.5;
+            RODIN.Scene.add(exitBar);
+        });
 
         this.loggedIn = _loggedIn;
     }
