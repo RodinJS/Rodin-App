@@ -86,8 +86,6 @@ export class SortBar extends RODIN.Sculpt {
             this.sortAZ.clicked ? this.sortAZ._threeObject.children[0].material.color = new THREE.Color(0xb0c9ef) :
                 this.sortAZ._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
         });
-        this.sortAZ.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
-        });
 
         this.sortMostPopular.on(RODIN.CONST.GAMEPAD_HOVER, () => {
             this.sortMostPopular._threeObject.children[0].material.color = new THREE.Color(0xd9d9d9);
@@ -95,8 +93,6 @@ export class SortBar extends RODIN.Sculpt {
         this.sortMostPopular.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
             this.sortMostPopular.clicked ? this.sortMostPopular._threeObject.children[0].material.color = new THREE.Color(0xb0c9ef) :
                 this.sortMostPopular._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
-        });
-        this.sortMostPopular.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
         });
 
 
@@ -133,6 +129,5 @@ export class SortBar extends RODIN.Sculpt {
                 this.sortMostPopular.clicked = true;
             }
         });
-
     }
 }
