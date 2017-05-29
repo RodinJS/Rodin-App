@@ -16,7 +16,7 @@ export class ThumbBar extends RODIN.Sculpt {
          */
         this.hoverThumdb = new RODIN.Sculpt(url);
         this.hoverThumdb.on(RODIN.CONST.READY, () => {
-            this.hoverThumdb.position.z = -0.006;
+            this.hoverThumdb.position.z = -0.002;
             this.hoverThumdb.scale.set(1.05, 1.08, 1.08);
             this.hoverThumdb.visible = false;
 

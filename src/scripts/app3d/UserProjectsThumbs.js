@@ -57,7 +57,7 @@ export class UserProjectsThumbs extends RODIN.Sculpt {
          */
         const scrollBarLenght = 1.32;
         this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_user.obj',
-            scrollBarLenght, userData.length, 4);
+            scrollBarLenght, 5/*userData.length*/, 4);
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.y = -0.5;
             this.loggedInSculpt.add(this.scrollBar);
@@ -73,7 +73,6 @@ export class UserProjectsThumbs extends RODIN.Sculpt {
                     this.thumbBar.add(thumb)
                 });
             }
-
         } else {
             this.thumbBar = new RODIN.Sculpt('/images/app3d/models/control_panel/not_logged.obj');
             this.thumbBar.on(RODIN.CONST.READY, () => {
@@ -95,6 +94,41 @@ export class UserProjectsThumbs extends RODIN.Sculpt {
         }
 
         this.loggedIn = _loggedIn;
+
+        /**
+         * leftScrollThumbs
+         */
+        this.leftScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
+        this.leftScrollThumbs.on(RODIN.CONST.READY, () => {
+            this.leftScrollThumbs.position.set(-0.5, 0, -0.004);
+            this.leftScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+                color: 0xaaaaaa,
+                transparent: true,
+                opacity: 0.65,
+            });
+            this.add(this.leftScrollThumbs)
+        });
+
+        /**
+         * rightScrollThumbs
+         */
+        this.rightScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
+        this.rightScrollThumbs.on(RODIN.CONST.READY, () => {
+            this.rightScrollThumbs.position.set(0.5, 0, -0.004);
+            this.rightScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+                color: 0xaaaaaa,
+                transparent: true,
+                opacity: 0.65,
+            });
+            this.add(this.rightScrollThumbs)
+        });
+
+        this.scrollBar.on('change', () => {
+            this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+            this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+        });
     }
 
     set loggedIn(value) {

@@ -23,7 +23,6 @@ export class ScrollBarHorizontal extends RODIN.Sculpt {
         this.lenght = lenght;
         this.pagesNaber = Math.ceil(numberOfProjects / showingProjectsNumber);
         this.pageScrollStep = lenght / this.pagesNaber;
-        //console.log(this.pageScrollStep);
         this._currentPage = 1;
 
         const scrollToolObj = new RODIN.Sculpt(url);
@@ -37,23 +36,12 @@ export class ScrollBarHorizontal extends RODIN.Sculpt {
 
             scrollToolObj.scale.x = this.pageScrollStep / this.lenght;
             this.scrollTool.add(scrollToolObj);
-            this.scrollTool.position.x = this.pageScrollStep * this.currentPage - (this.lenght + this.pageScrollStep) / 2;
             this.scrollTool.position.z = 0.001;
+
+            this.currentPage = 1;
 
             this.add(this.scrollTool);
         });
-
-        /**
-         * Set current page numbering
-         */
-        this.currentPageNumber = new RODIN.Text({
-            text: this.currentPage,
-            color: 0x0077ff,
-            fontSize: 0.04
-        });
-        this.currentPageNumber.position.y = 0.05;
-        this.scrollTool.add(this.currentPageNumber);
-
         /**
          * Set numbering
          */
@@ -86,16 +74,17 @@ export class ScrollBarHorizontal extends RODIN.Sculpt {
 
     set currentPage(value) {
         this._currentPage = value;
-        this.currentPageNumber.parent = null;
+        this.currentPageNumber && (this.currentPageNumber.parent = null);
 
-        this.scrollTool.position.x = (this.lenght + this.pageScrollStep) / 2 - this.pageScrollStep * this._currentPage;
+        this.scrollTool.position.x = this.pageScrollStep * this.currentPage - (this.lenght + this.pageScrollStep) / 2;
 
         this.currentPageNumber = new RODIN.Text({
             text: this._currentPage,
             color: 0x0077ff,
             fontSize: 0.04
         });
-        this.currentPageNumber.position.y = -0.05;
-        this.scrollTool.add(this.currentPageNumber)
+        this.currentPageNumber.position.y = 0.05;
+        this.scrollTool.add(this.currentPageNumber);
+        this.emit('change', new RODIN.RodinEvent(this));
     }
 }

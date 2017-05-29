@@ -42,47 +42,46 @@ export class DemoThumbs extends RODIN.Sculpt {
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.x = -0.31;
             this.add(this.scrollBar);
-            //this.scrollBar.currentPage = 5;
         });
 
-
-        this.thumbs = [];
-        this.center = 0;
-        this.fill([grigsData[0], grigsData[1], grigsData[2]], Math.random() < .5 ? 'up' : 'down');
-        this.concentrate(0);
-
-        // RODIN.Scene.active.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, (evt) => {
-        //     grigsData.sort((i, j) => .5 - Math.random());
-        //     if (evt.keyCode === 2)
-        //         this.fill([grigsData[0], grigsData[1], grigsData[2]], Math.random() < .5 ? 'up' : 'down');
-        //
-        //     this.concentrate(this.center + (evt.keyCode === 2 ? -3 : 3));
-        // });
-
-    }
-
-    fill(thumbsData) {
-        for (let i = 0; i < thumbsData.length; i++) {
-            const data = thumbsData[i];
-            const thumb = new ThumbBar('/images/app3d/models/control_panel/thumb_demos.obj', data);
-            thumb.on(RODIN.CONST.READY, () => {
-                this.add(thumb);
-                this.thumbs.push(thumb);
-                thumb.alpha = -1;
+        /**
+         * upScrollThumbs
+         */
+        this.upScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
+        this.upScrollThumbs.on(RODIN.CONST.READY, () => {
+            this.upScrollThumbs.position.set(0, 0.4, -0.004);
+            this.upScrollThumbs.scale.set(0.8, 0.8, 0.8);
+            this.upScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+                color: 0xaaaaaa,
+                transparent: true,
+                opacity: 0.65,
             });
-        }
-    }
+            this.add(this.upScrollThumbs)
+        });
 
-    concentrate(center = 0) {
-        center = Math.max(0, Math.min(this.thumbs.length - 1, center));
-        this.center = center;
-        for (let i = 0; i < this.thumbs.length; i++) {
-            const thumb = this.thumbs[i];
-            thumb.alpha = (i - center) / 2;
-            //console.log(thumb.alpha);
-        }
-    }
+        /**
+         * downScrollThumbs
+         */
+        this.downScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
+        this.downScrollThumbs.on(RODIN.CONST.READY, () => {
+            this.downScrollThumbs.position.set(0, -0.4, -0.004);
+            this.downScrollThumbs.scale.set(0.8, 0.8, 0.8);
+            this.downScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+                color: 0xaaaaaa,
+                transparent: true,
+                opacity: 0.65,
+            });
+            this.add(this.downScrollThumbs)
+        });
 
+        this.scrollBar.on('change', () => {
+            this.upScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+            this.downScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+        });
+    }
+   
     static getInstance() {
         if(!instance) {
             instance = new DemoThumbs();

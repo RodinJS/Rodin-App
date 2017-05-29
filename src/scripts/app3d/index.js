@@ -9,6 +9,7 @@ RODIN.start();
 const gugenhaimModel = new RODIN.Sculpt('images/app3d/models/gugenhaim.obj');
 gugenhaimModel.on(RODIN.CONST.READY, () => {
     RODIN.Scene.add(gugenhaimModel);
+    //gugenhaimModel.rotation.y = Math.PI/2
 });
 
 RODIN.Scene.add(controlPanel);

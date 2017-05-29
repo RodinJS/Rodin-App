@@ -1,5 +1,5 @@
 import * as RODIN from 'rodin/core'
-import {Exit} from './Exit.js';
+import {LogOut} from './LogOut.js';
 
 export class UserHeader extends RODIN.Sculpt {
     constructor(_loggedIn = false, data) {
@@ -103,11 +103,9 @@ export class UserHeader extends RODIN.Sculpt {
             this.logOutIconBG._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
         });
         this.logOutIconBG.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
-            const exitBar = new Exit();
-            exitBar.open();
-            exitBar.position.y = 1.6;
-            exitBar.position.z = -1.5;
-            RODIN.Scene.add(exitBar);
+            const logOutBar = new LogOut();
+            logOutBar.open();
+            RODIN.Scene.add(logOutBar);
         });
 
         this.loggedIn = _loggedIn;
