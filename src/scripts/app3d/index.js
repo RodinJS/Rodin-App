@@ -1,6 +1,5 @@
 import * as RODIN from 'rodin/core';
 import {controlPanel} from './ControlPanel.js';
-
 RODIN.start();
 
 /**
