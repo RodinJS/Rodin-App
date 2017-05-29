@@ -27,13 +27,8 @@ servicesModule.service('User', UserService);
 import ProjectService from './project.service';
 servicesModule.service('Project', ProjectService);
 
-import StorageService from './storage.service';
-servicesModule.service('Storage', StorageService);
-
 import VRAPIService from './vrapi.service';
 servicesModule.service('VRAPI', VRAPIService);
 
-import SocketService from './socket.service';
-servicesModule.service('Socket', SocketService);
 
 export default MODULE_NAME;

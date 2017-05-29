@@ -353,7 +353,13 @@ const fadeInSphere = new FadeInSphere();
 fadeInSphere.on(EVENT_NAMES.ANIMATION_COMPLETE, (evt) => {
     if (evt.animation === 'fadeIn' && evt.target.requester) {
         window.mustEnterVRMode = (scene.webVRmanager.mode === 3);
-        API.navigate('/project', {root: evt.target.requester.root, owner: evt.target.requester.owner});
+
+        API.openProject({root: evt.target.requester.root, owner: evt.target.requester.owner}, (err, resp)=>{
+            console.log('reponse', resp);
+            console.log('err', err);
+        });
+
+        //API.navigate('/project', {root: evt.target.requester.root, owner: evt.target.requester.owner});
         delete evt.target.requester;
     }
     if (evt.animation === 'fadeOut') {

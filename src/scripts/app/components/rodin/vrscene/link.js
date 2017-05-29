@@ -7,7 +7,8 @@ import {APP as VrScene} from "../../../../app3d/index";
 function SceneLink(scope, elem, attrs, ngModel) {
 
   VrScene.start({
-    domElement: elem[0]  });
+    domElement: elem[0]
+  });
 
   scope.$on('$destroy', () => {
     VrScene.stop();
