@@ -13,14 +13,14 @@ class ProjectCtrl {
         this._RodinTransitionCanvas = RodinTransitionCanvas;
         this.showBackBtn = deviceDetector.isMobile() || window.showBackButtonOnProjectPage;/* && window.innerWidth <= window.innerHeight*/;
 
-        setTimeout(function () {
+     /*   setTimeout(function () {
             RodinTransitionCanvas.enable();
         }, 50);
 
         let loader = Loader.show();
 
         window.addEventListener("message", (event) => {
-            //console.log(event);
+            console.log('event', event);
             if (event.data != 'readyToCast')
                 return;
 
@@ -34,6 +34,8 @@ class ProjectCtrl {
 
             setTimeout(function () {
                 RodinTransitionCanvas.disable(function (prom) {
+
+                    console.log('prom', prom);
 
                     let promiseStuff = function () {
                         // this.contentWindow.document.querySelectorAll("img.webvr-button hidden")[1].click();
@@ -96,7 +98,7 @@ class ProjectCtrl {
 
             }
 
-        });
+        });*/
 
 
         if (User.current && User.current.username === $stateParams.owner) {

@@ -7,7 +7,8 @@ function HomeConfig($stateProvider) {
       controller: 'HomeCtrl',
       controllerAs: '$ctrl',
       templateUrl: 'app/pages/home/home.html',
-      title: 'Home'
+      title: 'Home',
+      pageClass:'home'
     });
 
 }
