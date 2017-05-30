@@ -101,7 +101,7 @@ export class UserProjectsThumbs extends Thumbs {
          */
         this.leftScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
         this.leftScrollThumbs.on(RODIN.CONST.READY, () => {
-            this.leftScrollThumbs.position.set(-0.5, 0, -0.1);
+            this.leftScrollThumbs.position.set(-0.525, 0, -0.1);
             this.leftScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
@@ -116,7 +116,7 @@ export class UserProjectsThumbs extends Thumbs {
          */
         this.rightScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
         this.rightScrollThumbs.on(RODIN.CONST.READY, () => {
-            this.rightScrollThumbs.position.set(0.5, 0, -0.1);
+            this.rightScrollThumbs.position.set(0.525, 0, -0.1);
             this.rightScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
