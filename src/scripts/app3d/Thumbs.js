@@ -1,5 +1,5 @@
 import * as RODIN from 'rodin/core';
-import {ThumbBar} from "./ThumbBar";
+import {ThumbBar} from './ThumbBar.js';
 
 export class Thumbs extends RODIN.Sculpt {
     constructor(width, height, isHorisontal = true) {
@@ -7,11 +7,11 @@ export class Thumbs extends RODIN.Sculpt {
 
         this.thumbs = [];
         this.maxThumbs = 20;
+
+        this.thumbBarUrl = (isHorisontal ? '/images/app3d/models/control_panel/thumb_project.obj' : '/images/app3d/models/control_panel/thumb_demos.obj');
+        this.thumbsBar = (isHorisontal ? new RODIN.HorizontalGrid(height, width, .407, .682) : new RODIN.VerticalGrid(width, height, .682, .350));
         this.loadMore();
 
-        this.thumbsBar = new RODIN.HorizontalGrid(height, width, .407, .682);
-        this.thumbsBar.sculpt._threeObject.material.opacity = 1;
-        this.thumbsBar.sculpt._threeObject.material.wireframe = true;
         this.add(this.thumbsBar.sculpt);
 
         this.thumbsBar.onShow((elem, index, alpha) => {
@@ -38,7 +38,7 @@ export class Thumbs extends RODIN.Sculpt {
             this.thumbs.push(thumbSculpt);
             thumbSculpt.position.set(0, 0, -10);
 
-            const thumb = new ThumbBar('/images/app3d/models/control_panel/thumb_project.obj');
+            const thumb = new ThumbBar(this.thumbBarUrl);
             thumb.on(RODIN.CONST.READY, () => {
                 thumbSculpt.add(thumb);
             });

@@ -23,3 +23,19 @@ user.rotation.y = -Math.PI/3;
 controlPanel.demos = demos;
 controlPanel.featured = featured;
 controlPanel.user = user;
+
+RODIN.messenger.on('popupopened', (data) => {
+    if(['logout', 'description'].indexOf(data.popupName) !== -1) {
+        DemoThumbs.getInstance().visible = false;
+        FeaturedProjectsThumbs.getInstance().visible = false;
+        UserProjectsThumbs.getInstance().visible = false;
+    }
+});
+
+RODIN.messenger.on('popupclosed', (data) => {
+    if(['logout', 'description'].indexOf(data.popupName) !== -1) {
+        DemoThumbs.getInstance().visible = true;
+        FeaturedProjectsThumbs.getInstance().visible = true;
+        UserProjectsThumbs.getInstance().visible = true;
+    }
+});

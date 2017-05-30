@@ -1,25 +1,12 @@
 import * as RODIN from 'rodin/core'
-import {ThumbBar} from './ThumbBar.js';
 import {ScrollBarVertical} from './ScrollBarVertical.js';
-
-const grigsData = [
-    {thumbnail: '/images/app3d/models/control_panel/images/01.jpg'},
-    {thumbnail: '/images/app3d/models/control_panel/images/02.jpg'},
-    {thumbnail: '/images/app3d/models/control_panel/images/01.jpg'},
-    {thumbnail: '/images/app3d/models/control_panel/images/02.jpg'},
-    {thumbnail: '/images/app3d/models/control_panel/images/03.jpg'},
-    {thumbnail: '/images/app3d/models/control_panel/images/03.jpg'},
-    {thumbnail: '/images/app3d/models/control_panel/images/03.jpg'}
-];
+import {Thumbs} from './Thumbs.js';
 
 let instance = null;
 
-/**
- *
- */
-export class DemoThumbs extends RODIN.Sculpt {
+export class DemoThumbs extends Thumbs {
     constructor() {
-        super();
+        super(1, 3, false);
 
         /**
          * Set 'demoText' text styling
@@ -81,7 +68,7 @@ export class DemoThumbs extends RODIN.Sculpt {
             this.downScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
         });
     }
-   
+
     static getInstance() {
         if(!instance) {
             instance = new DemoThumbs();

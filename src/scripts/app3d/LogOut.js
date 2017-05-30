@@ -1,8 +1,5 @@
 import * as RODIN from 'rodin/core';
 import {Popup} from './Popup.js';
-import {DemoThumbs} from './DemoThumbs.js';
-import {FeaturedProjectsThumbs} from './FeaturedProjectsThumbs.js';
-import {UserProjectsThumbs} from './UserProjectsThumbs.js';
 
 export class LogOut extends Popup {
     constructor(data) {
@@ -91,17 +88,13 @@ export class LogOut extends Popup {
         });
         
         this.on('open', () => {
-            DemoThumbs.getInstance().visible = false;
-            FeaturedProjectsThumbs.getInstance().visible = false;
-            UserProjectsThumbs.getInstance().visible = false;
+            RODIN.messenger.post('popupopened', {popupName: 'logout'});
         });
 
         this.on('close', () => {
-            DemoThumbs.getInstance().visible = true;
-            FeaturedProjectsThumbs.getInstance().visible = true;
-            UserProjectsThumbs.getInstance().visible = true;
             // todo: dispose it
             this.parent.remove(this);
+            RODIN.messenger.post('popupclosed', {popupName: 'logout'});
         });
     }
 }

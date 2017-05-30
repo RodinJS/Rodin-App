@@ -1,7 +1,6 @@
 import * as RODIN from 'rodin/core'
 import {ScrollBarHorizontal} from './ScrollBarHorizontal.js';
 import {SortBar} from './SortBar.js';
-import {ThumbBar} from './ThumbBar.js';
 import {Thumbs} from './Thumbs.js';
 
 let instance = null;
