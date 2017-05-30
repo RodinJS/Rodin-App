@@ -28,7 +28,7 @@ export class UserProjectsThumbs extends RODIN.Sculpt {
          */
         const data = userData[0];
         this.userHeader = new UserHeader(_loggedIn, data);
-        this.userHeader.asDev.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+        this.userHeader.logInBar.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
             this.emit('login', new RODIN.RodinEvent(this));
         });
         this.userHeader.on('logout', () => {
@@ -45,7 +45,7 @@ export class UserProjectsThumbs extends RODIN.Sculpt {
         this.logInToSeeYourProject.on(RODIN.CONST.READY, () => {
             this.logInToSeeYourProject._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
-                color: 0xcccccc
+                color: 0xb2b2b2
             });
 
             this.notLoggedInSculpt.add(this.logInToSeeYourProject)

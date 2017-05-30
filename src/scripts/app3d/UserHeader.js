@@ -21,6 +21,13 @@ export class UserHeader extends RODIN.Sculpt {
             this.notLoggedInSculpt.add(this.logInBar);
         });
 
+        this.logInBar.on(RODIN.CONST.GAMEPAD_HOVER, () => {
+            this.logInBar._threeObject.children[0].material.color = new THREE.Color(0xd8d8d8);
+        });
+        this.logInBar.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
+            this.logInBar._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
+        });
+
         this.logOutIcon = new RODIN.Plane(0.09, new THREE.MeshBasicMaterial({
             map: RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/Log_in_icon.png'),
             transparent: true,
