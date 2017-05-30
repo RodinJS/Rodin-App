@@ -13,15 +13,23 @@ gugenhaimModel.on(RODIN.CONST.READY, () => {
 
 RODIN.Scene.add(controlPanel);
 controlPanel.user.on('login', (evt) => {
-    // some login functionality
-    controlPanel.user.loggedIn = true;
-    controlPanel.user.userData = {
-        name: 'Christina'
-    }
+    if (!APP.inited) return;
+
+    APP.API.navigate('/login', null, !APP.isMobile);
+
+    const loginCallback = () => {
+        window.removeEventListener('rodinloggedin', loginCallback);
+        controlPanel.user.userData = APP.API.getUserData();
+        controlPanel.user.loggedIn = true;
+    };
+
+    window.addEventListener('rodinloggedin', loginCallback);
 });
 
 controlPanel.user.on('logout', (evt) => {
-    // spme logout functions
+    if (!APP.inited) return;
+
+    APP.API.logout();
     controlPanel.user.loggedIn = false;
 });
 
@@ -31,7 +39,14 @@ controlPanel.user.on('logout', (evt) => {
 export class APP {
     static init(params) {
         APP.API = params.API;
-        window.API = params.API;
+
+        controlPanel.user.loggedIn = APP.API.isLoggedIn();
+        if(APP.API.isLoggedIn()) {
+            controlPanel.user.userData = APP.API.getUserData();
+        }
+
+        APP.inited = true;
+        window.API = APP.API;
     }
 
     static start(params) {
@@ -72,5 +87,15 @@ export class APP {
         // if (scene.webVRmanager.hmd && scene.webVRmanager.hmd.isPresenting) {
         //     scene.webVRmanager.hmd.exitPresent();
         // }
+    }
+
+    static get isMobile() {
+        return navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i)
     }
 }

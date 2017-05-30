@@ -4,7 +4,7 @@ import {ThumbBar} from './ThumbBar.js';
 export class Thumbs extends RODIN.Sculpt {
     constructor(width, height, isHorisontal = true) {
         super();
-        
+
         this.widht = width;
         this.height = height;
 
@@ -47,7 +47,7 @@ export class Thumbs extends RODIN.Sculpt {
             });
         }
     }
-    
+
     initFirstPlaceholders() {
         for (let i = 0; i < this.widht * this.height; i++) {
             const thumbSculpt = new RODIN.Sculpt();
