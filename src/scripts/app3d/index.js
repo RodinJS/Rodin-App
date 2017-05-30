@@ -1,5 +1,5 @@
 import * as RODIN from 'rodin/core';
-import {controlPanel} from './ControlPanel.js';
+import * as cp from './ControlPanel.js';
 RODIN.start();
 
 /**
@@ -11,41 +11,49 @@ gugenhaimModel.on(RODIN.CONST.READY, () => {
     //gugenhaimModel.rotation.y = Math.PI/2
 });
 
-RODIN.Scene.add(controlPanel);
-controlPanel.user.on('login', (evt) => {
-    if (!APP.inited) return;
-
-    APP.API.navigate('/login', null, !APP.isMobile);
-});
-
-controlPanel.user.on('logout', (evt) => {
-    if (!APP.inited) return;
-
-    APP.API.logOut();
-    controlPanel.user.loggedIn = false;
-});
 
 /**
  * Class App for Angular
  */
 export class APP {
     static init(params) {
-        if(APP.inited) return;
+        if (APP.inited) return;
+
 
         APP.API = params.API;
-
-        controlPanel.user.loggedIn = APP.API.isLoggedIn();
-        if(APP.API && APP.API.isLoggedIn() && APP.API.getUserInfo()) {
-            controlPanel.user.userData = APP.API.getUserInfo();
-        }
 
         APP.inited = true;
         window.API = APP.API;
 
-        window.addEventListener('rodinloggedin', () => {
-            controlPanel.user.userData = APP.API.getUserInfo();
-            controlPanel.user.loggedIn = true;
+        cp.init(APP.API).then(()=>{
+            const controlPanel = cp.controlPanel;
+
+            window.addEventListener('rodinloggedin', () => {
+                controlPanel.user.userData = APP.API.getUserInfo();
+                controlPanel.user.loggedIn = true;
+            });
+
+            if(APP.API.isLoggedIn() && APP.API.getUserInfo()) {
+                controlPanel.user.userData = APP.API.getUserInfo();
+                controlPanel.user.loggedIn = true;
+            }
+
+            RODIN.Scene.add(controlPanel);
+            controlPanel.user.on('login', (evt) => {
+                if (!APP.inited) return;
+
+                APP.API.navigate('/login', null, !APP.isMobile);
+            });
+
+            controlPanel.user.on('logout', (evt) => {
+                if (!APP.inited) return;
+
+                APP.API.logOut();
+                controlPanel.user.loggedIn = false;
+            });
         });
+
+
     }
 
     static start(params) {

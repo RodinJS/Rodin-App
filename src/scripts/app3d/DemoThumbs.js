@@ -3,10 +3,18 @@ import {ScrollBarVertical} from './ScrollBarVertical.js';
 import {Thumbs} from './Thumbs.js';
 
 let instance = null;
+let _API = null;
 
 export class DemoThumbs extends Thumbs {
-    constructor() {
-        super(1, 3, false);
+    constructor(total) {
+        super(1, 3, (params)=>{
+            console.log('camels ', _API);
+            return _API.getProjects('all', params).then((data)=>{
+
+
+                return Promise.resolve(data);
+            });
+        }, total, false);
 
         /**
          * Set 'demoText' text styling
@@ -69,11 +77,13 @@ export class DemoThumbs extends Thumbs {
         });
     }
 
-    static getInstance() {
+    static getInstance(API, total) {
         if(!instance) {
-            instance = new DemoThumbs();
+            _API = API;
+            instance = new DemoThumbs(total);
         }
 
         return instance;
     }
 }
+

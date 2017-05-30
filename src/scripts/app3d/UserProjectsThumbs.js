@@ -3,22 +3,23 @@ import {Thumbs} from './Thumbs.js';
 import {UserHeader} from './UserHeader.js';
 import {ScrollBarHorizontal} from './ScrollBarHorizontal.js';
 
-const userData = [{
-    description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.',
-    displayName: 'xmas',
-    id: '58ac5ca8f3dc8436926f97cc',
-    name: 'xmas',
-    owner: 'example',
-    root: 'xmas',
-    thumbnail: '/images/app3d/models/control_panel/images/01.jpg',
-    avatar: '/images/app3d/models/control_panel/images/01.jpg'
-}];
-
 let instance = null;
+let _API = null;
 
 export class UserProjectsThumbs extends Thumbs {
-    constructor(_loggedIn = false) {
-        super(2, 2);
+    constructor(total, _loggedIn = false) {
+        console.log('camels 0 ', _API);
+
+        super(2, 2, (params)=>{
+            return _API.getProjects('me', params).then((data)=>{
+                if (1 > 0)
+                    this.noProjectsYet.visible = false;
+                else
+                    this.noProjectsYet.visible = true;
+
+                return Promise.resolve(data);
+            });
+        }, total);
 
         this.loggedInSculpt = new RODIN.Sculpt();
         this.notLoggedInSculpt = new RODIN.Sculpt();
@@ -26,8 +27,7 @@ export class UserProjectsThumbs extends Thumbs {
         /**
          * user header data
          */
-        const data = userData[0];
-        this.userHeader = new UserHeader(_loggedIn, data);
+        this.userHeader = new UserHeader(_loggedIn);
         this.userHeader.notLoggedInBar.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
             this.emit('login', new RODIN.RodinEvent(this));
         });
@@ -64,33 +64,31 @@ export class UserProjectsThumbs extends Thumbs {
          */
         const scrollBarLenght = 1.32;
         this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_user.obj',
-            scrollBarLenght, 5/*userData.length*/, 4);
+            scrollBarLenght, 5, 4);
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.y = -0.5;
             this.loggedInSculpt.add(this.scrollBar);
         });
 
-        if (data.thumbnail) {
-            // TODO: implement logic
-        } else {
-            this.thumbBar = new RODIN.Sculpt('/images/app3d/models/control_panel/not_logged.obj');
-            this.thumbBar.on(RODIN.CONST.READY, () => {
-                this.thumbBar._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                    side: THREE.DoubleSide,
-                    color: 0xcccccc
-                });
-
-                this.loggedInSculpt.add(this.thumbBar)
+        this.noProjectsYet = new RODIN.Sculpt();
+        this.loggedInSculpt.add(this.noProjectsYet);
+        this.thumbBar = new RODIN.Sculpt('/images/app3d/models/control_panel/not_logged.obj');
+        this.thumbBar.on(RODIN.CONST.READY, () => {
+            this.thumbBar._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+                color: 0xcccccc
             });
 
-            this.thumbBarText = new RODIN.Text({
-                text: 'No projects yet :(',
-                color: 0x999999,
-                fontSize: 0.05
-            });
-            this.thumbBarText.position.z = 0.006;
-            this.loggedInSculpt.add(this.thumbBarText);
-        }
+            this.noProjectsYet.add(this.thumbBar)
+        });
+
+        this.thumbBarText = new RODIN.Text({
+            text: 'No projects yet :(',
+            color: 0x999999,
+            fontSize: 0.05
+        });
+        this.thumbBarText.position.z = 0.006;
+        this.noProjectsYet.add(this.thumbBarText);
 
         this.remove(this.thumbsBar.sculpt);
         this.loggedInSculpt.add(this.thumbsBar.sculpt);
@@ -155,9 +153,10 @@ export class UserProjectsThumbs extends Thumbs {
         return this._userData;
     }
 
-    static getInstance() {
+    static getInstance(API, total) {
         if(!instance) {
-            instance = new UserProjectsThumbs();
+            _API = API;
+            instance = new UserProjectsThumbs(total);
         }
 
         return instance;

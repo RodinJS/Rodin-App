@@ -4,10 +4,16 @@ import {SortBar} from './SortBar.js';
 import {Thumbs} from './Thumbs.js';
 
 let instance = null;
+let _API = null;
 
 export class FeaturedProjectsThumbs extends Thumbs {
-    constructor() {
-        super(2, 3);
+    constructor(total) {
+        super(2, 3, (params) => {
+            return _API.getProjects('all', params).then((data) => {
+                console.log(data);
+                return Promise.resolve(data);
+            });
+        }, total);
 
         /**
          * Set 'featuredProjects' text styling
@@ -79,9 +85,10 @@ export class FeaturedProjectsThumbs extends Thumbs {
         });
     }
 
-    static getInstance() {
+    static getInstance(API, total) {
         if (!instance) {
-            instance = new FeaturedProjectsThumbs();
+            _API = API;
+            instance = new FeaturedProjectsThumbs(total);
         }
 
         return instance;
