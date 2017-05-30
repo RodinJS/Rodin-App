@@ -14,7 +14,7 @@ export class DemoThumbs extends Thumbs {
          */
         const demoText = new RODIN.Text({
             text: 'Demos',
-            color: 0x666666,
+            color: 0x333333,
             fontSize: 0.08
         });
         demoText.position.y = 0.6;

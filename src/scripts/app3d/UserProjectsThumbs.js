@@ -28,7 +28,7 @@ export class UserProjectsThumbs extends Thumbs {
          */
         const data = userData[0];
         this.userHeader = new UserHeader(_loggedIn, data);
-        this.userHeader.logInBar.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+        this.userHeader.notLoggedInBar.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
             this.emit('login', new RODIN.RodinEvent(this));
         });
         this.userHeader.on('logout', () => {
@@ -53,7 +53,7 @@ export class UserProjectsThumbs extends Thumbs {
 
         this.logInToSeeYourProjectText = new RODIN.Text({
             text: 'Log in to see your projects',
-            color: 0x999999,
+            color: 0x333333,
             fontSize: 0.05
         });
         this.logInToSeeYourProjectText.position.z = 0.006;

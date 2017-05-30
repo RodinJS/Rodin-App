@@ -15,7 +15,7 @@ export class FeaturedProjectsThumbs extends Thumbs {
          */
         const featuredProjects = new RODIN.Text({
             text: 'Featured projects',
-            color: 0x666666,
+            color: 0x333333,
             fontSize: 0.08
         });
         featuredProjects.position.y = 0.6;

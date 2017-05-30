@@ -5,36 +5,35 @@ export class UserHeader extends RODIN.Sculpt {
     constructor(_loggedIn = false, data) {
         super();
 
-        this.loggedInSculpt = new RODIN.Sculpt();
         this.notLoggedInSculpt = new RODIN.Sculpt();
-
+        this.loggedInSculpt = new RODIN.Sculpt();
 
         /**
          * Not logged in yet
          */
-        this.logInBar = new RODIN.Sculpt('/images/app3d/models/control_panel/log_in.obj');
-        this.logInBar.on(RODIN.CONST.READY, () => {
-            this.logInBar._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+        this.notLoggedInBar = new RODIN.Sculpt('/images/app3d/models/control_panel/log_in.obj');
+        this.notLoggedInBar.on(RODIN.CONST.READY, () => {
+            this.notLoggedInBar._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 color: 0xcccccc,
                 side: THREE.DoubleSide,
             });
-            this.notLoggedInSculpt.add(this.logInBar);
+            this.notLoggedInSculpt.add(this.notLoggedInBar);
         });
 
-        this.logInBar.on(RODIN.CONST.GAMEPAD_HOVER, () => {
-            this.logInBar._threeObject.children[0].material.color = new THREE.Color(0xd8d8d8);
+        this.notLoggedInBar.on(RODIN.CONST.GAMEPAD_HOVER, () => {
+            this.notLoggedInBar._threeObject.children[0].material.color = new THREE.Color(0xd8d8d8);
         });
-        this.logInBar.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
-            this.logInBar._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
+        this.notLoggedInBar.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
+            this.notLoggedInBar._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
         });
 
-        this.logOutIcon = new RODIN.Plane(0.09, new THREE.MeshBasicMaterial({
+        this.notLoggedInIcon = new RODIN.Plane(0.09, new THREE.MeshBasicMaterial({
             map: RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/Log_in_icon.png'),
             transparent: true,
             side: THREE.DoubleSide,
         }));
-        this.logOutIcon.position.set(-0.335, 0, 0.006);
-        this.notLoggedInSculpt.add(this.logOutIcon);
+        this.notLoggedInIcon.position.set(-0.335, 0, 0.006);
+        this.notLoggedInSculpt.add(this.notLoggedInIcon);
 
         this.asDev = new RODIN.Text({
             text: 'Log in as developer',
@@ -53,7 +52,7 @@ export class UserHeader extends RODIN.Sculpt {
                 side: THREE.DoubleSide,
             });
 
-            this.userInfoBar._threeObject.children[0].material.map = RODIN.Loader.loadTexture(data.avatar || '/images/app3d/models/control_panel/images/rodin_icon.jpg')
+            this.userInfoBar._threeObject.children[0].material.map = RODIN.Loader.loadTexture(data.avatar || '/images/app3d/models/control_panel/images/rodin_icon.jpg');
             this.userInfoBar.position.x = -0.574;
             this.loggedInSculpt.add(this.userInfoBar);
         });
@@ -61,10 +60,11 @@ export class UserHeader extends RODIN.Sculpt {
 
         this.userName = new RODIN.Text({
             text: data.name || 'Rodin team',
-            color: 0x666666,
+            color: 0x333333,
             fontSize: 0.07
         });
-        this.userName.position.x = -0.35;
+        this.userName._threeObject.geometry.computeBoundingSphere();
+        this.userName.position.x = (0.17 + 0.062 + this.userName._threeObject.geometry.boundingSphere.radius) - 0.66;
         this.loggedInSculpt.add(this.userName);
 
 
@@ -89,7 +89,7 @@ export class UserHeader extends RODIN.Sculpt {
 
         const logOut = new RODIN.Text({
             text: 'Log Out',
-            color: 0x666666,
+            color: 0x333333,
             fontSize: 0.06
         });
         logOut.position.x = 0.35;

@@ -49,7 +49,7 @@ export class ScrollBarHorizontal extends RODIN.Sculpt {
             const firstPage = !numberOfProjects ? 0 : 1;
             const firstPageNumber = new RODIN.Text({
                 text: firstPage,
-                color: 0x999999,
+                color: 0x666666,
                 fontSize: 0.04
             });
             firstPageNumber.position.x = -this.lenght / 2;
@@ -58,7 +58,7 @@ export class ScrollBarHorizontal extends RODIN.Sculpt {
 
             const lastPageNumber = new RODIN.Text({
                 text: this.pagesNuber,
-                color: 0x999999,
+                color: 0x666666,
                 fontSize: 0.04
             });
             lastPageNumber.position.x = this.lenght / 2;

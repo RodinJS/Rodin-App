@@ -94,7 +94,7 @@ export class DescriptionThumb extends Popup {
             this.startExp = new RODIN.Text({
                 text: 'START EXPERIENCE',
                 color: 0xFFFFFF,
-                fontSize: 0.06
+                fontSize: 0.065
             });
             this.startExp.position.set(0, 0, 0.006);
             this.startExperience.add(this.startExp);
@@ -119,7 +119,7 @@ export class DescriptionThumb extends Popup {
             this.back = new RODIN.Text({
                 text: 'BACK',
                 color: 0xFFFFFF,
-                fontSize: 0.06
+                fontSize: 0.065
             });
             this.back.position.set(0, 0, 0.006);
             this.backBtn.add(this.back);
