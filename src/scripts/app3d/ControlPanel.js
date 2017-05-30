@@ -14,7 +14,8 @@ export const init = (API) => {
         return API.getProjects('all', {skip: 0, limit: 0});
     }).then(data => {
         total_demo = data.count;
-        return API.getProjects('me', {skip: 0, limit: 0});
+        // change to me when logged out case is handled
+        return API.getProjects('all', {skip: 0, limit: 0});
     }).then(data => {
         total_user = data.count || 3;
 
