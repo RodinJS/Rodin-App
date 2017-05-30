@@ -2,6 +2,7 @@ import * as RODIN from 'rodin/core'
 import {UserHeader} from './UserHeader.js';
 import {ThumbBar} from './ThumbBar.js';
 import {ScrollBarHorizontal} from './ScrollBarHorizontal.js';
+import {Thumbs} from "./Thumbs";
 
 const userData = [{
     description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.',
@@ -16,9 +17,9 @@ const userData = [{
 
 let instance = null;
 
-export class UserProjectsThumbs extends RODIN.Sculpt {
+export class UserProjectsThumbs extends Thumbs {
     constructor(_loggedIn = true) {
-        super();
+        super(2, 2);
 
         this.loggedInSculpt = new RODIN.Sculpt();
         this.notLoggedInSculpt = new RODIN.Sculpt();
@@ -94,6 +95,8 @@ export class UserProjectsThumbs extends RODIN.Sculpt {
             this.loggedInSculpt.add(this.thumbBarText);
         }
 
+        this.remove(this.thumbsBar.sculpt);
+        this.loggedInSculpt.add(this.thumbsBar.sculpt);
         this.loggedIn = _loggedIn;
     }
 

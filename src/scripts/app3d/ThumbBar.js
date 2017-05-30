@@ -2,7 +2,7 @@ import * as RODIN from 'rodin/core'
 import {DescriptionThumb} from './DescriptionThumb.js';
 
 export class ThumbBar extends RODIN.Sculpt {
-    constructor(url, data) {
+    constructor(url, data = {}) {
         super(url);
         this.on(RODIN.CONST.READY, () => {
             this._threeObject.children[0].material = new THREE.MeshBasicMaterial({
@@ -10,6 +10,8 @@ export class ThumbBar extends RODIN.Sculpt {
                 map: RODIN.Loader.loadTexture(data.thumbnail)
             });
         });
+
+        this.buttonDownTimestamp = RODIN.Time.now;
 
         /**
          *
@@ -50,13 +52,20 @@ export class ThumbBar extends RODIN.Sculpt {
         this.animation.add(scaleDown);
 
         this.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
-            this.animation.start('scaleDown');
+            this.buttonDownTimestamp = RODIN.Time.now;
         });
 
         this.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
+            if(RODIN.Time.now - this.buttonDownTimestamp > 300) return;
+
+            // todo: hamozel Xchoin es momenD@
+            this.animation.start('scaleDown');
+        });
+
+        this.on(RODIN.CONST.ANIMATION_COMPLETE, () => {
             this.scale.set(1, 1, 1);
             this.showDescriptionThumb(data);
-        });
+        })
     }
 
     showDescriptionThumb(data) {
