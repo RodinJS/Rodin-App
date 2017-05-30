@@ -19,6 +19,7 @@ controlPanel.user.on('login', (evt) => {
 
     const loginCallback = () => {
         window.removeEventListener('rodinloggedin', loginCallback);
+        controlPanel.user.userData = APP.API.getUserData();
         controlPanel.user.loggedIn = true;
     };
 
@@ -40,7 +41,12 @@ export class APP {
         APP.API = params.API;
 
         controlPanel.user.loggedIn = APP.API.isLoggedIn();
+        if(APP.API.isLoggedIn()) {
+            controlPanel.user.userData = APP.API.getUserData();
+        }
+
         APP.inited = true;
+        window.API = APP.API;
     }
 
     static start(params) {
