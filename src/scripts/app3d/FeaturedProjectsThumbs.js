@@ -21,7 +21,7 @@ export class FeaturedProjectsThumbs extends Thumbs {
          */
         const featuredProjects = new RODIN.Text({
             text: 'Featured projects',
-            color: 0x333333,
+            color: 0x666666,
             fontSize: 0.08
         });
         featuredProjects.position.y = 0.6;
@@ -46,6 +46,7 @@ export class FeaturedProjectsThumbs extends Thumbs {
         this.sortBar = new SortBar();
         this.sortBar.on(RODIN.CONST.READY, () => {
             this.sortBar.position.y = 0.48;
+            this.sortBar.position.z = 0.005;
             this.add(this.sortBar);
         });
 
