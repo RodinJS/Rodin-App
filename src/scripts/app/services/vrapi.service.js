@@ -18,6 +18,7 @@ class VRAPI {
         this._$q = $q;
         this._JWT = JWT;
         this._Modal = Modal;
+
     }
 
     ///////////////
@@ -33,7 +34,7 @@ class VRAPI {
      * @param {String} url
      * @param {Object} params
      * */
-    navigate(url = "", params = {}) {
+    navigate(url = "", params = {}, modal = false) {
 
         let state;
         switch (url) {
@@ -53,9 +54,13 @@ class VRAPI {
                 state = "";
         }
 
-        if (state) {
+        if (state == 'main.login' && modal) {
+            this.openModal('login');
+        }
+        else if (state) {
             self._$state.go(state, params);
-        } else {
+        }
+        else {
             url = url.replace(/\\/g, "");
             while (url.charAt(0) === '/')
                 url = url.substr(1);
@@ -158,7 +163,7 @@ class VRAPI {
     openProject(project = {}, cb) {
         this._$state.go('main.project', project)
             .then(event => cb(false, event))
-            .catch(err=> cb(err, null))
+            .catch(err => cb(err, null))
     }
 
     /**

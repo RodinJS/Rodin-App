@@ -21,8 +21,8 @@ export class ScrollBarHorizontal extends RODIN.Sculpt {
          */
         this.scrollTool = new RODIN.Sculpt();
         this.lenght = lenght;
-        this.pagesNaber = Math.ceil(numberOfProjects / showingProjectsNumber);
-        this.pageScrollStep = lenght / this.pagesNaber;
+        this.pagesNuber = Math.ceil(numberOfProjects / showingProjectsNumber);
+        this.pageScrollStep = lenght / this.pagesNuber;
         this._currentPage = 1;
 
         const scrollToolObj = new RODIN.Sculpt(url);
@@ -57,7 +57,7 @@ export class ScrollBarHorizontal extends RODIN.Sculpt {
             this.add(firstPageNumber);
 
             const lastPageNumber = new RODIN.Text({
-                text: this.pagesNaber,
+                text: this.pagesNuber,
                 color: 0x999999,
                 fontSize: 0.04
             });

@@ -36,7 +36,7 @@ export class DemoThumbs extends Thumbs {
          */
         this.upScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
         this.upScrollThumbs.on(RODIN.CONST.READY, () => {
-            this.upScrollThumbs.position.set(0, 0.4, -0.1);
+            this.upScrollThumbs.position.set(0, 0.45, -0.1);
             this.upScrollThumbs.scale.set(0.8, 0.8, 0.8);
             this.upScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
@@ -52,7 +52,7 @@ export class DemoThumbs extends Thumbs {
          */
         this.downScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
         this.downScrollThumbs.on(RODIN.CONST.READY, () => {
-            this.downScrollThumbs.position.set(0, -0.4, -0.1);
+            this.downScrollThumbs.position.set(0, -0.45, -0.1);
             this.downScrollThumbs.scale.set(0.8, 0.8, 0.8);
             this.downScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
