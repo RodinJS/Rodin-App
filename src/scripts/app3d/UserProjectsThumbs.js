@@ -17,7 +17,7 @@ const userData = [{
 let instance = null;
 
 export class UserProjectsThumbs extends Thumbs {
-    constructor(_loggedIn = true) {
+    constructor(_loggedIn = false) {
         super(2, 2);
 
         this.loggedInSculpt = new RODIN.Sculpt();

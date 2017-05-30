@@ -31,7 +31,8 @@ controlPanel.user.on('logout', (evt) => {
 export class APP {
     static init(params) {
         APP.API = params.API;
-        window.API = params.API;
+
+        controlPanel.user.loggedIn = APP.API.isLoggedIn();
     }
 
     static start(params) {
