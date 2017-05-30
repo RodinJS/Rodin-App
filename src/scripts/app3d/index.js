@@ -16,20 +16,12 @@ controlPanel.user.on('login', (evt) => {
     if (!APP.inited) return;
 
     APP.API.navigate('/login', null, !APP.isMobile);
-
-    const loginCallback = () => {
-        window.removeEventListener('rodinloggedin', loginCallback);
-        controlPanel.user.userData = APP.API.getUserData();
-        controlPanel.user.loggedIn = true;
-    };
-
-    window.addEventListener('rodinloggedin', loginCallback);
 });
 
 controlPanel.user.on('logout', (evt) => {
     if (!APP.inited) return;
 
-    APP.API.logout();
+    APP.API.logOut();
     controlPanel.user.loggedIn = false;
 });
 
@@ -38,15 +30,22 @@ controlPanel.user.on('logout', (evt) => {
  */
 export class APP {
     static init(params) {
+        if(APP.inited) return;
+
         APP.API = params.API;
 
         controlPanel.user.loggedIn = APP.API.isLoggedIn();
-        if(APP.API.isLoggedIn()) {
-            controlPanel.user.userData = APP.API.getUserData();
+        if(APP.API && APP.API.isLoggedIn() && APP.API.getUserInfo()) {
+            controlPanel.user.userData = APP.API.getUserInfo();
         }
 
         APP.inited = true;
         window.API = APP.API;
+
+        window.addEventListener('rodinloggedin', () => {
+            controlPanel.user.userData = APP.API.getUserInfo();
+            controlPanel.user.loggedIn = true;
+        });
     }
 
     static start(params) {

@@ -100,6 +100,7 @@ class User {
         this.current = res.data;
         verificationPromise = null;
         deferred.resolve(true);
+        window.dispatchEvent(new Event('rodinloggedin'));
       }, (err) => {
         this._JWT.destroy();
         verificationPromise = null;

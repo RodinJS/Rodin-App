@@ -2,7 +2,7 @@ import * as RODIN from 'rodin/core'
 import {LogOut} from './LogOut.js';
 
 export class UserHeader extends RODIN.Sculpt {
-    constructor(_loggedIn = false, data) {
+    constructor(_loggedIn = false) {
         super();
 
         this.notLoggedInSculpt = new RODIN.Sculpt();
@@ -46,28 +46,6 @@ export class UserHeader extends RODIN.Sculpt {
         /**
          * Logged in us a User
          */
-        this.userInfoBar = new RODIN.Sculpt('/images/app3d/models/control_panel/user_icon.obj');
-        this.userInfoBar.on(RODIN.CONST.READY, () => {
-            this.userInfoBar._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                side: THREE.DoubleSide,
-            });
-
-            this.userInfoBar._threeObject.children[0].material.map = RODIN.Loader.loadTexture(data.avatar || '/images/app3d/models/control_panel/images/rodin_icon.jpg');
-            this.userInfoBar.position.x = -0.574;
-            this.loggedInSculpt.add(this.userInfoBar);
-        });
-
-
-        this.userName = new RODIN.Text({
-            text: data.name || 'Rodin team',
-            color: 0x333333,
-            fontSize: 0.07
-        });
-        this.userName._threeObject.geometry.computeBoundingSphere();
-        this.userName.position.x = (0.17 + 0.062 + this.userName._threeObject.geometry.boundingSphere.radius) - 0.66;
-        this.loggedInSculpt.add(this.userName);
-
-
         this.logOutIconBG = new RODIN.Sculpt('/images/app3d/models/control_panel/user_icon.obj');
         this.logOutIconBG.on(RODIN.CONST.READY, () => {
             this.logOutIconBG._threeObject.children[0].material = new THREE.MeshBasicMaterial({
@@ -126,8 +104,31 @@ export class UserHeader extends RODIN.Sculpt {
         }
     }
 
-    set userData(value) {
-        console.log(value);
-        // todo: implement
+    set userData(data) {
+        if(this.userName)
+            this.userName.parent.remove(this.userName);
+        
+        this.userName = new RODIN.Text({
+            text: data.username || 'Rodin team',
+            color: 0x333333,
+            fontSize: 0.07
+        });
+        this.userName._threeObject.geometry.computeBoundingSphere();
+        this.userName.position.x = (0.17 + 0.062 + this.userName._threeObject.geometry.boundingSphere.radius) - 0.66;
+        this.loggedInSculpt.add(this.userName);
+
+        if(this.userAvatar)
+            this.userAvatar.parent.remove(this.userAvatar);
+
+        this.userAvatar = new RODIN.Sculpt('/images/app3d/models/control_panel/user_icon.obj');
+        this.userAvatar.on(RODIN.CONST.READY, () => {
+            this.userAvatar._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+            });
+
+            this.userAvatar._threeObject.children[0].material.map = RODIN.Loader.loadTexture(data.avatar || '/images/app3d/models/control_panel/images/rodin_icon.jpg');
+            this.userAvatar.position.x = -0.574;
+            this.loggedInSculpt.add(this.userAvatar);
+        });
     }
 }
