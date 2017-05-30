@@ -1,7 +1,6 @@
 import * as RODIN from 'rodin/core'
 import {Thumbs} from './Thumbs.js';
 import {UserHeader} from './UserHeader.js';
-import {ThumbBar} from './ThumbBar.js';
 import {ScrollBarHorizontal} from './ScrollBarHorizontal.js';
 
 const userData = [{
@@ -128,8 +127,10 @@ export class UserProjectsThumbs extends Thumbs {
         });
 
         this.scrollBar.on('change', () => {
-            this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
-            this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+            if(this.leftScrollThumbs.isReady && this.rightScrollThumbs.isReady) {
+                this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+                this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+            }
         });
     }
 

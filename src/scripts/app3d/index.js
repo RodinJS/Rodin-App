@@ -31,6 +31,7 @@ controlPanel.user.on('logout', (evt) => {
 export class APP {
     static init(params) {
         APP.API = params.API;
+        window.API = params.API;
     }
 
     static start(params) {
