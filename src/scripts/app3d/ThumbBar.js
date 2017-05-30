@@ -18,7 +18,7 @@ export class ThumbBar extends RODIN.Sculpt {
          */
         this.hoverThumdb = new RODIN.Sculpt(url);
         this.hoverThumdb.on(RODIN.CONST.READY, () => {
-            this.hoverThumdb.position.z = -0.006;
+            this.hoverThumdb.position.z = -0.002;
             this.hoverThumdb.scale.set(1.05, 1.08, 1.08);
             this.hoverThumdb.visible = false;
 
@@ -48,24 +48,18 @@ export class ThumbBar extends RODIN.Sculpt {
                 z: 0.95,
             }
         });
-        scaleDown.duration(200);
+        scaleDown.duration(100);
         this.animation.add(scaleDown);
 
         this.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
             this.buttonDownTimestamp = RODIN.Time.now;
+            this.animation.start('scaleDown');
         });
 
         this.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
             if(RODIN.Time.now - this.buttonDownTimestamp > 300) return;
-
-            // todo: hamozel Xchoin es momenD@
-            this.animation.start('scaleDown');
-        });
-
-        this.on(RODIN.CONST.ANIMATION_COMPLETE, () => {
-            this.scale.set(1, 1, 1);
             this.showDescriptionThumb(data);
-        })
+        });
     }
 
     showDescriptionThumb(data) {

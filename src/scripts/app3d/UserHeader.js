@@ -1,5 +1,5 @@
 import * as RODIN from 'rodin/core'
-import {Exit} from './Exit.js';
+import {LogOut} from './LogOut.js';
 
 export class UserHeader extends RODIN.Sculpt {
     constructor(_loggedIn = false, data) {
@@ -19,6 +19,13 @@ export class UserHeader extends RODIN.Sculpt {
                 side: THREE.DoubleSide,
             });
             this.notLoggedInSculpt.add(this.logInBar);
+        });
+
+        this.logInBar.on(RODIN.CONST.GAMEPAD_HOVER, () => {
+            this.logInBar._threeObject.children[0].material.color = new THREE.Color(0xd8d8d8);
+        });
+        this.logInBar.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
+            this.logInBar._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
         });
 
         this.logOutIcon = new RODIN.Plane(0.09, new THREE.MeshBasicMaterial({
@@ -46,12 +53,7 @@ export class UserHeader extends RODIN.Sculpt {
                 side: THREE.DoubleSide,
             });
 
-            if (data.avatar) {
-                this.userInfoBar._threeObject.children[0].material.map = RODIN.Loader.loadTexture(data.avatar)
-            } else {
-                this.userInfoBar._threeObject.children[0].material.map = RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/rodin_icon.jpg')
-            }
-
+            this.userInfoBar._threeObject.children[0].material.map = RODIN.Loader.loadTexture(data.avatar || '/images/app3d/models/control_panel/images/rodin_icon.jpg')
             this.userInfoBar.position.x = -0.574;
             this.loggedInSculpt.add(this.userInfoBar);
         });
@@ -103,11 +105,12 @@ export class UserHeader extends RODIN.Sculpt {
             this.logOutIconBG._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
         });
         this.logOutIconBG.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
-            const exitBar = new Exit();
-            exitBar.open();
-            exitBar.position.y = 1.6;
-            exitBar.position.z = -1.5;
-            RODIN.Scene.add(exitBar);
+            const logOutBar = new LogOut();
+            logOutBar.open();
+            RODIN.Scene.add(logOutBar);
+            logOutBar.on('submit', () => {
+                this.emit('logout', new RODIN.RodinEvent(this));
+            })
         });
 
         this.loggedIn = _loggedIn;
@@ -121,5 +124,10 @@ export class UserHeader extends RODIN.Sculpt {
             this.add(this.notLoggedInSculpt);
             this.remove(this.loggedInSculpt);
         }
+    }
+
+    set userData(value) {
+        console.log(value);
+        // todo: implement
     }
 }

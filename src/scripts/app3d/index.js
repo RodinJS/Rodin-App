@@ -8,12 +8,22 @@ RODIN.start();
 const gugenhaimModel = new RODIN.Sculpt('images/app3d/models/gugenhaim.obj');
 gugenhaimModel.on(RODIN.CONST.READY, () => {
     RODIN.Scene.add(gugenhaimModel);
+    //gugenhaimModel.rotation.y = Math.PI/2
 });
 
 RODIN.Scene.add(controlPanel);
-controlPanel.position.z = -2;
-controlPanel.position.y = 1.6;
+controlPanel.user.on('login', (evt) => {
+    // some login functionality
+    controlPanel.user.loggedIn = true;
+    controlPanel.user.userData = {
+        name: 'Christina'
+    }
+});
 
+controlPanel.user.on('logout', (evt) => {
+    // spme logout functions
+    controlPanel.user.loggedIn = false;
+});
 
 /**
  * Class App for Angular

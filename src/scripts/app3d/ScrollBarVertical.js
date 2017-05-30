@@ -36,19 +36,21 @@ export class ScrollBarVertical extends RODIN.Sculpt {
 
             scrollToolObj.scale.y = this.pageScrollStep / this.lenght;
             this.scrollTool.add(scrollToolObj);
-            this.scrollTool.position.y = (this.lenght + this.pageScrollStep) / 2 - this.pageScrollStep * this.currentPage;
+            //this.scrollTool.position.y = (this.lenght + this.pageScrollStep) / 2 - this.pageScrollStep * this.currentPage;
             this.scrollTool.position.z = 0.001;
+
+            this.currentPage = 1;
 
             this.add(this.scrollTool);
         });
 
-        this.currentPageNumber = new RODIN.Text({
-            text: this.currentPage,
-            color: 0x0077ff,
-            fontSize: 0.04
-        });
-        this.currentPageNumber.position.x = -0.05;
-        this.scrollTool.add(this.currentPageNumber);
+        // this.currentPageNumber = new RODIN.Text({
+        //     text: this.currentPage,
+        //     color: 0x0077ff,
+        //     fontSize: 0.04
+        // });
+        // this.currentPageNumber.position.x = -0.05;
+        // this.scrollTool.add(this.currentPageNumber);
 
         /**
          * Set numbering
@@ -80,7 +82,7 @@ export class ScrollBarVertical extends RODIN.Sculpt {
 
     set currentPage(value) {
         this._currentPage = value;
-        this.currentPageNumber.parent = null;
+        this.currentPageNumber && (this.currentPageNumber.parent = null);
 
         this.scrollTool.position.y = (this.lenght + this.pageScrollStep) / 2 - this.pageScrollStep * this._currentPage;
 
@@ -90,6 +92,7 @@ export class ScrollBarVertical extends RODIN.Sculpt {
             fontSize: 0.04
         });
         this.currentPageNumber.position.x = -0.05;
-        this.scrollTool.add(this.currentPageNumber)
+        this.scrollTool.add(this.currentPageNumber);
+        this.emit('change', new RODIN.RodinEvent(this));
     }
 }

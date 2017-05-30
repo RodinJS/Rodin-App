@@ -27,7 +27,9 @@ export class FeaturedProjectsThumbs extends Thumbs {
          * Scroll bar
          */
         const scrollBarLenght = 2;
-        this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_featured.obj', scrollBarLenght, 20, 6);
+        this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_featured.obj',
+            scrollBarLenght, 20, 6);
+
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.y = -0.5;
             this.add(this.scrollBar);
@@ -40,6 +42,41 @@ export class FeaturedProjectsThumbs extends Thumbs {
         this.sortBar.on(RODIN.CONST.READY, () => {
             this.sortBar.position.y = 0.45;
             this.add(this.sortBar);
+        });
+
+        /**
+         * leftScrollThumbs
+         */
+        this.leftScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
+        this.leftScrollThumbs.on(RODIN.CONST.READY, () => {
+            this.leftScrollThumbs.position.set(-0.8, 0, -0.1);
+            this.leftScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+                color: 0xaaaaaa,
+                transparent: true,
+                opacity: 0.65,
+            });
+            this.add(this.leftScrollThumbs)
+        });
+
+        /**
+         * rightScrollThumbs
+         */
+        this.rightScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
+        this.rightScrollThumbs.on(RODIN.CONST.READY, () => {
+            this.rightScrollThumbs.position.set(0.8, 0, -0.1);
+            this.rightScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+                color: 0xaaaaaa,
+                transparent: true,
+                opacity: 0.65,
+            });
+            this.add(this.rightScrollThumbs)
+        });
+
+        this.scrollBar.on('change', () => {
+            this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+            this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
         });
     }
 
