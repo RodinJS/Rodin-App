@@ -96,7 +96,8 @@ export class SortBar extends RODIN.Sculpt {
         });
 
 
-        this.sortMostRecent.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+        this.sortMostRecent.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, (evt) => {
+            evt.stopPropagation();
             if(!this.sortMostRecent.clicked){
                 this.sortMostRecent._threeObject.children[0].material.color = new THREE.Color(0xb0c9ef);
                 this.sortAZ._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
@@ -107,7 +108,8 @@ export class SortBar extends RODIN.Sculpt {
                 this.sortMostPopular.clicked = false;
             }
         });
-        this.sortAZ.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+        this.sortAZ.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, (evt) => {
+            evt.stopPropagation();
             if(!this.sortAZ.clicked){
                 this.sortMostRecent._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
                 this.sortAZ._threeObject.children[0].material.color = new THREE.Color(0xb0c9ef);
@@ -118,7 +120,8 @@ export class SortBar extends RODIN.Sculpt {
                 this.sortMostPopular.clicked = false;
             }
         });
-        this.sortMostPopular.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+        this.sortMostPopular.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, (evt) => {
+            evt.stopPropagation();
             if(!this.sortMostPopular.clicked){
                 this.sortMostRecent._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
                 this.sortAZ._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
