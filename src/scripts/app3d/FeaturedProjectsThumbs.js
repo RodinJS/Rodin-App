@@ -47,7 +47,7 @@ export class FeaturedProjectsThumbs extends RODIN.Sculpt {
          */
         this.leftScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
         this.leftScrollThumbs.on(RODIN.CONST.READY, () => {
-            this.leftScrollThumbs.position.set(-0.8, 0, -0.004);
+            this.leftScrollThumbs.position.set(-0.8, 0, -0.1);
             this.leftScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
@@ -62,7 +62,7 @@ export class FeaturedProjectsThumbs extends RODIN.Sculpt {
          */
         this.rightScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
         this.rightScrollThumbs.on(RODIN.CONST.READY, () => {
-            this.rightScrollThumbs.position.set(0.8, 0, -0.004);
+            this.rightScrollThumbs.position.set(0.8, 0, -0.1);
             this.rightScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
@@ -76,15 +76,47 @@ export class FeaturedProjectsThumbs extends RODIN.Sculpt {
            this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
            this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
         });
+
+
+        this.thumbs = [];
+        this.maxThumbs = 20;
+        this.loadMore();
+
+        this.thumbsBar = new RODIN.HorizontalGrid(3, 2, .4, .7);
+        this.thumbsBar.sculpt._threeObject.material.opacity = 1;
+        this.thumbsBar.sculpt._threeObject.material.wireframe = true;
+        this.add(this.thumbsBar.sculpt);
+
+        this.thumbsBar.onShow((elem, index, alpha) => {
+            elem.visible = true;
+        });
+
+        this.thumbsBar.onHide((elem, index, alpha) => {
+            elem.parent = null;
+            elem.visible = false;
+            elem.position.set(0, 0, -10);
+        });
+
+        this.thumbsBar.setGetElement((index) => {
+            if (index < 0 || index > this.maxThumbs - 1) return;
+            if (index >= this.length) return this.loadMore();
+
+            return this.thumbs[index];
+        });
+    }
+
+    loadMore() {
+        for (let i = 0; i < 10; i++) {
+            this.thumbs.push(new RODIN.Plane(.6, .35));
+            this.thumbs[i].position.set(0, 0, -10);
+        }
     }
 
     static getInstance() {
-        if(!instance) {
+        if (!instance) {
             instance = new FeaturedProjectsThumbs();
         }
 
         return instance;
     }
 }
-
-

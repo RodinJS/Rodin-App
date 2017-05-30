@@ -86,6 +86,7 @@ export class LogOut extends Popup {
             logOutBtn._threeObject.children[0].material.color = new THREE.Color(0x2668ef);
         });
         logOutBtn.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+            this.emit('submit', new RODIN.RodinEvent(this));
             this.close();
         });
         

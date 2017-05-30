@@ -16,12 +16,12 @@ export class Popup extends RODIN.Sculpt {
     open() {
         this.add(this.popupSculpt);
         this.emit('open', new RODIN.RodinEvent(this));
-        RODIN.Scene.active.on(RODIN.CONST.GAMEPAD_BUTTON_UP, this.closeCallback);
+        // RODIN.Scene.active.on(RODIN.CONST.GAMEPAD_BUTTON_UP, this.closeCallback);
     }
 
     close() {
         this.remove(this.popupSculpt);
         this.emit('close', new RODIN.RodinEvent(this));
-        RODIN.Scene.active.removeEventListener(RODIN.CONST.GAMEPAD_BUTTON_UP, this.closeCallback);
+        // RODIN.Scene.active.removeEventListener(RODIN.CONST.GAMEPAD_BUTTON_UP, this.closeCallback);
     }
 }

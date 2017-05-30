@@ -46,12 +46,7 @@ export class UserHeader extends RODIN.Sculpt {
                 side: THREE.DoubleSide,
             });
 
-            if (data.avatar) {
-                this.userInfoBar._threeObject.children[0].material.map = RODIN.Loader.loadTexture(data.avatar)
-            } else {
-                this.userInfoBar._threeObject.children[0].material.map = RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/rodin_icon.jpg')
-            }
-
+            this.userInfoBar._threeObject.children[0].material.map = RODIN.Loader.loadTexture(data.avatar || '/images/app3d/models/control_panel/images/rodin_icon.jpg')
             this.userInfoBar.position.x = -0.574;
             this.loggedInSculpt.add(this.userInfoBar);
         });
@@ -106,6 +101,9 @@ export class UserHeader extends RODIN.Sculpt {
             const logOutBar = new LogOut();
             logOutBar.open();
             RODIN.Scene.add(logOutBar);
+            logOutBar.on('submit', () => {
+                this.emit('logout', new RODIN.RodinEvent(this));
+            })
         });
 
         this.loggedIn = _loggedIn;
@@ -119,5 +117,10 @@ export class UserHeader extends RODIN.Sculpt {
             this.add(this.notLoggedInSculpt);
             this.remove(this.loggedInSculpt);
         }
+    }
+
+    set userData(value) {
+        console.log(value);
+        // todo: implement
     }
 }
