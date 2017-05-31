@@ -10,8 +10,6 @@ export class DemoThumbs extends Thumbs {
         super(1, 3, (params)=>{
             console.log('camels ', _API);
             return _API.getProjects('all', params).then((data)=>{
-
-
                 return Promise.resolve(data);
             });
         }, total, false);
@@ -52,7 +50,10 @@ export class DemoThumbs extends Thumbs {
                 transparent: true,
                 opacity: 0.65,
             });
-            this.add(this.upScrollThumbs)
+            this.add(this.upScrollThumbs);
+            if(this.scrollBar.isReady){
+                this.upScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+            }
         });
 
         /**
@@ -68,12 +69,17 @@ export class DemoThumbs extends Thumbs {
                 transparent: true,
                 opacity: 0.65,
             });
-            this.add(this.downScrollThumbs)
+            this.add(this.downScrollThumbs);
+            if(this.scrollBar.isReady){
+                this.downScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+            }
         });
 
         this.scrollBar.on('change', () => {
-            this.upScrollThumbs.visible = this.scrollBar.currentPage !== 1;
-            this.downScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+            if(this.upScrollThumbs.isReady && this.downScrollThumbs.isReady){
+                this.upScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+                this.downScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+            }
         });
     }
 
