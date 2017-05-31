@@ -6,7 +6,7 @@ export class Thumbs extends RODIN.Sculpt {
     constructor(width, height, UNIVERSAL_API, total, isHorisontal = true) {
         super();
 
-        this.UNIVERSAL_API = UNIVERSAL_API;
+        this.UNIVERSAL_API = UNIVERSAL_API.bind(this);
 
         this.width = width;
         this.height = height;

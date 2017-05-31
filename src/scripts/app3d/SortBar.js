@@ -4,13 +4,16 @@ export class SortBar extends RODIN.Sculpt {
     constructor(){
         super();
 
+
+        this.sortType = null;
+
         /**
          * Set up sortMostRecent
          */
         this.sortMostRecent = new RODIN.Sculpt('/images/app3d/models/control_panel/most_recent.obj');
         this.sortMostRecent.on(RODIN.CONST.READY, () => {
             this.sortMostRecent._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                color: 0xb0c9ef,
+                color: 0xcccccc,
                 side: THREE.DoubleSide,
             });
             this.add(this.sortMostRecent);
@@ -24,6 +27,10 @@ export class SortBar extends RODIN.Sculpt {
             this.sortMostRecent.add(mostRecent);
             mostRecent.position.x = -0.473;
             mostRecent.position.z = 0.001;
+
+            if(this.sortMostRecent.isReady && this.sortAZ.isReady && this.sortMostPopular.isReady) {
+                this.setSortType('recent');
+            }
         });
 
         /**
@@ -45,6 +52,10 @@ export class SortBar extends RODIN.Sculpt {
             });
             this.sortAZ.add(AZ);
             AZ.position.z = 0.001;
+
+            if(this.sortMostRecent.isReady && this.sortAZ.isReady && this.sortMostPopular.isReady) {
+                this.setSortType('recent');
+            }
         });
 
 
@@ -68,6 +79,10 @@ export class SortBar extends RODIN.Sculpt {
             this.sortMostPopular.add(mostPopular);
             mostPopular.position.x = 0.473;
             mostPopular.position.z = 0.001;
+
+            if(this.sortMostRecent.isReady && this.sortAZ.isReady && this.sortMostPopular.isReady) {
+                this.setSortType('recent');
+            }
         });
 
 
@@ -99,38 +114,41 @@ export class SortBar extends RODIN.Sculpt {
         this.sortMostRecent.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, (evt) => {
             evt.stopPropagation();
             if(!this.sortMostRecent.clicked){
-                this.sortMostRecent._threeObject.children[0].material.color = new THREE.Color(0xb0c9ef);
-                this.sortAZ._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
-                this.sortMostPopular._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
-
-                this.sortMostRecent.clicked = true;
-                this.sortAZ.clicked = false;
-                this.sortMostPopular.clicked = false;
+                this.setSortType('recent');
             }
         });
         this.sortAZ.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, (evt) => {
             evt.stopPropagation();
             if(!this.sortAZ.clicked){
-                this.sortMostRecent._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
-                this.sortAZ._threeObject.children[0].material.color = new THREE.Color(0xb0c9ef);
-                this.sortMostPopular._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
-
-                this.sortMostRecent.clicked = false;
-                this.sortAZ.clicked = true;
-                this.sortMostPopular.clicked = false;
+                this.setSortType('az');
             }
         });
         this.sortMostPopular.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, (evt) => {
             evt.stopPropagation();
             if(!this.sortMostPopular.clicked){
-                this.sortMostRecent._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
-                this.sortAZ._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
-                this.sortMostPopular._threeObject.children[0].material.color = new THREE.Color(0xb0c9ef);
-
-                this.sortMostRecent.clicked = false;
-                this.sortAZ.clicked = false;
-                this.sortMostPopular.clicked = true;
+                this.setSortType('popular');
             }
         });
+    }
+
+    setSortType(type) {
+        if(type === this.sortType) return;
+
+        this.sortMostRecent._threeObject.children[0].material.color = new THREE.Color(type === 'recent' ? 0xb0c9ef : 0xcccccc);
+        this.sortAZ._threeObject.children[0].material.color = new THREE.Color(type === 'az' ? 0xb0c9ef : 0xcccccc);
+        this.sortMostPopular._threeObject.children[0].material.color = new THREE.Color(type === 'popular' ? 0xb0c9ef : 0xcccccc);
+
+        this.sortMostRecent.clicked = type === 'recent';
+        this.sortAZ.clicked = type === 'az';
+        this.sortMostPopular.clicked = type === 'popular';
+
+        if(this.sortType !== null) {
+            this.sortType = type;
+            const evt = new RODIN.RodinEvent(this);
+            evt.targetSort = type;
+            this.emit('change', evt);
+        }
+
+        this.sortType = type;
     }
 }
