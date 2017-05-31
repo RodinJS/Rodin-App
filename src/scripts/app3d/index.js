@@ -12,6 +12,16 @@ gugenhaimModel.on(RODIN.CONST.READY, () => {
 
 
 /**
+ * Load dome .obj model, add to the scene
+ */
+const domeModel = new RODIN.Sculpt('images/app3d/models/dome.obj');
+domeModel.on(RODIN.CONST.READY, () => {
+    domeModel._threeObject.children[0].material.materials[1].transparent = true;
+    RODIN.Scene.add(domeModel);
+});
+
+
+/**
  * Class App for Angular
  */
 export class APP {
