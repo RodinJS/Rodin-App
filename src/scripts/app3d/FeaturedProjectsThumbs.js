@@ -33,7 +33,7 @@ export class FeaturedProjectsThumbs extends Thumbs {
          */
         const scrollBarLenght = 2;
         this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_featured.obj',
-            scrollBarLenght, 20, 6);
+            scrollBarLenght, total, 6);
 
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.y = -0.5;
