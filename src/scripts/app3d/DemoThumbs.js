@@ -3,10 +3,18 @@ import {ScrollBarVertical} from './ScrollBarVertical.js';
 import {Thumbs} from './Thumbs.js';
 
 let instance = null;
+let _API = null;
 
 export class DemoThumbs extends Thumbs {
-    constructor() {
-        super(1, 3, false);
+    constructor(total) {
+        super(1, 3, (params)=>{
+            console.log('camels ', _API);
+            return _API.getProjects('all', params).then((data)=>{
+
+
+                return Promise.resolve(data);
+            });
+        }, total, false);
 
         /**
          * Set 'demoText' text styling
@@ -14,7 +22,7 @@ export class DemoThumbs extends Thumbs {
          */
         const demoText = new RODIN.Text({
             text: 'Demos',
-            color: 0x666666,
+            color: 0x333333,
             fontSize: 0.08
         });
         demoText.position.y = 0.6;
@@ -25,7 +33,7 @@ export class DemoThumbs extends Thumbs {
          * Scroll bar
          */
         const scrollBarLenght = 0.945;
-        this.scrollBar = new ScrollBarVertical(scrollBarLenght, 20);
+        this.scrollBar = new ScrollBarVertical(scrollBarLenght, total);
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.x = -0.31;
             this.add(this.scrollBar);
@@ -69,11 +77,13 @@ export class DemoThumbs extends Thumbs {
         });
     }
 
-    static getInstance() {
+    static getInstance(API, total) {
         if(!instance) {
-            instance = new DemoThumbs();
+            _API = API;
+            instance = new DemoThumbs(total);
         }
 
         return instance;
     }
 }
+

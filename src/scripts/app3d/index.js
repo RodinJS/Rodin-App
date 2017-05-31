@@ -1,5 +1,5 @@
 import * as RODIN from 'rodin/core';
-import {controlPanel} from './ControlPanel.js';
+import * as cp from './ControlPanel.js';
 RODIN.start();
 
 /**
@@ -8,30 +8,61 @@ RODIN.start();
 const gugenhaimModel = new RODIN.Sculpt('images/app3d/models/gugenhaim.obj');
 gugenhaimModel.on(RODIN.CONST.READY, () => {
     RODIN.Scene.add(gugenhaimModel);
-    //gugenhaimModel.rotation.y = Math.PI/2
 });
 
-RODIN.Scene.add(controlPanel);
-controlPanel.user.on('login', (evt) => {
-    // some login functionality
-    controlPanel.user.loggedIn = true;
-    controlPanel.user.userData = {
-        name: 'Christina'
-    }
+
+/**
+ * Load dome .obj model, add to the scene
+ */
+const domeModel = new RODIN.Sculpt('images/app3d/models/dome.obj');
+domeModel.on(RODIN.CONST.READY, () => {
+    domeModel._threeObject.children[0].material.materials[1].transparent = true;
+    RODIN.Scene.add(domeModel);
 });
 
-controlPanel.user.on('logout', (evt) => {
-    // spme logout functions
-    controlPanel.user.loggedIn = false;
-});
 
 /**
  * Class App for Angular
  */
 export class APP {
     static init(params) {
+        if (APP.inited) return;
+
+
         APP.API = params.API;
-        window.API = params.API;
+
+        APP.inited = true;
+        window.API = APP.API;
+
+        cp.init(APP.API).then(()=>{
+            const controlPanel = cp.controlPanel;
+
+            window.addEventListener('rodinloggedin', () => {
+                controlPanel.user.userData = APP.API.getUserInfo();
+                controlPanel.user.loggedIn = true;
+            });
+
+            if(APP.API.isLoggedIn() && APP.API.getUserInfo()) {
+                controlPanel.user.userData = APP.API.getUserInfo();
+                controlPanel.user.loggedIn = true;
+            }
+
+            RODIN.Scene.add(controlPanel);
+            controlPanel.user.on('login', (evt) => {
+                if (!APP.inited) return;
+
+                APP.API.navigate('/login', null, !APP.isMobile);
+            });
+
+            controlPanel.user.on('logout', (evt) => {
+                if (!APP.inited) return;
+
+                APP.API.logOut();
+                controlPanel.user.loggedIn = false;
+            });
+        });
+
+
     }
 
     static start(params) {
@@ -72,5 +103,15 @@ export class APP {
         // if (scene.webVRmanager.hmd && scene.webVRmanager.hmd.isPresenting) {
         //     scene.webVRmanager.hmd.exitPresent();
         // }
+    }
+
+    static get isMobile() {
+        return navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i)
     }
 }
