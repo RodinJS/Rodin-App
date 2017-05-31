@@ -10,11 +10,6 @@ export class UserProjectsThumbs extends Thumbs {
     constructor(total, _loggedIn = false) {
         super(2, 2, (params) => {
             return _API.getProjects('me', params).then((data) => {
-                if (1 > 0)
-                    this.noProjectsYet.visible = false;
-                else
-                    this.noProjectsYet.visible = true;
-
                 return Promise.resolve(data);
             });
         }, total);
@@ -67,7 +62,8 @@ export class UserProjectsThumbs extends Thumbs {
         });
 
         this.scrollBar.on(RODIN.CONST.UPDATE, () => {
-            this.scrollBar.currentPage = this.thumbsBar.start / (total - 3);
+            if (this.thumbsBar)
+                this.scrollBar.currentPage = this.thumbsBar.start / (total - 3);
         });
 
         this.noProjectsYet = new RODIN.Sculpt();
@@ -89,8 +85,6 @@ export class UserProjectsThumbs extends Thumbs {
         this.thumbBarText.position.z = 0.006;
         this.noProjectsYet.add(this.thumbBarText);
 
-        this.remove(this.thumbsBar.sculpt);
-        this.loggedInSculpt.add(this.thumbsBar.sculpt);
         this.loggedIn = _loggedIn;
 
         /**
@@ -135,6 +129,20 @@ export class UserProjectsThumbs extends Thumbs {
                 this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
             }
         });
+    }
+
+    createThumbs(total) {
+        super.createThumbs();
+
+        if (total !== 0)
+            this.noProjectsYet.visible = false;
+        else
+            this.noProjectsYet.visible = true;
+
+    }
+
+    get isUserProjectsThumbs() {
+        return true;
     }
 
     set loggedIn(value) {

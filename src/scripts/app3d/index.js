@@ -40,6 +40,10 @@ export class APP {
             window.addEventListener('rodinloggedin', () => {
                 controlPanel.user.userData = APP.API.getUserInfo();
                 controlPanel.user.loggedIn = true;
+
+                APP.API.getProjectsCount().then((data) => {
+                    console.log(data);
+                })
             });
 
             if(APP.API.isLoggedIn() && APP.API.getUserInfo()) {
@@ -59,6 +63,7 @@ export class APP {
 
                 APP.API.logOut();
                 controlPanel.user.loggedIn = false;
+                controlPanel.user.deleteThumbs();
             });
         });
 

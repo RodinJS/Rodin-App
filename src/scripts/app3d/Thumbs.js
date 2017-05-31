@@ -7,17 +7,21 @@ export class Thumbs extends RODIN.Sculpt {
         super();
 
         this.UNIVERSAL_API = UNIVERSAL_API.bind(this);
-
         this.width = width;
         this.height = height;
+        this.isHorisontal = isHorisontal;
 
+        if(total !== null)
+            this.createThumbs(total);
+    }
+
+    createThumbs(total) {
         this.thumbs = [];
         this.loadedPages = [];
         this.maxThumbs = 20;
 
-        this.thumbBarUrl = (isHorisontal ? '/images/app3d/models/control_panel/thumb_project.obj' : '/images/app3d/models/control_panel/thumb_demos.obj');
-        this.thumbsBar = (isHorisontal ? new RODIN.HorizontalGrid(height, width, .407, .682) : new RODIN.VerticalGrid(width, height, .682, .350));
-        // this.initFirstPlaceholders();
+        this.thumbBarUrl = (this.isHorisontal ? '/images/app3d/models/control_panel/thumb_project.obj' : '/images/app3d/models/control_panel/thumb_demos.obj');
+        this.thumbsBar = (this.isHorisontal ? new RODIN.HorizontalGrid(this.height, this.width, .407, .682) : new RODIN.VerticalGrid(this.width, this.height, .682, .350));
 
         this.total = total;
 
@@ -56,6 +60,15 @@ export class Thumbs extends RODIN.Sculpt {
         });
 
         this.currentPage = 1;
+
+        if(this.isUserProjectsThumbs) {
+            this.remove(this.thumbsBar.sculpt);
+            this.loggedInSculpt.add(this.thumbsBar.sculpt);
+        }
+    }
+
+    deleteThumbs() {
+        this.thumbsBar.parent.remove(this.thumbsBar);
     }
 
     loadThumbnails(pageNumber) {

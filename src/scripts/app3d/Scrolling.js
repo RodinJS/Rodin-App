@@ -45,8 +45,10 @@ export class Scrolling extends RODIN.Sculpt {
 
         this.on(RODIN.CONST.UPDATE, () => {
             if(isNaN(this.targetX)) return;
-            this.scrollToolObj.position.x += RODIN.Time.delta * (this.targetX - this.scrollToolObj.position.x) * .01;
-            this.scrollToolObj._threeObject.children[0].material.opacity += RODIN.Time.delta * (this.targetOpacity - this.scrollToolObj._threeObject.children[0].material.opacity) * .03;
+            if(this.scrollToolObj.isReady) {
+                this.scrollToolObj.position.x += RODIN.Time.delta * (this.targetX - this.scrollToolObj.position.x) * .01;
+                this.scrollToolObj._threeObject.children[0].material.opacity += RODIN.Time.delta * (this.targetOpacity - this.scrollToolObj._threeObject.children[0].material.opacity) * .03;
+            }
         });
     }
 

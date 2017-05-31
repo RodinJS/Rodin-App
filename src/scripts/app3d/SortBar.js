@@ -17,7 +17,7 @@ export class SortBar extends RODIN.Sculpt {
                 side: THREE.DoubleSide,
             });
             this.add(this.sortMostRecent);
-            this.sortMostRecent.clicked = true;
+            this.sortMostRecent.clicked = false;
 
             const mostRecent = new RODIN.Text({
                 text: 'Most Recent',
@@ -39,7 +39,7 @@ export class SortBar extends RODIN.Sculpt {
                 side: THREE.DoubleSide,
             });
             this.add(this.sortMostPopular);
-            this.sortMostPopular.clicked = false;
+            this.sortMostPopular.clicked = true;
 
             const mostPopular = new RODIN.Text({
                 text: 'Most Popular',

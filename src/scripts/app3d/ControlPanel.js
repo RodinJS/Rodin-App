@@ -7,10 +7,9 @@ export let controlPanel = null;
 
 export const init = (API) => {
 
-    let total_featured = null, total_user = null, total_demo = null;
+    let total_featured = null, total_demo = null;
 
     return API.getProjectsCount().then(data => {
-        total_user = data.userProjects || 0;
         total_featured = data.featuredProjects || 0;
         total_demo = data.demoProjects || 0;
 
@@ -26,7 +25,7 @@ export const init = (API) => {
         const featured = FeaturedProjectsThumbs.getInstance(API, total_featured);
         controlPanel.add(featured);
 
-        const user = UserProjectsThumbs.getInstance(API, total_user);
+        const user = UserProjectsThumbs.getInstance(API, null);
         controlPanel.add(user);
         user.position.set(1.735, 0, 0.9);
         user.rotation.y = -Math.PI / 3;
@@ -34,6 +33,10 @@ export const init = (API) => {
         controlPanel.demos = demos;
         controlPanel.featured = featured;
         controlPanel.user = user;
+
+        if(data.userProjects !== null) {
+            controlPanel.user.createThumbs(data.userProjects);
+        }
 
         RODIN.messenger.on('popupopened', (data) => {
             if (['logout', 'description'].indexOf(data.popupName) !== -1) {
