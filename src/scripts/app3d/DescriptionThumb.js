@@ -24,7 +24,6 @@ export class DescriptionThumb extends Popup {
             this.projectName.position.set(-0.3, 0.42, 0.006);
             this.add(this.projectName);
 
-
             this.projectDescription = new RODIN.DynamicText({
                 text: data.description || 'There is no description',
                 color: 0x333333,
@@ -34,7 +33,6 @@ export class DescriptionThumb extends Popup {
             });
             this.projectDescription.position.set(-0.3, 0, 0.006);
             this.add(this.projectDescription);
-
 
             const widthRight = 0.66;
 
@@ -134,16 +132,17 @@ export class DescriptionThumb extends Popup {
             this.backBtn.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
                 this.close();
             });
+        });
 
-            this.on('open', () => {
-                RODIN.messenger.post('popupopened', {popupName: 'description'});
-            });
+        this.on('open', () => {
+            console.log("open");
+            RODIN.messenger.post('popupopened', {popupName: 'description'});
+        });
 
-            this.on('close', () => {
-                // todo: dispose it
-                this.parent.remove(this);
-                RODIN.messenger.post('popupclosed', {popupName: 'description'});
-            });
+        this.on('close', () => {
+            // todo: dispose it
+            this.parent.remove(this);
+            RODIN.messenger.post('popupclosed', {popupName: 'description'});
         });
     }
 }
