@@ -26,4 +26,3 @@ newmtl Material__9
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Kd textures\about_rodin.png
-	map_d textures\about_rodin.jpg

@@ -62,7 +62,10 @@ export class FeaturedProjectsThumbs extends Thumbs {
                 transparent: true,
                 opacity: 0.65,
             });
-            this.add(this.leftScrollThumbs)
+            this.add(this.leftScrollThumbs);
+            if(this.scrollBar.isReady){
+                this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+            }
         });
 
         /**
@@ -77,12 +80,17 @@ export class FeaturedProjectsThumbs extends Thumbs {
                 transparent: true,
                 opacity: 0.65,
             });
-            this.add(this.rightScrollThumbs)
+            this.add(this.rightScrollThumbs);
+            if(this.scrollBar.isReady){
+                this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+            }
         });
 
         this.scrollBar.on('change', () => {
-            this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
-            this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+            if(this.leftScrollThumbs.isReady && this.rightScrollThumbs.isReady){
+                this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+                this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+            }
         });
     }
 
