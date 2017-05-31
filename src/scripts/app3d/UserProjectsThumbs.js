@@ -45,7 +45,6 @@ export class UserProjectsThumbs extends Thumbs {
                 side: THREE.DoubleSide,
                 color: 0xb2b2b2
             });
-
             this.notLoggedInSculpt.add(this.logInToSeeYourProject)
         });
 
@@ -79,7 +78,6 @@ export class UserProjectsThumbs extends Thumbs {
                 side: THREE.DoubleSide,
                 color: 0xcccccc
             });
-
             this.noProjectsYet.add(this.thumbBar)
         });
 

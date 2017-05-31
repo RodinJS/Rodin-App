@@ -5,7 +5,7 @@ export class Scrolling extends RODIN.Sculpt {
 
         super(url);
         /**
-         * Set up ScrollBarVertical material initial parameters
+         * Set up scroll bar material initial parameters
          */
         this.on(RODIN.CONST.READY, () => {
             this._threeObject.children[0].material = new THREE.MeshBasicMaterial({
