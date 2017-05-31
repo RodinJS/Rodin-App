@@ -1,5 +1,5 @@
 import * as RODIN from 'rodin/core'
-import {ScrollBarHorizontal} from './ScrollBarHorizontal.js';
+import {Scrolling} from './Scrolling.js';
 import {SortBar} from './SortBar.js';
 import {Thumbs} from './Thumbs.js';
 
@@ -35,7 +35,7 @@ export class FeaturedProjectsThumbs extends Thumbs {
          * Scroll bar
          */
         const scrollBarLenght = 2;
-        this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_featured.obj', scrollBarLenght, total, 2, 3);
+        this.scrollBar = new Scrolling('/images/app3d/models/control_panel/scroll_bar_horizontal_featured.obj', scrollBarLenght, total, 2, 3);
 
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.y = -0.5;
@@ -43,7 +43,7 @@ export class FeaturedProjectsThumbs extends Thumbs {
         });
 
         this.scrollBar.on(RODIN.CONST.UPDATE, () => {
-            this.scrollBar.currentPage = this.thumbsBar.start / (total - 3);
+            this.scrollBar.currentPage = this.thumbsBar.start / (total - 5);
         });
 
         /**

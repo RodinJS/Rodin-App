@@ -1,6 +1,6 @@
 import * as RODIN from 'rodin/core'
 
-export class ScrollBarHorizontal extends RODIN.Sculpt {
+export class Scrolling extends RODIN.Sculpt {
     constructor(url, width, numberOfProjects, projectsPerUnit, columnsShown) {
 
         super(url);
@@ -23,13 +23,14 @@ export class ScrollBarHorizontal extends RODIN.Sculpt {
         this.width = width;
         this.columnCount = Math.ceil(numberOfProjects / projectsPerUnit);
         this._currentPage = 0;
+        this.targetOpacity = .2;
 
         this.scrollToolObj = new RODIN.Sculpt(url);
         this.scrollToolObj.on(RODIN.CONST.READY, () => {
             this.scrollToolObj._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 color: 0x0077ff,
                 transparent: true,
-                opacity: 0.2,
+                opacity: this.targetOpacity,
                 side: THREE.DoubleSide,
             });
 
@@ -45,15 +46,16 @@ export class ScrollBarHorizontal extends RODIN.Sculpt {
         this.on(RODIN.CONST.UPDATE, () => {
             if(isNaN(this.targetX)) return;
             this.scrollToolObj.position.x += RODIN.Time.delta * (this.targetX - this.scrollToolObj.position.x) * .01;
+            this.scrollToolObj._threeObject.children[0].material.opacity += RODIN.Time.delta * (this.targetOpacity - this.scrollToolObj._threeObject.children[0].material.opacity) * .03;
         });
     }
 
     highlight() {
-        this.scale.y = 1.5;
+        this.targetOpacity = .4;
     }
 
     sleep() {
-        this.scale.y = 1;
+        this.targetOpacity = .2;
     }
 
     get currentPage() {

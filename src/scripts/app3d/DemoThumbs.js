@@ -1,5 +1,5 @@
 import * as RODIN from 'rodin/core'
-import {ScrollBarVertical} from './ScrollBarVertical.js';
+import {Scrolling} from './Scrolling.js';
 import {Thumbs} from './Thumbs.js';
 
 let instance = null;
@@ -7,9 +7,9 @@ let _API = null;
 
 export class DemoThumbs extends Thumbs {
     constructor(total) {
-        super(1, 3, (params)=>{
+        super(1, 3, (params) => {
             console.log('camels ', _API);
-            return _API.getProjects('all', params).then((data)=>{
+            return _API.getProjects('all', params).then((data) => {
                 return Promise.resolve(data);
             });
         }, total, false);
@@ -31,10 +31,15 @@ export class DemoThumbs extends Thumbs {
          * Scroll bar
          */
         const scrollBarLenght = 0.945;
-        this.scrollBar = new ScrollBarVertical(scrollBarLenght, total);
+        this.scrollBar = new Scrolling('/images/app3d/models/control_panel/scroll_bar_vertical.obj', scrollBarLenght, total, 1, 3);
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.x = -0.31;
+            this.scrollBar.rotation.z = -Math.PI/2;
             this.add(this.scrollBar);
+        });
+
+        this.scrollBar.on(RODIN.CONST.UPDATE, () => {
+            this.scrollBar.currentPage = this.thumbsBar.start / (total - 2);
         });
 
         /**
@@ -51,7 +56,7 @@ export class DemoThumbs extends Thumbs {
                 opacity: 0.65,
             });
             this.add(this.upScrollThumbs);
-            if(this.scrollBar.isReady){
+            if (this.scrollBar.isReady) {
                 this.upScrollThumbs.visible = this.scrollBar.currentPage !== 1;
             }
         });
@@ -70,13 +75,13 @@ export class DemoThumbs extends Thumbs {
                 opacity: 0.65,
             });
             this.add(this.downScrollThumbs);
-            if(this.scrollBar.isReady){
+            if (this.scrollBar.isReady) {
                 this.downScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
             }
         });
 
         this.scrollBar.on('change', () => {
-            if(this.upScrollThumbs.isReady && this.downScrollThumbs.isReady){
+            if (this.upScrollThumbs.isReady && this.downScrollThumbs.isReady) {
                 this.upScrollThumbs.visible = this.scrollBar.currentPage !== 1;
                 this.downScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
             }
@@ -84,7 +89,7 @@ export class DemoThumbs extends Thumbs {
     }
 
     static getInstance(API, total) {
-        if(!instance) {
+        if (!instance) {
             _API = API;
             instance = new DemoThumbs(total);
         }

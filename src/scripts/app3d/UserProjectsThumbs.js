@@ -1,7 +1,7 @@
 import * as RODIN from "rodin/core";
 import {Thumbs} from "./Thumbs.js";
 import {UserHeader} from "./UserHeader.js";
-import {ScrollBarHorizontal} from "./ScrollBarHorizontal.js";
+import {Scrolling} from "./Scrolling.js";
 
 let instance = null;
 let _API = null;
@@ -61,7 +61,7 @@ export class UserProjectsThumbs extends Thumbs {
          * Logged in us a User
          */
         const scrollBarLenght = 1.32;
-        this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_user.obj', scrollBarLenght, total, 2, 2);
+        this.scrollBar = new Scrolling('/images/app3d/models/control_panel/scroll_bar_horizontal_user.obj', scrollBarLenght, total, 2, 2);
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.y = -0.5;
             this.loggedInSculpt.add(this.scrollBar);
