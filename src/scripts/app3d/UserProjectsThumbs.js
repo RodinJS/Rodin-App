@@ -1,15 +1,15 @@
-import * as RODIN from 'rodin/core'
-import {Thumbs} from './Thumbs.js';
-import {UserHeader} from './UserHeader.js';
-import {ScrollBarHorizontal} from './ScrollBarHorizontal.js';
+import * as RODIN from "rodin/core";
+import {Thumbs} from "./Thumbs.js";
+import {UserHeader} from "./UserHeader.js";
+import {ScrollBarHorizontal} from "./ScrollBarHorizontal.js";
 
 let instance = null;
 let _API = null;
 
 export class UserProjectsThumbs extends Thumbs {
     constructor(total, _loggedIn = false) {
-        super(2, 2, (params)=>{
-            return _API.getProjects('me', params).then((data)=>{
+        super(2, 2, (params) => {
+            return _API.getProjects('me', params).then((data) => {
                 if (1 > 0)
                     this.noProjectsYet.visible = false;
                 else
@@ -61,11 +61,14 @@ export class UserProjectsThumbs extends Thumbs {
          * Logged in us a User
          */
         const scrollBarLenght = 1.32;
-        this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_user.obj',
-            scrollBarLenght, total, 3);
+        this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_user.obj', scrollBarLenght, total, 2, 2);
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.y = -0.5;
             this.loggedInSculpt.add(this.scrollBar);
+        });
+
+        this.scrollBar.on(RODIN.CONST.UPDATE, () => {
+            this.scrollBar.currentPage = this.thumbsBar.start / (total - 3);
         });
 
         this.noProjectsYet = new RODIN.Sculpt();
@@ -105,7 +108,7 @@ export class UserProjectsThumbs extends Thumbs {
                 opacity: 0.65,
             });
             this.add(this.leftScrollThumbs);
-            if(this.scrollBar.isReady){
+            if (this.scrollBar.isReady) {
                 this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
             }
         });
@@ -123,13 +126,13 @@ export class UserProjectsThumbs extends Thumbs {
                 opacity: 0.65,
             });
             this.add(this.rightScrollThumbs);
-            if(this.scrollBar.isReady){
+            if (this.scrollBar.isReady) {
                 this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
             }
         });
 
         this.scrollBar.on('change', () => {
-            if(this.leftScrollThumbs.isReady && this.rightScrollThumbs.isReady) {
+            if (this.leftScrollThumbs.isReady && this.rightScrollThumbs.isReady) {
                 this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
                 this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
             }
@@ -158,7 +161,7 @@ export class UserProjectsThumbs extends Thumbs {
     }
 
     static getInstance(API, total) {
-        if(!instance) {
+        if (!instance) {
             _API = API;
             instance = new UserProjectsThumbs(total);
         }

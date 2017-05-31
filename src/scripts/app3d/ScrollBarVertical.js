@@ -20,7 +20,7 @@ export class ScrollBarVertical extends RODIN.Sculpt {
          * Crete scroll tool
          */
         this.scrollTool = new RODIN.Sculpt();
-        this.lenght = lenght;
+        this.width = lenght;
         this.pagesNaber = Math.ceil(numberOfProjects / 3);
         this.pageScrollStep = lenght / this.pagesNaber;
         this._currentPage = 1;
@@ -34,7 +34,7 @@ export class ScrollBarVertical extends RODIN.Sculpt {
                 side: THREE.DoubleSide,
             });
 
-            scrollToolObj.scale.y = this.pageScrollStep / this.lenght;
+            scrollToolObj.scale.y = this.pageScrollStep / this.width;
             this.scrollTool.add(scrollToolObj);
             this.scrollTool.position.z = 0.001;
 
@@ -42,29 +42,6 @@ export class ScrollBarVertical extends RODIN.Sculpt {
 
             this.add(this.scrollTool);
         });
-
-        /**
-         * Set numbering
-         */
-        this.on(RODIN.CONST.READY, () => {
-            const firstPage = !numberOfProjects ? 0 : 1;
-            const firstPageNumber = new RODIN.Text({
-                text: firstPage,
-                color: 0x666666,
-                fontSize: 0.04
-            });
-            firstPageNumber.position.y = this.lenght / 2 + 0.05;
-            this.add(firstPageNumber);
-
-            const lastPageNumber = new RODIN.Text({
-                text: this.pagesNaber,
-                color: 0x666666,
-                fontSize: 0.04
-            });
-            lastPageNumber.position.y = -(this.lenght / 2 + 0.05);
-            this.add(lastPageNumber);
-        });
-
     }
 
     get currentPage() {
@@ -73,17 +50,7 @@ export class ScrollBarVertical extends RODIN.Sculpt {
 
     set currentPage(value) {
         this._currentPage = value;
-        this.currentPageNumber && (this.currentPageNumber.parent = null);
-
-        this.scrollTool.position.y = (this.lenght + this.pageScrollStep) / 2 - this.pageScrollStep * this._currentPage;
-
-        this.currentPageNumber = new RODIN.Text({
-            text: this._currentPage,
-            color: 0x0077ff,
-            fontSize: 0.04
-        });
-        this.currentPageNumber.position.x = -0.05;
-        this.scrollTool.add(this.currentPageNumber);
+        this.scrollTool.position.y = (this.width + this.pageScrollStep) / 2 - this.pageScrollStep * this._currentPage;
         this.emit('change', new RODIN.RodinEvent(this));
     }
 }

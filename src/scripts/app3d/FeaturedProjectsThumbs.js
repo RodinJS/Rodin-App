@@ -35,12 +35,15 @@ export class FeaturedProjectsThumbs extends Thumbs {
          * Scroll bar
          */
         const scrollBarLenght = 2;
-        this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_featured.obj',
-            scrollBarLenght, total, 6);
+        this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_featured.obj', scrollBarLenght, total, 2, 3);
 
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.y = -0.5;
             this.add(this.scrollBar);
+        });
+
+        this.scrollBar.on(RODIN.CONST.UPDATE, () => {
+            this.scrollBar.currentPage = this.thumbsBar.start / (total - 3);
         });
 
         /**

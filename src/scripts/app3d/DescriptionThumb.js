@@ -42,7 +42,7 @@ export class DescriptionThumb extends Popup {
             this.imageThumb.on(RODIN.CONST.READY, () => {
                 this.imageThumb._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                     side: THREE.DoubleSide,
-                    map: RODIN.Loader.loadTexture(data.thumbnail)
+                    map: RODIN.Loader.loadTexture(data.thumbnail || '/images/app3d/models/control_panel/images/No_Thumb.png')
                 });
                 this.imageThumb.scale.multiplyScalar(0.9);
                 this.imageThumb.position.set(widthRight, 0.335, 0.006);
@@ -74,14 +74,13 @@ export class DescriptionThumb extends Popup {
             this.add(this.createBy);
 
             this.userName = new RODIN.Text({
-                text: data.name || 'Rodin team',
+                text: data.owner || 'Rodin team',
                 color: 0x333333,
                 fontSize: 0.06,
                 width: 0.5
             });
             this.userName.position.set(widthRight, -0.12, 0.006);
             this.add(this.userName);
-
 
             this.startExperience = new RODIN.Sculpt('/images/app3d/models/control_panel/log_in.obj');
             this.startExperience.on(RODIN.CONST.READY, () => {
@@ -145,7 +144,6 @@ export class DescriptionThumb extends Popup {
                 this.parent.remove(this);
                 RODIN.messenger.post('popupclosed', {popupName: 'description'});
             });
-
         });
     }
 }

@@ -43,6 +43,18 @@ export class Thumbs extends RODIN.Sculpt {
             return this.thumbs[index];
         });
 
+        this.thumbsBar.on(RODIN.CONST.SCROLL_START, () => {
+            if(this.scrollBar && this.scrollBar.isReady) {
+                this.scrollBar.highlight && this.scrollBar.highlight();
+            }
+        });
+
+        this.thumbsBar.on(RODIN.CONST.SCROLL_END, () => {
+            if(this.scrollBar && this.scrollBar.isReady) {
+                this.scrollBar.highlight && this.scrollBar.sleep();
+            }
+        });
+
         this.currentPage = 1;
     }
 

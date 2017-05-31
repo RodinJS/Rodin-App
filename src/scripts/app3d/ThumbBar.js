@@ -7,8 +7,8 @@ export class ThumbBar extends RODIN.Sculpt {
         this.on(RODIN.CONST.READY, () => {
             this._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
-                color: 0x999999,
-                map: RODIN.Loader.loadTexture(data.thumbnail || '/images/app3d/old/img/thumb.jpg')
+                color: 0xFFFFFF,
+                map: RODIN.Loader.loadTexture(data.thumbnail || '/images/app3d/models/control_panel/images/No_Thumb.png')
             });
         });
 
