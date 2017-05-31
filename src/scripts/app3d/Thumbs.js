@@ -81,6 +81,7 @@ const makeDummy = (url) => {
     thumbSculpt.position.set(0, 0, -10);
     thumbSculpt.dummy = new ThumbBar(url);
     thumbSculpt.dummy.on(RODIN.CONST.READY, () => {
+        thumbSculpt.dummy._threeObject.children[0].material.map = RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/Thumb.png');
         thumbSculpt.add(thumbSculpt.dummy);
     });
 
