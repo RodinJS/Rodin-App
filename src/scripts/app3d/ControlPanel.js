@@ -9,15 +9,10 @@ export const init = (API) => {
 
     let total_featured = null, total_user = null, total_demo = null;
 
-    return API.getProjects('all', {skip: 0, limit: 0}).then(data => {
-        total_featured = data.count;
-        return API.getProjects('all', {skip: 0, limit: 0});
-    }).then(data => {
-        total_demo = data.count;
-        // change to me when logged out case is handled
-        return API.getProjects('all', {skip: 0, limit: 0});
-    }).then(data => {
-        total_user = data.count || 3;
+    return API.getProjectsCount().then(data => {
+        total_user = data.userProjects || 0;
+        total_featured = data.featuredProjects || 0;
+        total_demo = data.demoProjects || 0;
 
         controlPanel = new RODIN.Sculpt();
         controlPanel.position.z = -2;
@@ -55,6 +50,8 @@ export const init = (API) => {
                 UserProjectsThumbs.getInstance().visible = true;
             }
         });
+
+        API.loaderHide();
         return Promise.resolve();
     });
 
