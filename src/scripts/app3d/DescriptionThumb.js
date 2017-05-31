@@ -135,7 +135,6 @@ export class DescriptionThumb extends Popup {
         });
 
         this.on('open', () => {
-            console.log("open");
             RODIN.messenger.post('popupopened', {popupName: 'description'});
         });
 
