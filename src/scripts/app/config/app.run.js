@@ -44,7 +44,7 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
 
     $rootScope.setPageClass(toState.pageClass);
 
-    Loader.hide();
+    //Loader.hide();
 
     angular.element(document.querySelectorAll(".webvr-button")).addClass("hidden");
   });

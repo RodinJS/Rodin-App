@@ -5,7 +5,7 @@
 let self;
 
 class VRAPI {
-    constructor(AppConstants, $state, $location, $q, Project, JWT, User, Modal) {
+    constructor(AppConstants, $state, $location, $q, Project, JWT, User, Modal, Loader) {
         'ngInject';
 
         self = this;
@@ -17,6 +17,7 @@ class VRAPI {
         this._$location = $location;
         this._$q = $q;
         this._JWT = JWT;
+        this._Loader = Loader;
         this._Modal = Modal;
 
     }
@@ -24,6 +25,14 @@ class VRAPI {
     ///////////////
     //Navigation API
     ///////////////
+
+    loaderShow(){
+        this._Loader.show();
+    }
+
+    loaderHide(){
+        this._Loader.hide();
+    }
 
     /**
      * @name navigate
@@ -187,6 +196,10 @@ class VRAPI {
         } else {
             throw new Error(`This status type doesn't supported: ${status}`);
         }
+    }
+
+    getProjectsCount(){
+        return self._Project.getProjectsCount();
     }
 
     /**
