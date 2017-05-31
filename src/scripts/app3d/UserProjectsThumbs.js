@@ -8,8 +8,6 @@ let _API = null;
 
 export class UserProjectsThumbs extends Thumbs {
     constructor(total, _loggedIn = false) {
-        console.log('camels 0 ', _API);
-
         super(2, 2, (params)=>{
             return _API.getProjects('me', params).then((data)=>{
                 if (1 > 0)
@@ -64,7 +62,7 @@ export class UserProjectsThumbs extends Thumbs {
          */
         const scrollBarLenght = 1.32;
         this.scrollBar = new ScrollBarHorizontal('/images/app3d/models/control_panel/scroll_bar_horizontal_user.obj',
-            scrollBarLenght, 5, 4);
+            scrollBarLenght, total, 3);
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.y = -0.5;
             this.loggedInSculpt.add(this.scrollBar);

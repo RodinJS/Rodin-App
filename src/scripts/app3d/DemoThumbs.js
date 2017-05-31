@@ -33,7 +33,7 @@ export class DemoThumbs extends Thumbs {
          * Scroll bar
          */
         const scrollBarLenght = 0.945;
-        this.scrollBar = new ScrollBarVertical(scrollBarLenght, 20);
+        this.scrollBar = new ScrollBarVertical(scrollBarLenght, total);
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.x = -0.31;
             this.add(this.scrollBar);
