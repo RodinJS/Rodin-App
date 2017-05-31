@@ -42,6 +42,12 @@ class Project {
     return Analyser.promise;
   }
 
+  getProjectsCount(){
+      let Analyser = new this._Analyser();
+      this._Projects.one("count").get().then(Analyser.resolve, Analyser.reject);
+      return Analyser.promise;
+  }
+
   update(projectId = null, fields = {}) {
     let Analyser = new this._Analyser();
 

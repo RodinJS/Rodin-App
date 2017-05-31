@@ -189,6 +189,10 @@ class VRAPI {
         }
     }
 
+    getProjectsCount(){
+        return self._Project.getProjectsCount();
+    }
+
     /**
      * @name getProject
      *
