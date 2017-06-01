@@ -132,10 +132,10 @@ export class UserProjectsThumbs extends Thumbs {
     }
 
     createThumbs(total) {
-        super.createThumbs();
-
-        if (total !== 0)
+        if (total !== 0) {
+            super.createThumbs(total);
             this.noProjectsYet.visible = false;
+        }
         else
             this.noProjectsYet.visible = true;
 

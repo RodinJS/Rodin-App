@@ -4,6 +4,12 @@ export class Scrolling extends RODIN.Sculpt {
     constructor(url, width, numberOfProjects, projectsPerUnit, columnsShown) {
 
         super(url);
+
+        this._width = width;
+        this._numberOfProjects = numberOfProjects;
+        this._projectsPerUnit = projectsPerUnit;
+        this._columnsShown = columnsShown;
+
         /**
          * Set up scroll bar material initial parameters
          */
@@ -19,11 +25,6 @@ export class Scrolling extends RODIN.Sculpt {
         /**
          * Crete scroll tool
          */
-        this.scrollTool = new RODIN.Sculpt();
-        this.width = width;
-        this.columnCount = Math.ceil(numberOfProjects / projectsPerUnit);
-        this._currentPage = 0;
-        this.targetOpacity = .2;
 
         this.scrollToolObj = new RODIN.Sculpt(url);
         this.scrollToolObj.on(RODIN.CONST.READY, () => {
@@ -34,14 +35,9 @@ export class Scrolling extends RODIN.Sculpt {
                 side: THREE.DoubleSide,
             });
 
-            this.scrollToolObj.scale.x = columnsShown / this.columnCount;
             this.add(this.scrollToolObj);
             this.scrollToolObj.position.z = 0.001;
-
-            this.currentPage = 0;
         });
-
-        this.targetX = NaN;
 
         this.on(RODIN.CONST.UPDATE, () => {
             if(isNaN(this.targetX)) return;
@@ -50,6 +46,8 @@ export class Scrolling extends RODIN.Sculpt {
                 this.scrollToolObj._threeObject.children[0].material.opacity += RODIN.Time.delta * (this.targetOpacity - this.scrollToolObj._threeObject.children[0].material.opacity) * .03;
             }
         });
+
+        this._update();
     }
 
     highlight() {
@@ -67,5 +65,59 @@ export class Scrolling extends RODIN.Sculpt {
     set currentPage(value) {
         this.targetX = (this.width * (value - 0.5)) * (this.width - this.scrollToolObj.scale.x * this.width) / this.width;
         this.emit('change', new RODIN.RodinEvent(this));
+    }
+
+    _update() {
+        this.columnCount = Math.ceil(this.numberOfProjects / this.projectsPerUnit);
+        this._currentPage = 0;
+        this.targetOpacity = .2;
+
+        if(this.scrollToolObj.isReady) {
+            this.scrollToolObj.scale.x = this.columnsShown / this.columnCount;
+            this.currentPage = 0;
+        }
+        else
+            this.scrollToolObj.on(RODIN.CONST.READY, () => {
+                this.scrollToolObj.scale.x = this.columnsShown / this.columnCount;
+                this.currentPage = 0;
+            });
+
+        this.targetX = NaN;
+    }
+
+    set width(value) {
+        this._width = value;
+        this._update();
+    }
+
+    get width() {
+        return this._width;
+    }
+
+    set numberOfProjects(value) {
+        this._numberOfProjects = value;
+        this._update();
+    }
+
+    get numberOfProjects() {
+        return this._numberOfProjects;
+    }
+
+    set projectsPerUnit(value) {
+        this._projectsPerUnit = value;
+        this._update();
+    }
+
+    get projectsPerUnit() {
+        return this._projectsPerUnit;
+    }
+
+    set columnsShown(value) {
+        this._columnsShown = value;
+        this._update();
+    }
+
+    get columnsShown() {
+        return this._columnsShown;
     }
 }

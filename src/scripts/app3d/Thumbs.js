@@ -65,6 +65,10 @@ export class Thumbs extends RODIN.Sculpt {
             this.remove(this.thumbsBar.sculpt);
             this.loggedInSculpt.add(this.thumbsBar.sculpt);
         }
+
+        if(this.scrollBar) {
+            this.scrollBar.numberOfProjects = total;
+        }
     }
 
     deleteThumbs() {
