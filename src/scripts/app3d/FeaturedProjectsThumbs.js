@@ -80,13 +80,6 @@ export class FeaturedProjectsThumbs extends Thumbs {
                 opacity: 0.65,
             });
             this.add(this.prevScrollThumbs);
-            if (this.scrollBar.isReady) {
-                this.prevScrollThumbs.visible = this.scrollBar.currentPage !== 1;
-            }
-            this.add(this.prevScrollThumbs);
-            if(this.scrollBar.isReady){
-                this.prevScrollThumbs.visible = this.scrollBar.currentPage !== 1;
-            }
         });
 
         /**
@@ -102,9 +95,6 @@ export class FeaturedProjectsThumbs extends Thumbs {
                 opacity: 0.65,
             });
             this.add(this.nextScrollThumbs);
-            if (this.scrollBar.isReady) {
-                this.nextScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
-            }
         });
     }
 
