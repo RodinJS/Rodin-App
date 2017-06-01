@@ -11,6 +11,8 @@ export class Thumbs extends RODIN.Sculpt {
         this.height = height;
         this.isHorisontal = isHorisontal;
 
+        this.halfThumbsOpacity = 0.65;
+
         if (total !== null)
             this.createThumbs(total);
     }
@@ -51,11 +53,27 @@ export class Thumbs extends RODIN.Sculpt {
             if (this.scrollBar && this.scrollBar.isReady) {
                 this.scrollBar.highlight && this.scrollBar.highlight();
             }
-        });
+
+            if(this.prevScrollThumbs && this.prevScrollThumbs.isReady) {
+                this.prevScrollThumbs._threeObject.children[0].material.opacity = .2;
+            }
+
+            if(this.nextScrollThumbs && this.nextScrollThumbs.isReady) {
+                this.prevScrollThumbs._threeObject.children[0].material.opacity = .2;
+            }
+         });
 
         this.thumbsBar.on(RODIN.CONST.SCROLL_END, () => {
             if (this.scrollBar && this.scrollBar.isReady) {
                 this.scrollBar.highlight && this.scrollBar.sleep();
+            }
+
+            if(this.prevScrollThumbs && this.prevScrollThumbs.isReady) {
+                this.prevScrollThumbs._threeObject.children[0].material.opacity = this.halfThumbsOpacity;
+            }
+
+            if(this.nextScrollThumbs && this.nextScrollThumbs.isReady) {
+                this.prevScrollThumbs._threeObject.children[0].material.opacity = this.halfThumbsOpacity;
             }
         });
 

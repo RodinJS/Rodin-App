@@ -97,7 +97,7 @@ export class UserProjectsThumbs extends Thumbs {
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
                 transparent: true,
-                opacity: 0.65,
+                opacity: this.halfThumbsOpacity,
             });
             this.loggedInSculpt.add(this.prevScrollThumbs);
         });
@@ -112,7 +112,7 @@ export class UserProjectsThumbs extends Thumbs {
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
                 transparent: true,
-                opacity: 0.65,
+                opacity: this.halfThumbsOpacity,
             });
             this.loggedInSculpt.add(this.nextScrollThumbs);
         });

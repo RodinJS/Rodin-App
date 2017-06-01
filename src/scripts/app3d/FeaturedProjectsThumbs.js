@@ -77,7 +77,7 @@ export class FeaturedProjectsThumbs extends Thumbs {
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
                 transparent: true,
-                opacity: 0.65,
+                opacity: this.halfThumbsOpacity,
             });
             this.add(this.prevScrollThumbs);
         });
@@ -92,7 +92,7 @@ export class FeaturedProjectsThumbs extends Thumbs {
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
                 transparent: true,
-                opacity: 0.65,
+                opacity: this.halfThumbsOpacity,
             });
             this.add(this.nextScrollThumbs);
         });
