@@ -29,7 +29,7 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
   });
 
   $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-    loader = Loader.show();
+    //loader = Loader.show();
     if (toState.redirectToWhenAuthenticated && JWT.get()) {
       // User isn’t authenticated
       $state.go(toState.redirectToWhenAuthenticated);
