@@ -38,10 +38,11 @@ export class APP {
             const controlPanel = cp.controlPanel;
 
             window.addEventListener('rodinloggedin', () => {
-                controlPanel.user.userData = APP.API.getUserInfo();
-                controlPanel.user.loggedIn = true;
-
                 APP.API.getProjectsCount().then((data) => {
+
+                    controlPanel.user.userData = APP.API.getUserInfo();
+                    controlPanel.user.loggedIn = true;
+
                     console.log(data);
                 })
             });

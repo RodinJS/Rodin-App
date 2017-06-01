@@ -11,7 +11,7 @@ export class Thumbs extends RODIN.Sculpt {
         this.height = height;
         this.isHorisontal = isHorisontal;
 
-        if(total !== null)
+        if (total !== null)
             this.createThumbs(total);
     }
 
@@ -48,31 +48,31 @@ export class Thumbs extends RODIN.Sculpt {
         });
 
         this.thumbsBar.on(RODIN.CONST.SCROLL_START, () => {
-            if(this.scrollBar && this.scrollBar.isReady) {
+            if (this.scrollBar && this.scrollBar.isReady) {
                 this.scrollBar.highlight && this.scrollBar.highlight();
             }
         });
 
         this.thumbsBar.on(RODIN.CONST.SCROLL_END, () => {
-            if(this.scrollBar && this.scrollBar.isReady) {
+            if (this.scrollBar && this.scrollBar.isReady) {
                 this.scrollBar.highlight && this.scrollBar.sleep();
             }
         });
 
         this.currentPage = 1;
 
-        if(this.isUserProjectsThumbs) {
+        if (this.isUserProjectsThumbs) {
             this.remove(this.thumbsBar.sculpt);
             this.loggedInSculpt.add(this.thumbsBar.sculpt);
         }
 
-        if(this.scrollBar) {
+        if (this.scrollBar) {
             this.scrollBar.numberOfProjects = total;
         }
     }
 
     deleteThumbs() {
-        this.thumbsBar.parent.remove(this.thumbsBar);
+        this.thumbsBar.sculpt.parent && this.thumbsBar.sculpt.parent.remove(this.thumbsBar.sculpt);
     }
 
     loadThumbnails(pageNumber) {
@@ -92,9 +92,9 @@ export class Thumbs extends RODIN.Sculpt {
             for (let i = pageNumber * 20, j = 0; i < (pageNumber + 1) * 20 && i < this.total; i++, j++) {
 
                 if (!data[j]) {
-                   continue;
+                    continue;
                 }
-                
+
                 this.thumbs[i].real = new ThumbBar(this.thumbBarUrl, data[j]);
                 this.thumbs[i].real.on(RODIN.CONST.READY, () => {
                     this.thumbs[i].add(this.thumbs[i].real);
