@@ -55,7 +55,6 @@ class LoginCtrl {
           };
 
           this.close({$value: res});
-            console.log('login success');
             window.dispatchEvent(new Event('rodinloggedin'));
         },
         (err) => {

@@ -11,9 +11,7 @@ export class FeaturedProjectsThumbs extends Thumbs {
         super(2, 3, function (params) {
             if (this.sortBar)
                 params.sort = this.sortBar.sortType;
-
             return _API.getProjects('all', params).then((data) => {
-                console.log(data);
                 return Promise.resolve(data);
             });
         }, total);
@@ -57,7 +55,6 @@ export class FeaturedProjectsThumbs extends Thumbs {
         });
 
         this.sortBar.on('change', (evt) => {
-            console.log('change');
             this.thumbsBar._shouldUpdata = true;
             for (let i = 0; i < this.thumbs.length; i++) {
                 if (this.thumbs[i] && this.thumbs[i].parent)

@@ -38,13 +38,13 @@ export class APP {
             const controlPanel = cp.controlPanel;
 
             window.addEventListener('rodinloggedin', () => {
+                controlPanel.user.showLoading();
                 APP.API.getProjectsCount().then((data) => {
-
+                    controlPanel.user.hideLoading();
+                    controlPanel.user.createThumbs(data.userProjects);
                     controlPanel.user.userData = APP.API.getUserInfo();
                     controlPanel.user.loggedIn = true;
-
-                    console.log(data);
-                })
+                });
             });
 
             if(APP.API.isLoggedIn() && APP.API.getUserInfo()) {
@@ -67,8 +67,6 @@ export class APP {
                 controlPanel.user.deleteThumbs();
             });
         });
-
-
     }
 
     static start(params) {

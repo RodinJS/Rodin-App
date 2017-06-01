@@ -27,6 +27,10 @@ export class UserHeader extends RODIN.Sculpt {
             this.notLoggedInBar._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
         });
 
+        /**
+         * Login Icon
+         * @type {*}
+         */
         this.notLoggedInIcon = new RODIN.Plane(0.09, new THREE.MeshBasicMaterial({
             map: RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/Log_in_icon.png'),
             transparent: true,
@@ -35,6 +39,26 @@ export class UserHeader extends RODIN.Sculpt {
         this.notLoggedInIcon.position.set(-0.335, 0, 0.006);
         this.notLoggedInSculpt.add(this.notLoggedInIcon);
 
+        /**
+         * Loading icon
+         * @type {*}
+         */
+        this.loginIcon = new RODIN.Plane(0.09, new THREE.MeshBasicMaterial({
+            map: RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/loader.png'),
+            transparent: true,
+            side: THREE.DoubleSide
+        }));
+
+        this.loginIcon.on(RODIN.CONST.UPDATE, () => {
+            this.loginIcon.rotation.z += RODIN.Time.delta * .005;
+        });
+
+        this.loginIcon.position.set(-0.335, 0, 0.006);
+
+        /**
+         * Login as Dev
+         * @type {RODIN.Text}
+         */
         this.asDev = new RODIN.Text({
             text: 'Log in as developer',
             color: 0x666666,
@@ -102,6 +126,16 @@ export class UserHeader extends RODIN.Sculpt {
             this.add(this.notLoggedInSculpt);
             this.remove(this.loggedInSculpt);
         }
+    }
+
+    showLoading() {
+        this.notLoggedInIcon.parent && this.notLoggedInIcon.parent.remove(this.notLoggedInIcon);
+        this.notLoggedInSculpt.add(this.loginIcon);
+    }
+
+    hideLoading() {
+        this.loginIcon.parent && this.loginIcon.parent.remove(this.loginIcon);
+        this.notLoggedInSculpt.add(this.notLoggedInIcon);
     }
 
     set userData(data) {

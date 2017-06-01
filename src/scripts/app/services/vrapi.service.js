@@ -67,7 +67,6 @@ class VRAPI {
             this.openModal('login');
         }
         else if (state) {
-            console.log('state', state, params);
             self._$state.go(state, params);
         }
         else {

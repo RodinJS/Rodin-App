@@ -174,4 +174,12 @@ export class UserProjectsThumbs extends Thumbs {
 
         return instance;
     }
+
+    showLoading() {
+        this.userHeader.showLoading();
+    }
+
+    hideLoading() {
+        this.userHeader.hideLoading();
+    }
 }
