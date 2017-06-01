@@ -21,7 +21,7 @@ export class DescriptionThumb extends Popup {
                 color: 0x333333,
                 fontSize: 0.09
             });
-            this.projectName.position.set(-0.3, 0.42, 0.006);
+            this.projectName.position.set(-0.3, 0.2, 0.006);
             this.popupSculpt.add(this.projectName);
 
             this.projectDescription = new RODIN.DynamicText({
@@ -29,7 +29,7 @@ export class DescriptionThumb extends Popup {
                 color: 0x333333,
                 width: 1.2,
                 fontSize: 0.04,
-                lineHeight: 0.076
+                lineHeight: 0.07
             });
             this.projectDescription.position.set(-0.3, 0, 0.006);
             this.popupSculpt.add(this.projectDescription);
@@ -64,18 +64,17 @@ export class DescriptionThumb extends Popup {
             });
 
             this.createBy = new RODIN.Text({
-                text: 'Create by',
+                text: 'Created by',
                 color: 0x808080,
-                fontSize: 0.03,
+                fontSize: 0.025,
             });
-            this.createBy.position.set(widthRight, -0.05, 0.006);
+            this.createBy.position.set(widthRight, -0.06, 0.006);
             this.popupSculpt.add(this.createBy);
 
             this.userName = new RODIN.Text({
                 text: data.owner || 'Rodin team',
                 color: 0x333333,
-                fontSize: 0.06,
-                width: 0.5
+                fontSize: 0.05
             });
             this.userName.position.set(widthRight, -0.12, 0.006);
             this.popupSculpt.add(this.userName);
