@@ -63,7 +63,7 @@ export class UserProjectsThumbs extends Thumbs {
 
         this.scrollBar.on(RODIN.CONST.UPDATE, () => {
             if (this.thumbsBar)
-                this.scrollBar.currentPage = this.thumbsBar.start / (total - 3);
+                this.scrollBar.currentPage = this.thumbsBar.start / (Math.ceil(this.scrollBar.numberOfProjects / 2) * 2 - 4);
         });
 
         this.noProjectsYet = new RODIN.Sculpt();

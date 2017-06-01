@@ -38,7 +38,7 @@ export class DemoThumbs extends Thumbs {
         });
 
         this.scrollBar.on(RODIN.CONST.UPDATE, () => {
-            this.scrollBar.currentPage = this.thumbsBar.start / (total - 2);
+            this.scrollBar.currentPage = this.thumbsBar.start / (this.scrollBar.numberOfProjects - 3);
         });
 
         /**

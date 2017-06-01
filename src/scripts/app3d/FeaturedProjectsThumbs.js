@@ -41,7 +41,7 @@ export class FeaturedProjectsThumbs extends Thumbs {
         });
 
         this.scrollBar.on(RODIN.CONST.UPDATE, () => {
-            this.scrollBar.currentPage = this.thumbsBar.start / (total - 5);
+            this.scrollBar.currentPage = this.thumbsBar.start / (Math.ceil(this.scrollBar.numberOfProjects / 2) * 2 - 6);
         });
 
         /**
@@ -80,7 +80,7 @@ export class FeaturedProjectsThumbs extends Thumbs {
                 opacity: 0.65,
             });
             this.add(this.leftScrollThumbs);
-            if(this.scrollBar.isReady){
+            if (this.scrollBar.isReady) {
                 this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
             }
         });
@@ -98,13 +98,13 @@ export class FeaturedProjectsThumbs extends Thumbs {
                 opacity: 0.65,
             });
             this.add(this.rightScrollThumbs);
-            if(this.scrollBar.isReady){
+            if (this.scrollBar.isReady) {
                 this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
             }
         });
 
         this.scrollBar.on('change', () => {
-            if(this.leftScrollThumbs.isReady && this.rightScrollThumbs.isReady){
+            if (this.leftScrollThumbs.isReady && this.rightScrollThumbs.isReady) {
                 this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
                 this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
             }
