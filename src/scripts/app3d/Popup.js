@@ -6,7 +6,6 @@ export class Popup extends RODIN.Sculpt {
 
         this.popupSculpt = new RODIN.Sculpt();
         this.popupSculpt.position.y = 1.6;
-        // this.add(this.popupSculpt);
 
         this.closeCallback = () => {
             this.close();

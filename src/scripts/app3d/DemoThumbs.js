@@ -42,47 +42,47 @@ export class DemoThumbs extends Thumbs {
         });
 
         /**
-         * upScrollThumbs
+         * prevScrollThumbs
          */
-        this.upScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
-        this.upScrollThumbs.on(RODIN.CONST.READY, () => {
-            this.upScrollThumbs.position.set(0, 0.45, -0.1);
-            this.upScrollThumbs.scale.set(0.8, 0.8, 0.8);
-            this.upScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+        this.prevScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
+        this.prevScrollThumbs.on(RODIN.CONST.READY, () => {
+            this.prevScrollThumbs.position.set(0, 0.45, -0.1);
+            this.prevScrollThumbs.scale.set(0.8, 0.8, 0.8);
+            this.prevScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
                 transparent: true,
                 opacity: 0.65,
             });
-            this.add(this.upScrollThumbs);
+            this.add(this.prevScrollThumbs);
             if (this.scrollBar.isReady) {
-                this.upScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+                this.prevScrollThumbs.visible = this.scrollBar.currentPage !== 1;
             }
         });
 
         /**
-         * downScrollThumbs
+         * nextScrollThumbs
          */
-        this.downScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
-        this.downScrollThumbs.on(RODIN.CONST.READY, () => {
-            this.downScrollThumbs.position.set(0, -0.45, -0.1);
-            this.downScrollThumbs.scale.set(0.8, 0.8, 0.8);
-            this.downScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+        this.nextScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
+        this.nextScrollThumbs.on(RODIN.CONST.READY, () => {
+            this.nextScrollThumbs.position.set(0, -0.45, -0.1);
+            this.nextScrollThumbs.scale.set(0.8, 0.8, 0.8);
+            this.nextScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
                 transparent: true,
                 opacity: 0.65,
             });
-            this.add(this.downScrollThumbs);
+            this.add(this.nextScrollThumbs);
             if (this.scrollBar.isReady) {
-                this.downScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+                this.nextScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
             }
         });
 
         this.scrollBar.on('change', () => {
-            if (this.upScrollThumbs.isReady && this.downScrollThumbs.isReady) {
-                this.upScrollThumbs.visible = this.scrollBar.currentPage !== 1;
-                this.downScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+            if (this.prevScrollThumbs.isReady && this.nextScrollThumbs.isReady) {
+                this.prevScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+                this.nextScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
             }
         });
     }
