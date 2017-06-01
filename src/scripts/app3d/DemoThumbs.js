@@ -33,6 +33,7 @@ export class DemoThumbs extends Thumbs {
         this.scrollBar = new Scrolling('/images/app3d/models/control_panel/scroll_bar_vertical.obj', scrollBarLenght, total, 1, 3);
         this.scrollBar.on(RODIN.CONST.READY, () => {
             this.scrollBar.position.x = -0.31;
+            this.scrollBar.position.z = 0.006;
             this.scrollBar.rotation.z = -Math.PI/2;
             this.add(this.scrollBar);
         });
