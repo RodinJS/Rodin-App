@@ -57,7 +57,18 @@ export class ThumbBar extends RODIN.Sculpt {
             this.animation.start('scaleDown');
         });
 
+        const scaleUp = new RODIN.AnimationClip("scaleUp", {
+            scale: {
+                x: 1,
+                y: 1,
+                z: 1,
+            }
+        });
+        scaleUp.duration(100);
+        this.animation.add(scaleUp);
+
         this.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
+            this.animation.start('scaleUp');
             if(RODIN.Time.now - this.buttonDownTimestamp > 300) return;
             this.showDescriptionThumb(data);
         });
@@ -66,7 +77,7 @@ export class ThumbBar extends RODIN.Sculpt {
     showDescriptionThumb(data) {
         const descriptionThumb = new DescriptionThumb(data);
         descriptionThumb.open();
-        descriptionThumb.popupSculpt.position.z = -1.5;
+        descriptionThumb.popupSculpt.position.z = -2;
         RODIN.Scene.add(descriptionThumb);
     }
 }
