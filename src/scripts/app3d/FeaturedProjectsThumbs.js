@@ -68,12 +68,12 @@ export class FeaturedProjectsThumbs extends Thumbs {
         });
 
         /**
-         * leftScrollThumbs
+         * prevScrollThumbs
          */
-        this.leftScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
-        this.leftScrollThumbs.on(RODIN.CONST.READY, () => {
-            this.leftScrollThumbs.position.set(-0.88, 0, -0.1);
-            this.leftScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+        this.prevScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
+        this.prevScrollThumbs.on(RODIN.CONST.READY, () => {
+            this.prevScrollThumbs.position.set(-0.88, 0, -0.1);
+            this.prevScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
                 transparent: true,
@@ -83,15 +83,19 @@ export class FeaturedProjectsThumbs extends Thumbs {
             if (this.scrollBar.isReady) {
                 this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
             }
+            this.add(this.prevScrollThumbs);
+            if(this.scrollBar.isReady){
+                this.prevScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+            }
         });
 
         /**
-         * rightScrollThumbs
+         * nextScrollThumbs
          */
-        this.rightScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
-        this.rightScrollThumbs.on(RODIN.CONST.READY, () => {
-            this.rightScrollThumbs.position.set(0.88, 0, -0.1);
-            this.rightScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+        this.nextScrollThumbs = new RODIN.Sculpt('/images/app3d/models/control_panel/scroll_thumbs.obj');
+        this.nextScrollThumbs.on(RODIN.CONST.READY, () => {
+            this.nextScrollThumbs.position.set(0.88, 0, -0.1);
+            this.nextScrollThumbs._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 color: 0xaaaaaa,
                 transparent: true,
@@ -107,6 +111,10 @@ export class FeaturedProjectsThumbs extends Thumbs {
             if (this.leftScrollThumbs.isReady && this.rightScrollThumbs.isReady) {
                 this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
                 this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
+            }
+            this.add(this.nextScrollThumbs);
+            if(this.scrollBar.isReady){
+                this.nextScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
             }
         });
     }

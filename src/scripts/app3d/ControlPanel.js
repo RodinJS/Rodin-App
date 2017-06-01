@@ -54,6 +54,11 @@ export const init = (API) => {
             }
         });
 
+        RODIN.messenger.on('startexperience', (data, transport) => {
+            if(transport !== RODIN.localTransport) return;
+            console.log(data);
+        });
+
         API.loaderHide();
         return Promise.resolve();
     });

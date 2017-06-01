@@ -11,7 +11,7 @@ export class DescriptionThumb extends Popup {
                 side: THREE.DoubleSide,
                 color: 0xcccccc
             });
-            this.add(this.bgThumb);
+            this.popupSculpt.add(this.bgThumb);
 
             /**
              * on bgThumb ready load other elements
@@ -22,7 +22,7 @@ export class DescriptionThumb extends Popup {
                 fontSize: 0.09
             });
             this.projectName.position.set(-0.3, 0.42, 0.006);
-            this.add(this.projectName);
+            this.popupSculpt.add(this.projectName);
 
             this.projectDescription = new RODIN.DynamicText({
                 text: data.description || 'There is no description',
@@ -32,7 +32,7 @@ export class DescriptionThumb extends Popup {
                 lineHeight: 0.076
             });
             this.projectDescription.position.set(-0.3, 0, 0.006);
-            this.add(this.projectDescription);
+            this.popupSculpt.add(this.projectDescription);
 
             const widthRight = 0.66;
 
@@ -44,7 +44,7 @@ export class DescriptionThumb extends Popup {
                 });
                 this.imageThumb.scale.multiplyScalar(0.9);
                 this.imageThumb.position.set(widthRight, 0.335, 0.006);
-                this.add(this.imageThumb);
+                this.popupSculpt.add(this.imageThumb);
             });
 
             this.userIcon = new RODIN.Sculpt('/images/app3d/models/control_panel/user_icon.obj');
@@ -60,7 +60,7 @@ export class DescriptionThumb extends Popup {
                 }
                 this.userIcon.scale.set(0.75, 0.75, 0.75);
                 this.userIcon.position.set(widthRight, 0.05, 0.006);
-                this.add(this.userIcon);
+                this.popupSculpt.add(this.userIcon);
             });
 
             this.createBy = new RODIN.Text({
@@ -69,7 +69,7 @@ export class DescriptionThumb extends Popup {
                 fontSize: 0.03,
             });
             this.createBy.position.set(widthRight, -0.05, 0.006);
-            this.add(this.createBy);
+            this.popupSculpt.add(this.createBy);
 
             this.userName = new RODIN.Text({
                 text: data.owner || 'Rodin team',
@@ -78,7 +78,7 @@ export class DescriptionThumb extends Popup {
                 width: 0.5
             });
             this.userName.position.set(widthRight, -0.12, 0.006);
-            this.add(this.userName);
+            this.popupSculpt.add(this.userName);
 
             this.startExperience = new RODIN.Sculpt('/images/app3d/models/control_panel/log_in.obj');
             this.startExperience.on(RODIN.CONST.READY, () => {
@@ -88,7 +88,7 @@ export class DescriptionThumb extends Popup {
                 });
                 this.startExperience.scale.set(0.6, 0.6, 0.6);
                 this.startExperience.position.set(widthRight, -0.45, 0.006);
-                this.add(this.startExperience);
+                this.popupSculpt.add(this.startExperience);
 
                 this.startExp = new RODIN.Text({
                     text: 'START EXPERIENCE',
@@ -104,6 +104,9 @@ export class DescriptionThumb extends Popup {
             this.startExperience.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
                 this.startExperience._threeObject.children[0].material.color = new THREE.Color(0x2668ef);
             });
+            this.startExperience.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+                RODIN.messenger.post('startexperience', data);
+            });
 
             this.backBtn = new RODIN.Sculpt('/images/app3d/models/control_panel/log_in.obj');
             this.backBtn.on(RODIN.CONST.READY, () => {
@@ -113,7 +116,7 @@ export class DescriptionThumb extends Popup {
                 });
                 this.backBtn.scale.set(0.6, 0.6, 0.6);
                 this.backBtn.position.set(0, -0.65, 0.006);
-                this.add(this.backBtn);
+                this.popupSculpt.add(this.backBtn);
 
                 this.back = new RODIN.Text({
                     text: 'BACK',
