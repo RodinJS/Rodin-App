@@ -79,9 +79,9 @@ export class FeaturedProjectsThumbs extends Thumbs {
                 transparent: true,
                 opacity: 0.65,
             });
-            this.add(this.leftScrollThumbs);
+            this.add(this.prevScrollThumbs);
             if (this.scrollBar.isReady) {
-                this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
+                this.prevScrollThumbs.visible = this.scrollBar.currentPage !== 1;
             }
             this.add(this.prevScrollThumbs);
             if(this.scrollBar.isReady){
@@ -101,19 +101,8 @@ export class FeaturedProjectsThumbs extends Thumbs {
                 transparent: true,
                 opacity: 0.65,
             });
-            this.add(this.rightScrollThumbs);
-            if (this.scrollBar.isReady) {
-                this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
-            }
-        });
-
-        this.scrollBar.on('change', () => {
-            if (this.leftScrollThumbs.isReady && this.rightScrollThumbs.isReady) {
-                this.leftScrollThumbs.visible = this.scrollBar.currentPage !== 1;
-                this.rightScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
-            }
             this.add(this.nextScrollThumbs);
-            if(this.scrollBar.isReady){
+            if (this.scrollBar.isReady) {
                 this.nextScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
             }
         });
