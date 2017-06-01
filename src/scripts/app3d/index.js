@@ -7,6 +7,7 @@ RODIN.start();
  */
 const gugenhaimModel = new RODIN.Sculpt('images/app3d/models/gugenhaim.obj');
 gugenhaimModel.on(RODIN.CONST.READY, () => {
+    gugenhaimModel._threeObject.children[1].material.transparent = true;
     RODIN.Scene.add(gugenhaimModel);
 });
 
