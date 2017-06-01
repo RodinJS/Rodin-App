@@ -20,7 +20,6 @@ domeModel.on(RODIN.CONST.READY, () => {
     RODIN.Scene.add(domeModel);
 });
 
-
 /**
  * Class App for Angular
  */
@@ -56,7 +55,7 @@ export class APP {
             controlPanel.user.on('login', (evt) => {
                 if (!APP.inited) return;
 
-                APP.API.navigate('/login', null, !APP.isMobile);
+                APP.API.navigate('/login', null, !RODIN.device.isMobile);
             });
 
             controlPanel.user.on('logout', (evt) => {
@@ -107,15 +106,5 @@ export class APP {
         // if (scene.webVRmanager.hmd && scene.webVRmanager.hmd.isPresenting) {
         //     scene.webVRmanager.hmd.exitPresent();
         // }
-    }
-
-    static get isMobile() {
-        return navigator.userAgent.match(/Android/i)
-            || navigator.userAgent.match(/webOS/i)
-            || navigator.userAgent.match(/iPhone/i)
-            || navigator.userAgent.match(/iPad/i)
-            || navigator.userAgent.match(/iPod/i)
-            || navigator.userAgent.match(/BlackBerry/i)
-            || navigator.userAgent.match(/Windows Phone/i)
     }
 }

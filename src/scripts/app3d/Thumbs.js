@@ -71,9 +71,8 @@ export class Thumbs extends RODIN.Sculpt {
         }
 
         this.thumbsBar.sculpt.on(RODIN.CONST.UPDATE, () => {
-            // todo: add hasPrev and hasNext methods
             this.prevScrollThumbs && this.prevScrollThumbs.isReady && (this.prevScrollThumbs.visible = this.thumbsBar.start !== 0);
-            this.nextScrollThumbs && this.nextScrollThumbs.isReady && (this.nextScrollThumbs.visible = this.thumbsBar.start !== 3);
+            this.nextScrollThumbs && this.nextScrollThumbs.isReady && (this.nextScrollThumbs.visible = this.thumbsBar.end !== total);
         });
     }
 

@@ -55,9 +55,6 @@ export class DemoThumbs extends Thumbs {
                 opacity: 0.65,
             });
             this.add(this.prevScrollThumbs);
-            if (this.scrollBar.isReady) {
-                this.prevScrollThumbs.visible = this.scrollBar.currentPage !== 1;
-            }
         });
 
         /**
@@ -74,17 +71,11 @@ export class DemoThumbs extends Thumbs {
                 opacity: 0.65,
             });
             this.add(this.nextScrollThumbs);
-            if (this.scrollBar.isReady) {
-                this.nextScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
-            }
         });
+    }
 
-        this.scrollBar.on('change', () => {
-            if (this.prevScrollThumbs.isReady && this.nextScrollThumbs.isReady) {
-                this.prevScrollThumbs.visible = this.scrollBar.currentPage !== 1;
-                this.nextScrollThumbs.visible = this.scrollBar.currentPage !== this.scrollBar.pagesNaber;
-            }
-        });
+    get isDemoThumbs() {
+        return true;
     }
 
     static getInstance(API, total) {
