@@ -1,6 +1,8 @@
 import * as RODIN from 'rodin/core';
 import {Popup} from './Popup.js';
 
+let instance = null;
+
 export class LogOut extends Popup {
     constructor(data) {
         super();
@@ -96,6 +98,14 @@ export class LogOut extends Popup {
             this.parent.remove(this);
             RODIN.messenger.post('popupclosed', {popupName: 'logout'});
         });
+    }
+
+    static getInstance() {
+        if(!instance) {
+            instance = new LogOut();
+        }
+
+        return instance;
     }
 }
 

@@ -60,9 +60,9 @@ export class UserHeader extends RODIN.Sculpt {
          * @type {RODIN.Text}
          */
         this.asDev = new RODIN.Text({
-            text: 'Log in as developer',
+            text: 'Log in as a developer',
             color: 0x666666,
-            fontSize: 0.07
+            fontSize: 0.065
         });
         this.asDev.position.set(0.05, 0, 0.006);
         this.notLoggedInSculpt.add(this.asDev);
@@ -107,7 +107,7 @@ export class UserHeader extends RODIN.Sculpt {
             this.logOutIconBG._threeObject.children[0].material.color = new THREE.Color(0xcccccc);
         });
         this.logOutIconBG.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
-            const logOutBar = new LogOut();
+            const logOutBar = LogOut.getInstance();
             logOutBar.open();
             RODIN.Scene.add(logOutBar);
             logOutBar.on('submit', () => {
