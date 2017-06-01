@@ -19,7 +19,7 @@ export const init = (API) => {
 
         const demos = DemoThumbs.getInstance(API, total_demo);
         controlPanel.add(demos);
-        demos.position.set(-1.735, 0, 0.32);
+        demos.position.set(-1.735, 0, 0.5);
         demos.rotation.y = Math.PI / 3;
 
         const featured = FeaturedProjectsThumbs.getInstance(API, total_featured);
