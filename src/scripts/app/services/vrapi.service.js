@@ -102,6 +102,10 @@ class VRAPI {
         return false;
     }
 
+    closeModal(){
+        this._Modal.closeModal(this._Modal.openModals)
+    }
+
     /**
      * @name getCurrentPage
      *

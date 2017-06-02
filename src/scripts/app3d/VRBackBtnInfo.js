@@ -7,7 +7,7 @@ export class VRBackBtnInfo extends Popup {
     constructor() {
         super();
 
-        this.popupSculpt.position.z = -1.2;
+        this.popupSculpt.position.z = -1.7;
 
         const vrBackBtnInfoVive = new RODIN.Plane(1, 0.25, new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
@@ -33,7 +33,6 @@ export class VRBackBtnInfo extends Popup {
         this.on('open', () => {
             this._openTimestamp = RODIN.Time.now;
             RODIN.messenger.post('popupopened', {popupName: 'vrbackbtninfo'});
-
             switch (true) {
                 case RODIN.device.isVive:
                     this.popupSculpt.add(vrBackBtnInfoVive);
@@ -42,10 +41,8 @@ export class VRBackBtnInfo extends Popup {
                     this.popupSculpt.add(vrBackBtnInfoOculus);
                     break;
                 case RODIN.device.isMobile:
-                    alert("mdav");
                     this.popupSculpt.add(vrBackBtnInfoMobile);
                     break;
-
             }
         });
 
@@ -59,9 +56,9 @@ export class VRBackBtnInfo extends Popup {
 
         this.on(RODIN.CONST.UPDATE, () => {
             if(this.isOpened) {
-                if(RODIN.Time.now - this._openTimestamp > 200) {
+                if(RODIN.Time.now - this._openTimestamp > 3000) {
                     this.close();
-                    this.emit('timerend');
+                    this.emit('timerend', new RODIN.RodinEvent(this));
                 }
             }
         });
@@ -74,3 +71,5 @@ export class VRBackBtnInfo extends Popup {
         return instance;
     }
 }
+
+instance = new VRBackBtnInfo();

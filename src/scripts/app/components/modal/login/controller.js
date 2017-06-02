@@ -58,6 +58,7 @@ class LoginCtrl {
                     window.dispatchEvent(new Event('rodinloggedin'));
                 },
                 (err) => {
+                    this.wrongCredentials = true;
                     this._Error.show(err, this._$scope.loginForm, this._$scope);
                 });
 
@@ -74,6 +75,8 @@ class LoginCtrl {
     }
 
     cancel() {
+        console.log('asd');
+        // window.dispatchEvent(new Event('rodinLoginPopupClosed'));
         this.dismiss({$value: 'cancel'});
     }
 

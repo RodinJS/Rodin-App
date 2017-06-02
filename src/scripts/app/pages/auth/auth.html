@@ -3,7 +3,7 @@
   <div class="center-page clearfix">
 
     <div class="row page-title clearfix">
-      <h1 class="text-center">Sign in</h1>
+      <h1 class="text-center">SIGN IN</h1>
     </div>
 
 
@@ -21,19 +21,13 @@
               <input class="form-control"
                      id="login-form-username"
                      data-ng-model="$ctrl.formFields.username"
-                     required type="text" name="username"
+                     required
+                     type="text"
+                     name="username"
                      data-ng-class="{'invalidField':loginForm.username.$invalid,
                            'validField':loginForm.username.$valid,
                            'activeField':loginForm.username.$viewValue}"
                      data-ng-focus="loginForm.username.focused = true">
-
-              <span class="messages-container">
-              <span class="error-messages-container" data-ng-messages="loginForm.username.$error"
-                    data-ng-if="loginForm.username.focused || loginForm.$submitted">
-                <span data-ng-message="required">This field is required.</span>
-                <span data-ng-message="server">{{loginForm.username.serverErrorMsg}}</span>
-              </span>
-            </span>
 
             </fieldset>
           </div>
@@ -47,29 +41,27 @@
               <input class="form-control"
                      id="login-form-password"
                      data-ng-model="$ctrl.formFields.password"
-                     required type="password" name="password"
+                     required
+                     type="password"
+                     name="password"
                      data-ng-minlength="3"
                      data-ng-class="{'invalidField':loginForm.password.$invalid,
                            'validField':loginForm.password.$valid,
                            'activeField':loginForm.password.$viewValue}"
                      data-ng-focus="loginForm.password.focused = true">
 
-
-              <span class="messages-container">
-              <span class="error-messages-container" data-ng-messages="loginForm.password.$error"
-                    data-ng-if="loginForm.password.focused || loginForm.$submitted">
-                    <span data-ng-message="required">This field is required.</span>
-                    <span data-ng-message="minlength">Please enter no more than 3 characters.</span>
-                    <span data-ng-message="server">{{loginForm.password.serverErrorMsg}}</span>
-                </span>
-            </span>
-
             </fieldset>
           </div>
 
+
+          <div class="text-center" ng-if="$ctrl.wrongCredentials" style="margin-bottom: 10px; color:rgba(255, 0, 0, 0.5)">
+            Wrong username or password
+          </div>
+
+
           <div class="row clearfix text-center form-button">
-            <button type="submit" class="btn btn-primary btn-orange btn-center auth-btn">SIGN IN</button>
-            <button type="button" class="btn btn-primary btn-orange btn-center auth-btn cancel-btn" ng-click="$ctrl.gohome()">CANCEL</button>
+            <button type="submit" class="btn btn-primary btn-orange btn-center auth-btn">Sign in</button>
+            <button type="button" class="btn btn-primary btn-orange btn-center auth-btn cancel-btn" ng-click="$ctrl.gohome()">Cancel</button>
           </div>
 
         </fieldset>
