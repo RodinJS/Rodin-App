@@ -1,5 +1,6 @@
 import * as RODIN from 'rodin/core';
 import * as cp from './ControlPanel.js';
+import {MobileLogIn} from './MobileLogIn.js';
 RODIN.start();
 
 /**
@@ -56,7 +57,18 @@ export class APP {
             controlPanel.user.on('login', (evt) => {
                 if (!APP.inited) return;
 
-                APP.API.navigate('/login', null, !RODIN.device.isMobile);
+                if(RODIN.device.isMobile && RODIN.device.isVR) {
+                    const loginPopup = MobileLogIn.getInstance();
+                    RODIN.Scene.add(loginPopup);
+                    loginPopup.open();
+
+                    loginPopup.once('finish', () => {
+                        RODIN.exitVR();
+                        APP.API.navigate('/login', null, true);
+                    })
+                } else {
+                    APP.API.navigate('/login', null, !RODIN.device.isMobile);
+                }
             });
 
             controlPanel.user.on('logout', (evt) => {

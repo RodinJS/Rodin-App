@@ -3,6 +3,8 @@ import {DemoThumbs} from './DemoThumbs.js';
 import {FeaturedProjectsThumbs} from './FeaturedProjectsThumbs.js';
 import {UserProjectsThumbs} from './UserProjectsThumbs.js';
 
+window.RODIN = RODIN;
+
 export let controlPanel = null;
 
 export const init = (API) => {
@@ -39,7 +41,7 @@ export const init = (API) => {
         }
 
         RODIN.messenger.on('popupopened', (data) => {
-            if (['logout', 'description'].indexOf(data.popupName) !== -1) {
+            if (['logout', 'description', 'mobilelogin'].indexOf(data.popupName) !== -1) {
                 DemoThumbs.getInstance().visible = false;
                 FeaturedProjectsThumbs.getInstance().visible = false;
                 UserProjectsThumbs.getInstance().visible = false;
@@ -47,7 +49,7 @@ export const init = (API) => {
         });
 
         RODIN.messenger.on('popupclosed', (data) => {
-            if (['logout', 'description'].indexOf(data.popupName) !== -1) {
+            if (['logout', 'description', 'mobilelogin'].indexOf(data.popupName) !== -1) {
                 DemoThumbs.getInstance().visible = true;
                 FeaturedProjectsThumbs.getInstance().visible = true;
                 UserProjectsThumbs.getInstance().visible = true;
@@ -57,8 +59,12 @@ export const init = (API) => {
         RODIN.messenger.on('startexperience', (data, transport) => {
             if(transport !== RODIN.localTransport) return;
 
-            window.projectData = data;
-            console.log(data);
+            RODIN.Scene.stop();
+            API.openProject(data, (err) => {
+                if(err) {
+                    RODIN.Scene.start();
+                }
+            });
         });
 
         API.loaderHide();

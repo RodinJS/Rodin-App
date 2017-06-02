@@ -8,7 +8,7 @@ export class MobileLogIn extends Popup {
         super();
 
         this.popupSculpt.position.z = -1.5;
-        this.add(this.popupSculpt);
+        this.rotation.y = -Math.PI / 3;
 
         const illustrationPopup = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
         illustrationPopup.on(RODIN.CONST.READY, () => {
@@ -23,7 +23,8 @@ export class MobileLogIn extends Popup {
         const illustrationPopupText = new RODIN.Text({
             text: 'Take your headset off to log in',
             color: 0x333333,
-            fontSize: 0.06
+            fontSize: 0.06,
+            side: THREE.DoubleSide
         });
         illustrationPopupText.position.set(0.25, 0.1, 0.006);
         this.popupSculpt.add(illustrationPopupText);
@@ -40,14 +41,24 @@ export class MobileLogIn extends Popup {
         this.countDownTxt = new RODIN.Text({
             text: index,
             color: 0x000000,
-            fontSize: 0.09
+            fontSize: 0.09,
+            side: THREE.DoubleSide
         });
         this.countDownTxt.position.set(0.25, -0.05, 0.006);
         this.popupSculpt.add(this.countDownTxt);
 
         this.on('open', () => {
+            RODIN.messenger.post('popupopened', {popupName: 'mobilelogin'});
             this.countDown(index);
-        })
+        });
+
+        this.on('close', () => {
+            RODIN.messenger.post('popupclosed', {popupName: 'mobilelogin'});
+        });
+
+        this.on('finish', () => {
+            this.close();
+        });
     }
 
     countDown(index) {
@@ -66,10 +77,9 @@ export class MobileLogIn extends Popup {
         }, 1000);
     }
 
-    static
-    getInstance() {
+    static getInstance() {
         if (!instance) {
-            instance = new Exit();
+            instance = new MobileLogIn();
         }
 
         return instance;
