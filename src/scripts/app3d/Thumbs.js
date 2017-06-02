@@ -59,7 +59,7 @@ export class Thumbs extends RODIN.Sculpt {
             }
 
             if(this.nextScrollThumbs && this.nextScrollThumbs.isReady) {
-                this.prevScrollThumbs._threeObject.children[0].material.opacity = .2;
+                this.nextScrollThumbs._threeObject.children[0].material.opacity = .2;
             }
          });
 
@@ -73,7 +73,7 @@ export class Thumbs extends RODIN.Sculpt {
             }
 
             if(this.nextScrollThumbs && this.nextScrollThumbs.isReady) {
-                this.prevScrollThumbs._threeObject.children[0].material.opacity = this.halfThumbsOpacity;
+                this.nextScrollThumbs._threeObject.children[0].material.opacity = this.halfThumbsOpacity;
             }
         });
 
