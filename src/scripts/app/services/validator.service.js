@@ -116,6 +116,7 @@ function Validator(AppConstants, $log) {
      * @return {Boolean}
      * */
     function validateHTTP(data) {
+      if(!data) return;
       // reset data information
       errors.splice(0, errors.length);
       isValidData = false;
