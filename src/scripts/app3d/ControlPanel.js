@@ -2,10 +2,21 @@ import * as RODIN from 'rodin/core'
 import {DemoThumbs} from './DemoThumbs.js';
 import {FeaturedProjectsThumbs} from './FeaturedProjectsThumbs.js';
 import {UserProjectsThumbs} from './UserProjectsThumbs.js';
+import {VRBackBtnInfo} from './VRBackBtnInfo.js';
 
 window.RODIN = RODIN;
 
 export let controlPanel = null;
+
+
+const goToProject = (project) => {
+    RODIN.Scene.stop();
+    API.openProject(project, (err) => {
+        if (err) {
+            RODIN.Scene.start();
+        }
+    });
+};
 
 export const init = (API) => {
 
@@ -59,17 +70,19 @@ export const init = (API) => {
         RODIN.messenger.on('startexperience', (data, transport) => {
             if(transport !== RODIN.localTransport) return;
 
-            RODIN.Scene.stop();
-            API.openProject(data, (err) => {
-                if(err) {
-                    RODIN.Scene.start();
-                }
-            });
+            if(RODIN.device.isVR) {
+                const vrBackBtnInfo = VRBackBtnInfo.getInstance();
+                vrBackBtnInfo.open();
+
+                vrBackBtnInfo.once('timerend', () => {
+                    goToProject(data);
+                })
+            } else {
+                goToProject(data);
+            }
         });
 
         API.loaderHide();
         return Promise.resolve();
     });
-
-
 };
