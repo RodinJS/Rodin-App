@@ -57,17 +57,24 @@ export class APP {
             controlPanel.user.on('login', (evt) => {
                 if (!APP.inited) return;
 
-                if(RODIN.device.isMobile && RODIN.device.isVR) {
-                    const loginPopup = MobileLogIn.getInstance();
-                    RODIN.Scene.add(loginPopup);
-                    loginPopup.open();
+                switch (true) {
+                    case (RODIN.device.isMobile && RODIN.device.isVR):
+                        const loginPopup = MobileLogIn.getInstance();
+                        RODIN.Scene.add(loginPopup);
+                        loginPopup.open();
 
-                    loginPopup.once('finish', () => {
-                        RODIN.exitVR();
-                        APP.API.navigate('/login', null, true);
-                    })
-                } else {
-                    APP.API.navigate('/login', null, !RODIN.device.isMobile);
+                        loginPopup.once('finish', () => {
+                            RODIN.exitVR();
+                            APP.API.navigate('/login', null, false);
+                        });
+                        break;
+
+                    case (RODIN.device.isMobile && !RODIN.device.isVR):
+                        APP.API.navigate('/login', null, !RODIN.device.isMobile);
+                        break;
+
+                    default:
+                        APP.API.navigate('/login', null, !RODIN.device.isMobile);
                 }
             });
 
