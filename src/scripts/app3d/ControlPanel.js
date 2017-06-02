@@ -4,11 +4,12 @@ import {FeaturedProjectsThumbs} from './FeaturedProjectsThumbs.js';
 import {UserProjectsThumbs} from './UserProjectsThumbs.js';
 import {VRBackBtnInfo} from './VRBackBtnInfo.js';
 import {ThumbBar} from './ThumbBar';
+import {Exit} from './Exit.js';
 
 window.RODIN = RODIN;
 
 export let controlPanel = null;
-
+let API = null;
 
 const goToProject = (project) => {
     const parentWasOnVRMode = RODIN.device.isVR;
@@ -28,9 +29,21 @@ const goToProject = (project) => {
     });
 };
 
+const backButtonCallback = (evt) => {
+    if(API.getCurrentPage() === 'home') {
+        const exitPopup = Exit.getInstance();
+        RODIN.Scene.add(exitPopup);
+        exitPopup.open();
 
-export const init = (API) => {
+        exitPopup.once('submit', () => {
+            window.close();
+        })
+    }
+};
 
+
+export const init = (_API) => {
+    API = _API;
     let total_featured = null, total_demo = null;
 
     return API.getProjectsCount().then(data => {
@@ -110,6 +123,18 @@ export const init = (API) => {
         setTimeout(()=>{
             API.loaderHide();
         }, 500);
+
+        // todo: add oculus and cardboard support
+        RODIN.GamePad.viveLeft.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
+            console.log(evt);
+            if(evt.button.indexOf(RODIN.Buttons.viveLeftMenu) !== -1)
+                return backButtonCallback(evt);
+        });
+
+        RODIN.GamePad.viveRight.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
+            if(evt.button.indexOf(RODIN.Buttons.viveRightMenu) !== -1)
+                return backButtonCallback(evt);
+        });
 
         return Promise.resolve();
     });
