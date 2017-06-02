@@ -14,7 +14,7 @@ const goToProject = (project) => {
     RODIN.exitVR();
     RODIN.Scene.pauseRender();
 
-    RODIN.messenger.on(RODIN.CONST.ALL_SCULPTS_READY, () => {
+    RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, () => {
         if(parentWasOnVRMode) {
             RODIN.messenger.post(RODIN.CONST.ENTER_VR, {destination: RODIN.CONST.CHILDREN}, RODIN.postMessageTransport)
         }
