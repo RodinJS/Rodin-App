@@ -10,8 +10,15 @@ export let controlPanel = null;
 
 
 const goToProject = (project) => {
+    const parentWasOnVRMode = RODIN.device.isVR;
     RODIN.exitVR();
     RODIN.Scene.pauseRender();
+
+    RODIN.messenger.on(RODIN.CONST.ALL_SCULPTS_READY, () => {
+        if(parentWasOnVRMode) {
+            RODIN.messenger.post(RODIN.CONST.ENTER_VR, {destination: RODIN.CONST.CHILDREN}, RODIN.postMessageTransport)
+        }
+    });
 
     API.openProject(project, (err) => {
         if (err) {
@@ -19,6 +26,7 @@ const goToProject = (project) => {
         }
     });
 };
+
 
 export const init = (API) => {
 
