@@ -96,6 +96,7 @@ export class APP {
                     default:
                         APP.API.navigate('/login', null, !RODIN.device.isMobile);
                 }
+
             });
 
             controlPanel.user.on('logout', (evt) => {
