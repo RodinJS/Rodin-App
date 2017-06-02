@@ -47,6 +47,7 @@ class AuthCtrl {
             this._User.login(this._Validator.getData()).then(
                 (res) => {
                     this._$state.go('main.home');
+                    window.dispatchEvent(new Event('rodinloggedin'));
                 },
                 (err) => {
                     this._Error.show(err, this._$scope.loginForm, this._$scope);
