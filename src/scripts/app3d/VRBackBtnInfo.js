@@ -7,7 +7,7 @@ export class VRBackBtnInfo extends Popup {
     constructor() {
         super();
 
-        this.popupSculpt.position.z = -1.5;
+        this.popupSculpt.position.z = -1.2;
 
         const vrBackBtnInfoVive = new RODIN.Plane(1, 0.25, new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
@@ -35,13 +35,14 @@ export class VRBackBtnInfo extends Popup {
             RODIN.messenger.post('popupopened', {popupName: 'vrbackbtninfo'});
 
             switch (true) {
-                // case RODIN.device.isVive:
-                //     this.popupSculpt.add(vrBackBtnInfoVive);
-                //     break;
-                // case RODIN.device.isOculus:
-                //     this.popupSculpt.add(vrBackBtnInfoOculus);
-                //     break;
+                case RODIN.device.isVive:
+                    this.popupSculpt.add(vrBackBtnInfoVive);
+                    break;
+                case RODIN.device.isOculus:
+                    this.popupSculpt.add(vrBackBtnInfoOculus);
+                    break;
                 case RODIN.device.isMobile:
+                    alert("mdav");
                     this.popupSculpt.add(vrBackBtnInfoMobile);
                     break;
 

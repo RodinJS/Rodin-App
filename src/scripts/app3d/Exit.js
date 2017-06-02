@@ -8,7 +8,7 @@ export class Exit extends Popup {
         super();
 
         //this.rotation.y = -Math.PI/3;
-        this.popupSculpt.position.z = -1.5;
+        this.popupSculpt.position.z = -1.7;
 
         const exitPopup = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
         exitPopup.on(RODIN.CONST.READY, () => {
@@ -23,7 +23,7 @@ export class Exit extends Popup {
         const exitPopupText = new RODIN.Text({
             text: 'Are you sure you want to exit?',
             color: 0x333333,
-            fontSize: 0.06
+            fontSize: 0.05
         });
         exitPopupText.position.set(0, 0.05, 0.006);
         this.popupSculpt.add(exitPopupText);
@@ -60,7 +60,7 @@ export class Exit extends Popup {
         exitBtn.on(RODIN.CONST.READY, () => {
             exitBtn._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
-                color: 0xb2b2b2
+                color: 0x8d8d8d
             });
             exitBtn.scale.set(0.5, 0.5, 0.5);
             exitBtn.position.set(-0.24, -0.19, 0.006);
@@ -75,10 +75,10 @@ export class Exit extends Popup {
             exitBtn.add(exitTxt);
         });
         exitBtn.on(RODIN.CONST.GAMEPAD_HOVER, () => {
-            exitBtn._threeObject.children[0].material.color = new THREE.Color(0xbfbfbf);
+            exitBtn._threeObject.children[0].material.color = new THREE.Color(0xa1a1a1);
         });
         exitBtn.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
-            exitBtn._threeObject.children[0].material.color = new THREE.Color(0xb2b2b2);
+            exitBtn._threeObject.children[0].material.color = new THREE.Color(0x8d8d8d);
         });
         exitBtn.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
             this.emit('submit', new RODIN.RodinEvent(this));

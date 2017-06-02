@@ -73,6 +73,7 @@ export const init = (API) => {
             if(RODIN.device.isVR) {
                 const vrBackBtnInfo = VRBackBtnInfo.getInstance();
                 vrBackBtnInfo.open();
+                RODIN.Scene.add(vrBackBtnInfo);
 
                 vrBackBtnInfo.once('timerend', () => {
                     goToProject(data);

@@ -3,7 +3,7 @@ import {Popup} from './Popup.js';
 
 let instance = null;
 
-export class MobileLogIn extends Popup {
+export class VRLogIn extends Popup {
     constructor() {
         super();
 
@@ -22,7 +22,7 @@ export class MobileLogIn extends Popup {
 
         const illustrationPopupText = new RODIN.Text({
             text: 'Take your headset off to log in',
-            color: 0x333333,
+            color: 0x000000,
             fontSize: 0.06,
             side: THREE.DoubleSide
         });
@@ -37,23 +37,41 @@ export class MobileLogIn extends Popup {
         illustrationPlane.position.set(-0.45, 0, 0.006);
         this.popupSculpt.add(illustrationPlane);
 
-        let index = 3;
-        this.countDownTxt = new RODIN.Text({
-            text: index,
-            color: 0x000000,
-            fontSize: 0.09,
-            side: THREE.DoubleSide
+        const cancelBtn = new RODIN.Sculpt('/images/app3d/models/control_panel/log_in.obj');
+        cancelBtn.on(RODIN.CONST.READY, () => {
+            cancelBtn._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+                color: 0x7f7f7f
+            });
+            cancelBtn.scale.set(0.5, 0.5, 0.5);
+            cancelBtn.position.set(0.25, -0.1, 0.006);
+            this.popupSculpt.add(cancelBtn);
+
+            const cancelTxt = new RODIN.Text({
+                text: 'Cancel',
+                color: 0xFFFFFF,
+                fontSize: 0.065
+            });
+            cancelTxt.position.set(0, 0, 0.006);
+            cancelBtn.add(cancelTxt);
         });
-        this.countDownTxt.position.set(0.25, -0.05, 0.006);
-        this.popupSculpt.add(this.countDownTxt);
+        cancelBtn.on(RODIN.CONST.GAMEPAD_HOVER, () => {
+            cancelBtn._threeObject.children[0].material.color = new THREE.Color(0xa1a1a1);
+        });
+        cancelBtn.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
+            cancelBtn._threeObject.children[0].material.color = new THREE.Color(0x7f7f7f);
+        });
+        cancelBtn.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+            this.close();
+        });
+        this.open();
 
         this.on('open', () => {
-            RODIN.messenger.post('popupopened', {popupName: 'mobilelogin'});
-            this.countDown(index);
+            RODIN.messenger.post('popupopened', {popupName: 'vrlogin'});
         });
 
         this.on('close', () => {
-            RODIN.messenger.post('popupclosed', {popupName: 'mobilelogin'});
+            RODIN.messenger.post('popupclosed', {popupName: 'vrlogin'});
         });
 
         this.on('finish', () => {
@@ -61,25 +79,9 @@ export class MobileLogIn extends Popup {
         });
     }
 
-    countDown(index) {
-        let i = index;
-        setTimeout(() => {
-            this.countDownTxt.reDraw({
-                text: i,
-                color: 0x000000,
-                fontSize: 0.09
-            });
-            if (i>0){
-                this.countDown(--i);
-            } else {
-                this.emit('finish', new RODIN.RodinEvent(this));
-            }
-        }, 1000);
-    }
-
     static getInstance() {
         if (!instance) {
-            instance = new MobileLogIn();
+            instance = new VRLogIn();
         }
 
         return instance;
