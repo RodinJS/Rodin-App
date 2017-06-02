@@ -33,8 +33,8 @@ export class VRBackBtnInfo extends Popup {
         this.on('open', () => {
             this._openTimestamp = RODIN.Time.now;
             RODIN.messenger.post('popupopened', {popupName: 'vrbackbtninfo'});
-
-            switch (true) {
+            this.popupSculpt.add(vrBackBtnInfoMobile);
+            /*switch (true) {
                 case RODIN.device.isVive:
                     this.popupSculpt.add(vrBackBtnInfoVive);
                     break;
@@ -46,22 +46,22 @@ export class VRBackBtnInfo extends Popup {
                     this.popupSculpt.add(vrBackBtnInfoMobile);
                     break;
 
-            }
+            }*/
         });
 
         this.on('close', () => {
             RODIN.messenger.post('popupclosed', {popupName: 'vrbackbtninfo'});
 
-            this.popupSculpt.remove(vrBackBtnInfoVive);
-            this.popupSculpt.remove(vrBackBtnInfoOculus);
-            this.popupSculpt.remove(vrBackBtnInfoMobile);
+            // this.popupSculpt.remove(vrBackBtnInfoVive);
+            // this.popupSculpt.remove(vrBackBtnInfoOculus);
+            // this.popupSculpt.remove(vrBackBtnInfoMobile);
         });
 
         this.on(RODIN.CONST.UPDATE, () => {
             if(this.isOpened) {
-                if(RODIN.Time.now - this._openTimestamp > 200) {
+                if(RODIN.Time.now - this._openTimestamp > 3000) {
                     this.close();
-                    this.emit('timerend');
+                    this.emit('timerend', new RODIN.RodinEvent(this));
                 }
             }
         });
