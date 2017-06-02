@@ -111,7 +111,7 @@ export class DescriptionThumb extends Popup {
             this.backBtn.on(RODIN.CONST.READY, () => {
                 this.backBtn._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                     side: THREE.DoubleSide,
-                    color: 0xb2b2b2
+                    color: 0x8d8d8d
                 });
                 this.backBtn.scale.set(0.6, 0.6, 0.6);
                 this.backBtn.position.set(0, -0.65, 0.006);
@@ -126,10 +126,10 @@ export class DescriptionThumb extends Popup {
                 this.backBtn.add(this.back);
             });
             this.backBtn.on(RODIN.CONST.GAMEPAD_HOVER, () => {
-                this.backBtn._threeObject.children[0].material.color = new THREE.Color(0xbfbfbf);
+                this.backBtn._threeObject.children[0].material.color = new THREE.Color(0xa1a1a1);
             });
             this.backBtn.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
-                this.backBtn._threeObject.children[0].material.color = new THREE.Color(0xb2b2b2);
+                this.backBtn._threeObject.children[0].material.color = new THREE.Color(0x8d8d8d);
             });
             this.backBtn.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
                 this.close();

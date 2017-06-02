@@ -60,7 +60,7 @@ export class UserHeader extends RODIN.Sculpt {
          * @type {RODIN.Text}
          */
         this.asDev = new RODIN.Text({
-            text: 'Log in as a developer',
+            text: 'Log In as a Developer',
             color: 0x666666,
             fontSize: 0.065
         });

@@ -4,11 +4,11 @@ import {Popup} from './Popup.js';
 let instance = null;
 
 export class LogOut extends Popup {
-    constructor(data) {
+    constructor() {
         super();
 
         this.rotation.y = -Math.PI/3;
-        this.popupSculpt.position.z = -1.5;
+        this.popupSculpt.position.z = -1.7;
 
         const logOutPopup = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
         logOutPopup.on(RODIN.CONST.READY, () => {
@@ -27,7 +27,7 @@ export class LogOut extends Popup {
         const logOutPopupText = new RODIN.Text({
             text: 'Are you sure you want to log out?',
             color: 0x333333,
-            fontSize: 0.06
+            fontSize: 0.05
         });
         logOutPopupText.position.set(0, 0.05, 0.006);
         this.popupSculpt.add(logOutPopupText);
@@ -36,7 +36,7 @@ export class LogOut extends Popup {
         cancelBtn.on(RODIN.CONST.READY, () => {
             cancelBtn._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
-                color: 0xb2b2b2
+                color: 0x8d8d8d
             });
             cancelBtn.scale.set(0.5, 0.5, 0.5);
             cancelBtn.position.set(0.24, -0.19, 0.006);
@@ -51,10 +51,10 @@ export class LogOut extends Popup {
             cancelBtn.add(cancelTxt);
         });
         cancelBtn.on(RODIN.CONST.GAMEPAD_HOVER, () => {
-            cancelBtn._threeObject.children[0].material.color = new THREE.Color(0xbfbfbf);
+            cancelBtn._threeObject.children[0].material.color = new THREE.Color(0xa1a1a1);
         });
         cancelBtn.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
-            cancelBtn._threeObject.children[0].material.color = new THREE.Color(0xb2b2b2);
+            cancelBtn._threeObject.children[0].material.color = new THREE.Color(0x8d8d8d);
         });
         cancelBtn.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
             this.close();
@@ -94,8 +94,6 @@ export class LogOut extends Popup {
         });
 
         this.on('close', () => {
-            // todo: dispose it
-            this.parent.remove(this);
             RODIN.messenger.post('popupclosed', {popupName: 'logout'});
         });
     }
