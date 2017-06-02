@@ -12,6 +12,8 @@ function ModalFactory($uibModal) {
   let openModals = {};
 
   model.login = login;
+  model.closeModal = closeModal;
+  model.openModals = openModals;
 
   return model;
 

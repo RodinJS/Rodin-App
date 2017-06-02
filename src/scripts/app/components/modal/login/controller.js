@@ -58,6 +58,7 @@ class LoginCtrl {
                     window.dispatchEvent(new Event('rodinloggedin'));
                 },
                 (err) => {
+                    this.wrongCredentials = true;
                     this._Error.show(err, this._$scope.loginForm, this._$scope);
                 });
 

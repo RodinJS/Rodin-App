@@ -20,11 +20,18 @@
   }
 
   .auth-btn {
-    margin: 0 4px 16px 0;
+    margin: 0 15px 16px 0;
   }
+}
 
-  .cancel-btn {
-    border-color: rgb(60,60,60);
-    color: rgb(180, 180, 180)
+.page{
+  &.login{
+    .app-container{
+      background: #09192E;
+      .page-title{
+        margin-bottom: 32px !important;
+        font-size: 27px !important;
+      }
+    }
   }
 }
