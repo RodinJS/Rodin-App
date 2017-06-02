@@ -7,7 +7,7 @@ export class VRBackBtnInfo extends Popup {
     constructor() {
         super();
 
-        this.popupSculpt.position.z = -1.2;
+        this.popupSculpt.position.z = -1.7;
 
         const vrBackBtnInfoVive = new RODIN.Plane(1, 0.25, new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
@@ -33,8 +33,7 @@ export class VRBackBtnInfo extends Popup {
         this.on('open', () => {
             this._openTimestamp = RODIN.Time.now;
             RODIN.messenger.post('popupopened', {popupName: 'vrbackbtninfo'});
-            this.popupSculpt.add(vrBackBtnInfoMobile);
-            /*switch (true) {
+            switch (true) {
                 case RODIN.device.isVive:
                     this.popupSculpt.add(vrBackBtnInfoVive);
                     break;
@@ -42,19 +41,17 @@ export class VRBackBtnInfo extends Popup {
                     this.popupSculpt.add(vrBackBtnInfoOculus);
                     break;
                 case RODIN.device.isMobile:
-                    alert("mdav");
                     this.popupSculpt.add(vrBackBtnInfoMobile);
                     break;
-
-            }*/
+            }
         });
 
         this.on('close', () => {
             RODIN.messenger.post('popupclosed', {popupName: 'vrbackbtninfo'});
 
-            // this.popupSculpt.remove(vrBackBtnInfoVive);
-            // this.popupSculpt.remove(vrBackBtnInfoOculus);
-            // this.popupSculpt.remove(vrBackBtnInfoMobile);
+            this.popupSculpt.remove(vrBackBtnInfoVive);
+            this.popupSculpt.remove(vrBackBtnInfoOculus);
+            this.popupSculpt.remove(vrBackBtnInfoMobile);
         });
 
         this.on(RODIN.CONST.UPDATE, () => {
@@ -74,3 +71,5 @@ export class VRBackBtnInfo extends Popup {
         return instance;
     }
 }
+
+instance = new VRBackBtnInfo();

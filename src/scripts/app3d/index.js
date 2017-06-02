@@ -1,6 +1,7 @@
 import * as RODIN from 'rodin/core';
 import * as cp from './ControlPanel.js';
 import {MobileLogIn} from './MobileLogIn.js';
+import {VRLogIn} from './VRLogIn.js';
 
 RODIN.start();
 
@@ -49,6 +50,11 @@ export class APP {
                 });
             });
 
+            window.addEventListener('rodinLoginPopupClosed', () => {
+                const vrLoginPopup = VRLogIn.getInstance();
+                vrLoginPopup.close();
+            });
+
             if(APP.API.isLoggedIn() && APP.API.getUserInfo()) {
                 controlPanel.user.userData = APP.API.getUserInfo();
                 controlPanel.user.loggedIn = true;
@@ -59,6 +65,19 @@ export class APP {
                 if (!APP.inited) return;
 
                 switch (true) {
+
+                    case ((RODIN.device.isVive || RODIN.device.isOculus) && RODIN.device.isVR):
+                        const vrLoginPopup = VRLogIn.getInstance();
+                        RODIN.Scene.add(vrLoginPopup);
+                        vrLoginPopup.open();
+                        APP.API.navigate('/login', null, true);
+
+                        vrLoginPopup.once('close', () => {
+                            APP.API.closeModal();
+                        });
+
+                        break;
+
                     case (RODIN.device.isMobile && RODIN.device.isVR):
                         const loginPopup = MobileLogIn.getInstance();
                         RODIN.Scene.add(loginPopup);

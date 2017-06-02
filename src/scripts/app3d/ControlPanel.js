@@ -3,6 +3,7 @@ import {DemoThumbs} from './DemoThumbs.js';
 import {FeaturedProjectsThumbs} from './FeaturedProjectsThumbs.js';
 import {UserProjectsThumbs} from './UserProjectsThumbs.js';
 import {VRBackBtnInfo} from './VRBackBtnInfo.js';
+import {ThumbBar} from './ThumbBar';
 
 window.RODIN = RODIN;
 
@@ -54,7 +55,12 @@ export const init = (API) => {
         }
 
         RODIN.messenger.on('popupopened', (data) => {
-            if (['logout', 'description', 'mobilelogin'].indexOf(data.popupName) !== -1) {
+            if(data.popupName === 'vrbackbtninfo') {
+                if(ThumbBar.current !== null)
+                    ThumbBar.current.close();
+            }
+
+            if (['logout', 'description', 'mobilelogin', 'vrlogin', 'vrbackbtninfo'].indexOf(data.popupName) !== -1) {
                 DemoThumbs.getInstance().visible = false;
                 FeaturedProjectsThumbs.getInstance().visible = false;
                 UserProjectsThumbs.getInstance().visible = false;
@@ -62,11 +68,17 @@ export const init = (API) => {
         });
 
         RODIN.messenger.on('popupclosed', (data) => {
-            if (['logout', 'description', 'mobilelogin'].indexOf(data.popupName) !== -1) {
+            if(data.popupName === 'vrbackbtninfo') {
+                if(ThumbBar.current !== null)
+                    ThumbBar.current.open();
+            }
+
+            if (['logout', 'description', 'mobilelogin', 'vrlogin', 'vrbackbtninfo'].indexOf(data.popupName) !== -1) {
                 DemoThumbs.getInstance().visible = true;
                 FeaturedProjectsThumbs.getInstance().visible = true;
                 UserProjectsThumbs.getInstance().visible = true;
             }
+
         });
 
         RODIN.messenger.on('startexperience', (data, transport) => {
@@ -79,13 +91,18 @@ export const init = (API) => {
 
                 vrBackBtnInfo.once('timerend', () => {
                     goToProject(data);
+                    vrBackBtnInfo.close();
                 })
             } else {
                 goToProject(data);
             }
         });
 
-        API.loaderHide();
+        // delay the loading in order to skip lagging parts
+        setTimeout(()=>{
+            API.loaderHide();
+        }, 500);
+
         return Promise.resolve();
     });
 };
