@@ -10,10 +10,12 @@ export let controlPanel = null;
 
 
 const goToProject = (project) => {
-    RODIN.Scene.stop();
+    RODIN.exitVR();
+    RODIN.Scene.pauseRender();
+
     API.openProject(project, (err) => {
         if (err) {
-            RODIN.Scene.start();
+            RODIN.Scene.resumeRender();
         }
     });
 };
