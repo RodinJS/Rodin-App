@@ -22,7 +22,7 @@ class LoginCtrl {
             password: ''
         };
 
-        angular.element(document.querySelector('.modal')).on('click mousedown mouseup touchstart touchend', (e)=>{
+         angular.element(document.querySelector('.modal')).on('click mousedown mouseup touchstart touchend', (e)=>{
             console.log('e', e);
             return e.stopPropagation();
         })

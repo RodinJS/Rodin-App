@@ -114,7 +114,7 @@ class VRAPI {
      * @return {String}
      * */
     getCurrentPage() {
-        return /[^.]+$/.exec(this._$state.current.name)[0].toLowerCase();
+        return !this._$state.current.name ? '' : /[^.]+$/.exec(this._$state.current.name)[0].toLowerCase();
     }
 
     ///////////////
