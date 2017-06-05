@@ -144,9 +144,6 @@ gulp.task('jsapp', () => {
     .pipe(babel({
       "presets": [
         "es2015"
-      ],
-      "plugins": [
-        "angularjs-annotate"
       ]
     }))
     .pipe(s)
@@ -180,9 +177,6 @@ gulp.task('jsapp-prod', () => {
     .pipe(babel({
       "presets": [
         "es2015"
-      ],
-      "plugins": [
-        "angularjs-annotate"
       ]
     }))
     .pipe(uglify(UGLIFY_AGRESIVE))
@@ -328,9 +322,9 @@ gulp.task('build-template', (done) => {
 });
 
 gulp.task('prod', (done) => {
-  sequence('clean', 'vendor', 'system:init', ['generate-index', 'template', 'jsapp-prod', 'jsothers-prod', 'sass-prod', 'font', 'img'], done);
+  sequence('clean', 'vendor', 'system:init', ['generate-index', 'template', 'jsothers-prod', 'jsapp-prod', 'sass-prod', 'font', 'img'], done);
 });
 
 gulp.task('default', (done) => {
-  sequence('clean', 'vendor', 'system:init', ['generate-index', 'template', 'jsapp', 'jsothers', 'sass', 'font', 'img', 'connect', 'watch'], done);
+  sequence('clean', 'vendor', 'system:init', ['generate-index', 'template', 'jsothers', 'jsapp', 'sass', 'font', 'img', 'connect', 'watch'], done);
 });
