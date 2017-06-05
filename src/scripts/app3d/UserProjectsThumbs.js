@@ -21,7 +21,7 @@ export class UserProjectsThumbs extends Thumbs {
          * user header data
          */
         this.userHeader = new UserHeader(_loggedIn);
-        this.userHeader.notLoggedInBar.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+        this.userHeader.notLoggedInBar.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
             this.emit('login', new RODIN.RodinEvent(this));
         });
         this.userHeader.on('logout', () => {
