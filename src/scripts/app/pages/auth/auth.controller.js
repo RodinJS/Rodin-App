@@ -14,6 +14,10 @@ class AuthCtrl {
             username: '',
             password: ''
         };
+
+        /*angular.element(document.querySelector('.modal')).on('click', (e)=>{
+            e.stopPropagation();
+        })*/
     }
 
     gohome() {

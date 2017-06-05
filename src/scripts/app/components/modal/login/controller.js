@@ -21,6 +21,12 @@ class LoginCtrl {
             username: '',
             password: ''
         };
+
+        angular.element(document.querySelector('.modal')).on('click mousedown mouseup touchstart touchend', (e)=>{
+            console.log('e', e);
+            return e.stopPropagation();
+        })
+
     }
 
     logIn(isValidForm) {
