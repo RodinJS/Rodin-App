@@ -38,12 +38,14 @@ RODIN.messenger.on(RODIN.CONST.TICK, () => {
 });
 
 const goToProject = (project) => {
+    API.loaderShow();
     const parentWasOnVRMode = RODIN.device.isVR;
     RODIN.exitVR();
     RODIN.Scene.pauseRender();
     isChildModeVR = false;
 
     RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, () => {
+        API.loaderHide();
         if(parentWasOnVRMode) {
             RODIN.messenger.post(RODIN.CONST.ENTER_VR, {destination: RODIN.CONST.CHILDREN}, RODIN.postMessageTransport);
         }
@@ -51,6 +53,7 @@ const goToProject = (project) => {
 
     API.openProject(project, (err) => {
         if (err) {
+            API.loaderHide();
             RODIN.Scene.resumeRender();
         }
     });
