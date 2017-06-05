@@ -105,7 +105,7 @@ const backButtonCallback = (evt) => {
     /**
      * Go To Home
      */
-    goToHome();
+    else goToHome();
 };
 
 
@@ -148,7 +148,7 @@ export const init = (_API) => {
                     ThumbBar.current.close();
             }
 
-            if (['logout', 'description', 'mobilelogin', 'vrlogin', 'vrbackbtninfo'].indexOf(data.popupName) !== -1) {
+            if (['logout', 'description', 'mobilelogin', 'vrlogin', 'vrbackbtninfo', 'exit'].indexOf(data.popupName) !== -1) {
                 DemoThumbs.getInstance().visible = false;
                 FeaturedProjectsThumbs.getInstance().visible = false;
                 UserProjectsThumbs.getInstance().visible = false;
@@ -161,7 +161,7 @@ export const init = (_API) => {
                     ThumbBar.current.open();
             }
 
-            if (['logout', 'description', 'mobilelogin', 'vrlogin', 'vrbackbtninfo'].indexOf(data.popupName) !== -1) {
+            if (['logout', 'description', 'mobilelogin', 'vrlogin', 'vrbackbtninfo', 'exit'].indexOf(data.popupName) !== -1) {
                 DemoThumbs.getInstance().visible = true;
                 FeaturedProjectsThumbs.getInstance().visible = true;
                 UserProjectsThumbs.getInstance().visible = true;
@@ -203,6 +203,11 @@ export const init = (_API) => {
 
         RODIN.GamePad.viveRight.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
             if(evt.button.indexOf(RODIN.Buttons.viveRightMenu) !== -1)
+                return backButtonCallback(evt);
+        });
+
+        RODIN.GamePad.oculusTouchRight.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
+            if(evt.button.indexOf(RODIN.Buttons.oculusTouchB) !== -1)
                 return backButtonCallback(evt);
         });
 

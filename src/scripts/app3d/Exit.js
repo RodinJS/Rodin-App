@@ -90,8 +90,6 @@ export class Exit extends Popup {
         });
 
         this.on('close', () => {
-            // todo: dispose it
-            this.parent.remove(this);
             RODIN.messenger.post('popupclosed', {popupName: 'exit'});
         });
     }
