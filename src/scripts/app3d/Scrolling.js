@@ -3,29 +3,28 @@ import * as RODIN from 'rodin/core'
 export class Scrolling extends RODIN.Sculpt {
     constructor(url, width, numberOfProjects, projectsPerUnit, columnsShown) {
 
-        super(url);
+        super();
+        this.bg = new RODIN.Sculpt(url);
+        this.bg.on(RODIN.CONST.READY, () => {
+            this.bg._threeObject.children[0].material = new THREE.MeshBasicMaterial({
+                color: 0x000000,
+                transparent: true,
+                opacity: 0.1,
+                side: THREE.DoubleSide,
+            });
+
+            this.add(this.bg);
+        });
 
         this._width = width;
         this._numberOfProjects = numberOfProjects;
         this._projectsPerUnit = projectsPerUnit;
         this._columnsShown = columnsShown;
 
-        /**
-         * Set up scroll bar material initial parameters
-         */
-        this.on(RODIN.CONST.READY, () => {
-            this._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                color: 0x000000,
-                transparent: true,
-                opacity: 0.1,
-                side: THREE.DoubleSide,
-            });
-        });
 
         /**
          * Crete scroll tool
          */
-
         this.scrollToolObj = new RODIN.Sculpt(url);
         this.scrollToolObj.on(RODIN.CONST.READY, () => {
             this.scrollToolObj._threeObject.children[0].material = new THREE.MeshBasicMaterial({

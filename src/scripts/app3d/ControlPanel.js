@@ -10,15 +10,42 @@ window.RODIN = RODIN;
 
 export let controlPanel = null;
 let API = null;
+let isChildModeVR = false;
+
+RODIN.messenger.on(RODIN.CONST.ENTER_VR_SUCCESS, (data, transport) => {
+    if(transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT) {
+        isChildModeVR = true;
+    }
+});
+
+RODIN.messenger.on(RODIN.CONST.EXIT_VR_SUCCESS, (data, transport) => {
+    if(transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT) {
+        isChildModeVR = false;
+    }
+});
+
+RODIN.messenger.on(RODIN.CONST.TICK, () => {
+    if(API && API.getCurrentPage() === 'project') {
+        if(RODIN.device.isVive) {
+            RODIN.GamePad.viveLeft.enable();
+            RODIN.GamePad.viveRight.enable();
+        }
+
+        if(RODIN.device.isOculus) {
+            RODIN.GamePad.oculusTouchRight.enable();
+        }
+    }
+});
 
 const goToProject = (project) => {
     const parentWasOnVRMode = RODIN.device.isVR;
     RODIN.exitVR();
     RODIN.Scene.pauseRender();
+    isChildModeVR = false;
 
     RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, () => {
         if(parentWasOnVRMode) {
-            RODIN.messenger.post(RODIN.CONST.ENTER_VR, {destination: RODIN.CONST.CHILDREN}, RODIN.postMessageTransport)
+            RODIN.messenger.post(RODIN.CONST.ENTER_VR, {destination: RODIN.CONST.CHILDREN}, RODIN.postMessageTransport);
         }
     });
 
@@ -29,7 +56,42 @@ const goToProject = (project) => {
     });
 };
 
+
+const goToHome = () => {
+    API.loaderShow();
+    if(isChildModeVR) {
+        let answerReceived = false;
+
+        RODIN.messenger.once(RODIN.CONST.ENTER_VR_SUCCESS, (data, transport) => {
+            if(transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT && !answerReceived) {
+                callback();
+            }
+        });
+
+        const callback = () => {
+            clearTimeout(timer);
+            answerReceived = true;
+
+            API.navigate('/');
+            RODIN.Scene.resumeRender();
+            RODIN.enterVR();
+            API.loaderHide();
+        };
+
+        const timer = setTimeout(callback, 2000);
+
+        RODIN.messenger.post(RODIN.CONST.EXIT_VR, {destination: RODIN.CONST.CHILDREN}, RODIN.postMessageTransport);
+    } else {
+        API.navigate('/');
+        RODIN.Scene.resumeRender();
+        API.loaderHide();
+    }
+};
+
 const backButtonCallback = (evt) => {
+    /**
+     * Close Project
+     */
     if(API.getCurrentPage() === 'home') {
         const exitPopup = Exit.getInstance();
         RODIN.Scene.add(exitPopup);
@@ -39,6 +101,11 @@ const backButtonCallback = (evt) => {
             window.close();
         })
     }
+
+    /**
+     * Go To Home
+     */
+    goToHome();
 };
 
 
@@ -119,6 +186,10 @@ export const init = (_API) => {
             }
         });
 
+        window.addEventListener('rodingotohome', () => {
+            backButtonCallback();
+        });
+
         // delay the loading in order to skip lagging parts
         setTimeout(()=>{
             API.loaderHide();
@@ -126,7 +197,6 @@ export const init = (_API) => {
 
         // todo: add oculus and cardboard support
         RODIN.GamePad.viveLeft.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
-            console.log(evt);
             if(evt.button.indexOf(RODIN.Buttons.viveLeftMenu) !== -1)
                 return backButtonCallback(evt);
         });
@@ -135,6 +205,10 @@ export const init = (_API) => {
             if(evt.button.indexOf(RODIN.Buttons.viveRightMenu) !== -1)
                 return backButtonCallback(evt);
         });
+
+        if(API.getCurrentPage() !== 'home') {
+            RODIN.Scene.pauseRender();
+        }
 
         return Promise.resolve();
     });

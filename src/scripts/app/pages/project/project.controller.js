@@ -7,12 +7,10 @@ class ProjectCtrl {
         this._AppConstants = AppConstants;
         this._User = User;
         this._$timeout = $timeout;
-        this._$window = $window;
         this._$state = $state;
         this._$stateParams = $stateParams;
         this._RodinTransitionCanvas = RodinTransitionCanvas;
         this.showBackBtn = deviceDetector.isMobile() || window.showBackButtonOnProjectPage;/* && window.innerWidth <= window.innerHeight*/;
-
 
 
 
@@ -25,7 +23,7 @@ class ProjectCtrl {
     }
 
     back() {
-        this._$window.history.back();
+        window.dispatchEvent(new Event('rodingotohome'));
     }
 }
 

@@ -43,17 +43,17 @@ export class UserHeader extends RODIN.Sculpt {
          * Loading icon
          * @type {*}
          */
-        this.loginIcon = new RODIN.Plane(0.09, new THREE.MeshBasicMaterial({
+        this.loadingIcon = new RODIN.Plane(0.09, new THREE.MeshBasicMaterial({
             map: RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/loader.png'),
             transparent: true,
             side: THREE.DoubleSide
         }));
 
-        this.loginIcon.on(RODIN.CONST.UPDATE, () => {
-            this.loginIcon.rotation.z += RODIN.Time.delta * .005;
+        this.loadingIcon.on(RODIN.CONST.UPDATE, () => {
+            this.loadingIcon.rotation.z += RODIN.Time.delta * .005;
         });
 
-        this.loginIcon.position.set(-0.335, 0, 0.006);
+        this.loadingIcon.position.set(-0.335, 0, 0.006);
 
         /**
          * Login as Dev
@@ -130,11 +130,11 @@ export class UserHeader extends RODIN.Sculpt {
 
     showLoading() {
         this.notLoggedInIcon.parent && this.notLoggedInIcon.parent.remove(this.notLoggedInIcon);
-        this.notLoggedInSculpt.add(this.loginIcon);
+        this.notLoggedInSculpt.add(this.loadingIcon);
     }
 
     hideLoading() {
-        this.loginIcon.parent && this.loginIcon.parent.remove(this.loginIcon);
+        this.loadingIcon.parent && this.loadingIcon.parent.remove(this.loadingIcon);
         this.notLoggedInSculpt.add(this.notLoggedInIcon);
     }
 

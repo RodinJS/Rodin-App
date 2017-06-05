@@ -9,7 +9,6 @@ class VRAPI {
         'ngInject';
 
         self = this;
-
         this._AppConstants = AppConstants;
         this._Project = Project;
         this._User = User;
