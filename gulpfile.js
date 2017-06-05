@@ -141,11 +141,17 @@ gulp.task('jsapp', () => {
   return gulp.src(JSAPP)
     .pipe(plumber(ERROR_MESSAGE))
     .pipe(sourcemaps.init())
-    .pipe(babel({
-      "presets": [
-        "es2015"
-      ]
-    }))
+    .pipe(babel(
+{
+  "presets": [
+    "es2015"
+  ],
+  "plugins": [
+    "angularjs-annotate",
+    "transform-es2015-modules-systemjs"
+  ]
+}
+    ))
     .pipe(s)
     .pipe(plumber.stop())
     .pipe(gulp.dest('./build/app'))
@@ -160,7 +166,18 @@ gulp.task('jsothers', () => {
   return gulp.src(JSOTHERS)
     .pipe(plumber(ERROR_MESSAGE))
     .pipe(sourcemaps.init())
-    .pipe(babel())
+    .pipe(babel(
+{
+  "presets": [
+    "es2016"
+  ],
+  "plugins": [
+    "angularjs-annotate",
+    "transform-es2015-modules-systemjs",
+    "transform-class-properties"
+  ]
+}
+    ))
     .pipe(s)
     .pipe(plumber.stop())
     .pipe(gulp.dest('./build'))
@@ -174,11 +191,18 @@ gulp.task('jsapp-prod', () => {
   const s = size({title: 'JSAPP production -> ', pretty: false});
   return gulp.src(JSAPP)
     .pipe(plumber(ERROR_MESSAGE))
-    .pipe(babel({
-      "presets": [
-        "es2015"
-      ]
-    }))
+    .pipe(babel(
+{
+  "presets": [
+    "es2015"
+  ],
+  "plugins": [
+    "angularjs-annotate",
+    "transform-es2015-modules-systemjs",
+    "transform-class-properties"
+  ]
+}
+    ))
     .pipe(uglify(UGLIFY_AGRESIVE))
     .pipe(s)
     .pipe(plumber.stop())
@@ -193,7 +217,18 @@ gulp.task('jsothers-prod', () => {
   const s = size({title: 'JSOTHERS production -> ', pretty: false});
   return gulp.src(JSOTHERS)
     .pipe(plumber(ERROR_MESSAGE))
-    .pipe(babel())
+    .pipe(babel(
+{
+  "presets": [
+    "es2016"
+  ],
+  "plugins": [
+    "angularjs-annotate",
+    "transform-es2015-modules-systemjs",
+    "transform-class-properties"
+  ]
+}
+    ))
     // .pipe(uglify(UGLIFY_AGRESIVE))
     .pipe(s)
     .pipe(plumber.stop())
