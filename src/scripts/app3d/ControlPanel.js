@@ -218,6 +218,14 @@ export const init = (_API) => {
             RODIN.Scene.pauseRender();
         }
 
+        window.addEventListener('rodinexithome', (e)=>{
+            console.log('exit', e);
+        });
+
+        window.addEventListener('rodinenterhome', (e)=>{
+            console.log('enter', e);
+        });
+
         return Promise.resolve();
     });
 };

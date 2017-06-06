@@ -15,9 +15,9 @@ class AuthCtrl {
             password: ''
         };
 
-        /*angular.element(document.querySelector('.modal')).on('click', (e)=>{
-            e.stopPropagation();
-        })*/
+        angular.element(document.querySelector('.main-layout')).on('click mousedown mouseup touchstart touchend', (e)=>{
+            return e.stopPropagation();
+        });
     }
 
     gohome() {

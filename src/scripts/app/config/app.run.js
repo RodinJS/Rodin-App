@@ -29,7 +29,16 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
   });
 
   $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-    if (toState.redirectToWhenAuthenticated && JWT.get()) {
+
+      console.log('fromState', fromState.name, toState.name);
+
+      if(fromState.name == 'main.home' && fromState.name !== toState.name){
+          window.dispatchEvent(new Event('rodinexithome'));
+      }
+
+
+
+      if (toState.redirectToWhenAuthenticated && JWT.get()) {
       // User isn’t authenticated
       $state.go(toState.redirectToWhenAuthenticated);
       event.preventDefault();
@@ -42,6 +51,10 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     $rootScope.setPageTitle(toState.title);
 
     $rootScope.setPageClass(toState.pageClass);
+
+      if(toState.name == 'main.home'){
+          window.dispatchEvent(new Event('rodinenterhome'));
+      }
 
     //Loader.hide();
 

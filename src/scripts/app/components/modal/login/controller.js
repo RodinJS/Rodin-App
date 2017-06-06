@@ -23,7 +23,6 @@ class LoginCtrl {
         };
 
          angular.element(document.querySelector('.modal')).on('click mousedown mouseup touchstart touchend', (e)=>{
-            console.log('e', e);
             return e.stopPropagation();
         })
 
@@ -81,7 +80,6 @@ class LoginCtrl {
     }
 
     cancel() {
-        console.log('asd');
         // window.dispatchEvent(new Event('rodinLoginPopupClosed'));
         this.dismiss({$value: 'cancel'});
     }
