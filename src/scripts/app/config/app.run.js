@@ -29,12 +29,9 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
   });
 
   $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-
-      console.log('fromState', fromState.name, toState.name);
-
       if(fromState.name == 'main.home' && fromState.name !== toState.name){
-          window.dispatchEvent(new Event('rodinexithome'));
           angular.element(document.querySelector('canvas')).css('display', 'none');
+          window.dispatchEvent(new Event('rodinexithome'));
       }
 
 
@@ -54,11 +51,9 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     $rootScope.setPageClass(toState.pageClass);
 
       if(toState.name == 'main.home'){
-          window.dispatchEvent(new Event('rodinenterhome'));
           angular.element(document.querySelector('canvas')).css('display', 'block');
+          window.dispatchEvent(new Event('rodinenterhome'));
       }
-
-    //Loader.hide();
 
     angular.element(document.querySelectorAll(".webvr-button")).addClass("hidden");
   });

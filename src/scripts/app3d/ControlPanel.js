@@ -41,7 +41,6 @@ const goToProject = (project) => {
     API.loaderShow();
     const parentWasOnVRMode = RODIN.device.isVR;
     RODIN.exitVR();
-    RODIN.Scene.pauseRender();
     isChildModeVR = false;
 
     RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, () => {
@@ -62,6 +61,7 @@ const goToProject = (project) => {
 
 const goToHome = () => {
     API.loaderShow();
+    RODIN.PostMessageTransport.children = {};
     if(isChildModeVR) {
         let answerReceived = false;
 
@@ -76,7 +76,6 @@ const goToHome = () => {
             answerReceived = true;
 
             API.navigate('/');
-            RODIN.Scene.resumeRender();
             RODIN.enterVR();
             API.loaderHide();
         };
@@ -86,7 +85,6 @@ const goToHome = () => {
         RODIN.messenger.post(RODIN.CONST.EXIT_VR, {destination: RODIN.CONST.CHILDREN}, RODIN.postMessageTransport);
     } else {
         API.navigate('/');
-        RODIN.Scene.resumeRender();
         API.loaderHide();
     }
 };
@@ -219,11 +217,11 @@ export const init = (_API) => {
         }
 
         window.addEventListener('rodinexithome', (e)=>{
-            console.log('exit', e);
+            RODIN.Scene.pauseRender();
         });
 
         window.addEventListener('rodinenterhome', (e)=>{
-            console.log('enter', e);
+            RODIN.Scene.resumeRender();
         });
 
         return Promise.resolve();
