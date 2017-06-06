@@ -34,6 +34,7 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
 
       if(fromState.name == 'main.home' && fromState.name !== toState.name){
           window.dispatchEvent(new Event('rodinexithome'));
+          angular.element(document.querySelector('canvas')).css('display', 'none');
       }
 
 
@@ -54,6 +55,7 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
 
       if(toState.name == 'main.home'){
           window.dispatchEvent(new Event('rodinenterhome'));
+          angular.element(document.querySelector('canvas')).css('display', 'block');
       }
 
     //Loader.hide();

@@ -1,3 +1,11 @@
+body{
+  &.page-404{
+    .app-container{
+      background: #09192E;
+    }
+  }
+}
+
 .page.error-page {
   .main-container {
     .page-404-content {
@@ -10,10 +18,10 @@
     h1 {
       font-size: 150px;
       line-height: .78;
-      font-weight: 700;
-      color: rgba($white, .2);
-      margin: 0;
-      margin-bottom: 40px;
+      font-weight: normal;
+      color: rgba(255, 255, 255, 0.2);
+      margin: 0 0  40px;
+      font-family: "Roboto Condensed", sans-serif;
     }
     h5 {
       color: $white;
@@ -23,6 +31,10 @@
       line-height: 1.5;
     }
     .btn-primary {
+      color:#008BF2;
+      &:hover{
+        color: #fff;
+      }
     }
   }
 }
