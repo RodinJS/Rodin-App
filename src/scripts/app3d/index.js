@@ -48,6 +48,9 @@ export class APP {
                     controlPanel.user.userData = APP.API.getUserInfo();
                     controlPanel.user.loggedIn = true;
                 });
+
+                const vrLoginPopup = VRLogIn.getInstance();
+                vrLoginPopup.close();
             });
 
             window.addEventListener('rodinLoginPopupClosed', () => {
