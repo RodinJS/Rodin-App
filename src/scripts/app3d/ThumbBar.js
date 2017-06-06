@@ -34,11 +34,11 @@ export class ThumbBar extends RODIN.Sculpt {
                 this.add(this.hoverThumdb)
             }
         });
-        this.on(RODIN.CONST.GAMEPAD_HOVER, () => {
+        this.bar.on(RODIN.CONST.GAMEPAD_HOVER, () => {
             this.hoverThumdb.visible = true;
         });
 
-        this.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
+        this.bar.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
             this.hoverThumdb.visible = false;
         });
 
@@ -55,7 +55,7 @@ export class ThumbBar extends RODIN.Sculpt {
         scaleDown.duration(100);
         this.animation.add(scaleDown);
 
-        this.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+        this.bar.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
             this.buttonDownTimestamp = RODIN.Time.now;
             this.animation.start('scaleDown');
         });
@@ -70,7 +70,7 @@ export class ThumbBar extends RODIN.Sculpt {
         scaleUp.duration(100);
         this.animation.add(scaleUp);
 
-        this.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
+        this.bar.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
             this.animation.start('scaleUp');
             if(RODIN.Time.now - this.buttonDownTimestamp > 300) return;
             this.showDescriptionThumb(data);
