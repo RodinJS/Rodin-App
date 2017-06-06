@@ -13,25 +13,25 @@ let API = null;
 let isChildModeVR = false;
 
 RODIN.messenger.on(RODIN.CONST.ENTER_VR_SUCCESS, (data, transport) => {
-    if(transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT) {
+    if (transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT) {
         isChildModeVR = true;
     }
 });
 
 RODIN.messenger.on(RODIN.CONST.EXIT_VR_SUCCESS, (data, transport) => {
-    if(transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT) {
+    if (transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT) {
         isChildModeVR = false;
     }
 });
 
 RODIN.messenger.on(RODIN.CONST.TICK, () => {
-    if(API && API.getCurrentPage() === 'project') {
-        if(RODIN.device.isVive) {
+    if (API && API.getCurrentPage() === 'project') {
+        if (RODIN.device.isVive) {
             RODIN.GamePad.viveLeft.enable();
             RODIN.GamePad.viveRight.enable();
         }
 
-        if(RODIN.device.isOculus) {
+        if (RODIN.device.isOculus) {
             RODIN.GamePad.oculusTouchRight.enable();
         }
     }
@@ -45,7 +45,7 @@ const goToProject = (project) => {
 
     RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, () => {
         API.loaderHide();
-        if(parentWasOnVRMode) {
+        if (parentWasOnVRMode) {
             RODIN.messenger.post(RODIN.CONST.ENTER_VR, {destination: RODIN.CONST.CHILDREN}, RODIN.postMessageTransport);
         }
     });
@@ -62,11 +62,11 @@ const goToProject = (project) => {
 const goToHome = () => {
     API.loaderShow();
     RODIN.PostMessageTransport.children = {};
-    if(isChildModeVR) {
+    if (isChildModeVR) {
         let answerReceived = false;
 
         RODIN.messenger.once(RODIN.CONST.ENTER_VR_SUCCESS, (data, transport) => {
-            if(transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT && !answerReceived) {
+            if (transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT && !answerReceived) {
                 callback();
             }
         });
@@ -93,7 +93,7 @@ const backButtonCallback = (evt) => {
     /**
      * Close Project
      */
-    if(API.getCurrentPage() === 'home') {
+    if (API.getCurrentPage() === 'home') {
         const exitPopup = Exit.getInstance();
         RODIN.Scene.add(exitPopup);
         exitPopup.open();
@@ -139,13 +139,13 @@ export const init = (_API) => {
         controlPanel.featured = featured;
         controlPanel.user = user;
 
-        if(data.userProjects !== null) {
+        if (data.userProjects !== null) {
             controlPanel.user.createThumbs(data.userProjects);
         }
 
         RODIN.messenger.on('popupopened', (data) => {
-            if(data.popupName === 'vrbackbtninfo') {
-                if(ThumbBar.current !== null)
+            if (data.popupName === 'vrbackbtninfo') {
+                if (ThumbBar.current !== null)
                     ThumbBar.current.close();
             }
 
@@ -157,8 +157,8 @@ export const init = (_API) => {
         });
 
         RODIN.messenger.on('popupclosed', (data) => {
-            if(data.popupName === 'vrbackbtninfo') {
-                if(ThumbBar.current !== null)
+            if (data.popupName === 'vrbackbtninfo') {
+                if (ThumbBar.current !== null)
                     ThumbBar.current.open();
             }
 
@@ -171,9 +171,9 @@ export const init = (_API) => {
         });
 
         RODIN.messenger.on('startexperience', (data, transport) => {
-            if(transport !== RODIN.localTransport) return;
+            if (transport !== RODIN.localTransport) return;
 
-            if(RODIN.device.isVR) {
+            if (RODIN.device.isVR) {
                 const vrBackBtnInfo = VRBackBtnInfo.getInstance();
                 vrBackBtnInfo.open();
                 RODIN.Scene.add(vrBackBtnInfo);
@@ -192,35 +192,35 @@ export const init = (_API) => {
         });
 
         // delay the loading in order to skip lagging parts
-        setTimeout(()=>{
+        setTimeout(() => {
             API.loaderHide();
         }, 500);
 
         // todo: add oculus and cardboard support
         RODIN.GamePad.viveLeft.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
-            if(evt.button.indexOf(RODIN.Buttons.viveLeftMenu) !== -1)
+            if (evt.button.indexOf(RODIN.Buttons.viveLeftMenu) !== -1)
                 return backButtonCallback(evt);
         });
 
         RODIN.GamePad.viveRight.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
-            if(evt.button.indexOf(RODIN.Buttons.viveRightMenu) !== -1)
+            if (evt.button.indexOf(RODIN.Buttons.viveRightMenu) !== -1)
                 return backButtonCallback(evt);
         });
 
         RODIN.GamePad.oculusTouchRight.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
-            if(evt.button.indexOf(RODIN.Buttons.oculusTouchB) !== -1)
+            if (evt.button.indexOf(RODIN.Buttons.oculusTouchB) !== -1)
                 return backButtonCallback(evt);
         });
 
-        if(API.getCurrentPage() !== 'home') {
+        if (API.getCurrentPage() !== 'home') {
             RODIN.Scene.pauseRender();
         }
 
-        window.addEventListener('rodinexithome', (e)=>{
+        window.addEventListener('rodinexithome', (e) => {
             RODIN.Scene.pauseRender();
         });
 
-        window.addEventListener('rodinenterhome', (e)=>{
+        window.addEventListener('rodinenterhome', (e) => {
             RODIN.Scene.resumeRender();
         });
 

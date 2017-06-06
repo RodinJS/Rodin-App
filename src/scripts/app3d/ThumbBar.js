@@ -5,12 +5,22 @@ export class ThumbBar extends RODIN.Sculpt {
     constructor(url, data = {}) {
         super();
 
+        const map = RODIN.Loader.loadTexture(data.thumbnail || '/images/app3d/models/control_panel/images/No_Thumb.png', () => {
+            if(this.bar.isReady) {
+                this.emit('thumbready', new RODIN.RodinEvent(this));
+            } else {
+                this.bar.on(RODIN.CONST.READY, () => {
+                    this.emit('thumbready', new RODIN.RodinEvent(this));
+                })
+            }
+        });
+
         this.bar = new RODIN.Sculpt(url);
         this.bar.on(RODIN.CONST.READY, () => {
             this.bar._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 color: 0xFFFFFF,
-                map: RODIN.Loader.loadTexture(data.thumbnail || '/images/app3d/models/control_panel/images/No_Thumb.png')
+                map
             });
             this.add(this.bar);
         });

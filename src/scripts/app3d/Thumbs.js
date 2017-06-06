@@ -20,7 +20,6 @@ export class Thumbs extends RODIN.Sculpt {
     createThumbs(total) {
         this.thumbs = [];
         this.loadedPages = [];
-        this.maxThumbs = 20;
 
         this.thumbBarUrl = (this.isHorisontal ? '/images/app3d/models/control_panel/thumb_project.obj' : '/images/app3d/models/control_panel/thumb_demos.obj');
         this.thumbsBar = (this.isHorisontal ? new RODIN.HorizontalGrid(this.height, this.width, .407, .682) : new RODIN.VerticalGrid(this.width, this.height, .682, .350));
@@ -40,12 +39,11 @@ export class Thumbs extends RODIN.Sculpt {
         });
 
         this.thumbsBar.setGetElement((index) => {
-            if (index < 0 || index > this.maxThumbs - 1) return;
+            if (index < 0) return;
             if (index >= this.total) return;
 
             this.loadThumbnails(parseInt(index / 20));
             this.loadThumbnails(parseInt(index / 20) + 1);
-
             return this.thumbs[index];
         });
 
@@ -105,6 +103,8 @@ export class Thumbs extends RODIN.Sculpt {
         this.loadedPages[pageNumber] = true;
 
         for (let i = pageNumber * 20; i < (pageNumber + 1) * 20 && i < this.total; i++) {
+            if (this.thumbs[i] && this.thumbs[i].real)
+                continue;
             this.thumbs[i] = makeDummy(this.thumbBarUrl);
         }
 
@@ -119,8 +119,11 @@ export class Thumbs extends RODIN.Sculpt {
                     continue;
                 }
 
+                if (this.thumbs[i] && this.thumbs[i].real)
+                    continue;
+
                 this.thumbs[i].real = new ThumbBar(this.thumbBarUrl, data[j]);
-                this.thumbs[i].real.on(RODIN.CONST.READY, () => {
+                this.thumbs[i].real.on('thumbready', () => {
                     this.thumbs[i].add(this.thumbs[i].real);
                     this.thumbs[i].remove(this.thumbs[i].dummy);
                 });
