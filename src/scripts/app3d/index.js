@@ -5,6 +5,11 @@ import {VRLogIn} from './VRLogIn.js';
 
 RODIN.start();
 
+
+if(RODIN.device.isIOS) {
+    RODIN.Scene.HMDCamera._threeCamera.fov = 55;
+}
+
 /**
  * Load gugenhaim .obj model, add to the scene
  */

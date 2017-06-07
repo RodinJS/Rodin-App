@@ -15,9 +15,12 @@ export class Thumbs extends RODIN.Sculpt {
 
         if (total !== null)
             this.createThumbs(total);
+
+        this.showPrevNextBars = false;
     }
 
     createThumbs(total) {
+        this.showPrevNextBars = false;
         this.thumbs = [];
         this.loadedPages = [];
 
@@ -88,8 +91,8 @@ export class Thumbs extends RODIN.Sculpt {
         }
 
         this.thumbsBar.sculpt.on(RODIN.CONST.UPDATE, () => {
-            this.prevScrollThumbs && this.prevScrollThumbs.isReady && (this.prevScrollThumbs.visible = this.thumbsBar.start !== 0);
-            this.nextScrollThumbs && this.nextScrollThumbs.isReady && (this.nextScrollThumbs.visible = this.thumbsBar.end !== total);
+            this.prevScrollThumbs && this.prevScrollThumbs.isReady && (this.prevScrollThumbs.visible = this.thumbsBar.start !== 0 && this.showPrevNextBars);
+            this.nextScrollThumbs && this.nextScrollThumbs.isReady && (this.nextScrollThumbs.visible = this.thumbsBar.end !== total && this.showPrevNextBars);
         });
     }
 
@@ -110,6 +113,7 @@ export class Thumbs extends RODIN.Sculpt {
 
         this.UNIVERSAL_API({skip: pageNumber * 20, limit: 20}).then((data) => {
 
+            this.showPrevNextBars = true;
             if (data.constructor !== Array)
                 data = data.projects;
 

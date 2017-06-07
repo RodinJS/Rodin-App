@@ -100,6 +100,7 @@ export class UserProjectsThumbs extends Thumbs {
                 opacity: this.halfThumbsOpacity,
             });
             this.loggedInSculpt.add(this.prevScrollThumbs);
+            this.prevScrollThumbs.visible = false;
         });
 
         /**
@@ -115,6 +116,7 @@ export class UserProjectsThumbs extends Thumbs {
                 opacity: this.halfThumbsOpacity,
             });
             this.loggedInSculpt.add(this.nextScrollThumbs);
+            this.nextScrollThumbs.visible = false;
         });
     }
 
