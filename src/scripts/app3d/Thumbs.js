@@ -1,6 +1,7 @@
 import * as RODIN from 'rodin/core';
 import {ThumbBar} from './ThumbBar.js';
 
+const placeHolder = RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/Thumb.png');
 
 export class Thumbs extends RODIN.Sculpt {
     constructor(width, height, UNIVERSAL_API, total, isHorisontal = true) {
@@ -113,7 +114,6 @@ export class Thumbs extends RODIN.Sculpt {
 
         this.UNIVERSAL_API({skip: pageNumber * 20, limit: 20}).then((data) => {
 
-            this.showPrevNextBars = true;
             if (data.constructor !== Array)
                 data = data.projects;
 
@@ -128,6 +128,7 @@ export class Thumbs extends RODIN.Sculpt {
 
                 this.thumbs[i].real = new ThumbBar(this.thumbBarUrl, data[j]);
                 this.thumbs[i].real.on('thumbready', () => {
+                    this.showPrevNextBars = true;
                     this.thumbs[i].add(this.thumbs[i].real);
                     this.thumbs[i].remove(this.thumbs[i].dummy);
                 });
@@ -141,7 +142,7 @@ const makeDummy = (url) => {
     thumbSculpt.position.set(0, 0, -10);
     thumbSculpt.dummy = new ThumbBar(url);
     thumbSculpt.dummy.bar.on(RODIN.CONST.READY, () => {
-        thumbSculpt.dummy.bar._threeObject.children[0].material.map = RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/Thumb.png');
+        thumbSculpt.dummy.bar._threeObject.children[0].material.map = placeHolder;
         thumbSculpt.add(thumbSculpt.dummy);
     });
 
