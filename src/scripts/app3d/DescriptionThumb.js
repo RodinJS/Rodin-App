@@ -13,7 +13,8 @@ export class DescriptionThumb extends Popup {
             },
             background: {
                 color: 0xcccccc
-            }
+            },
+            transparent: false
         });
         this.popupSculpt.add(this.bgThumb);
 
@@ -57,7 +58,8 @@ export class DescriptionThumb extends Popup {
                 image: {
                     url: data.thumbnail || '/images/app3d/models/control_panel/images/No_Thumb.png'
                 }
-            }
+            },
+            transparent: false
         });
 
         this.imageThumb.on(RODIN.CONST.READY, () => {
