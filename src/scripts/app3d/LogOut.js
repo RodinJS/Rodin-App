@@ -10,85 +10,102 @@ export class LogOut extends Popup {
         this.rotation.y = -Math.PI/3;
         this.popupSculpt.position.z = -1.7;
 
-        const logOutPopup = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
-        logOutPopup.on(RODIN.CONST.READY, () => {
-            logOutPopup._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                side: THREE.DoubleSide,
-                color: 0xcccccc
-            });
-            logOutPopup.scale.set(2, 2, 2);
-            this.popupSculpt.add(logOutPopup);
+        /**
+         * Popup background
+         * @type {RODIN.Sculpt}
+         */
+        const bgThumb = new RODIN.Element({
+            width: 1,
+            height: 0.6,
+            border: {
+                radius: 0.02
+            },
+            background: {
+                color: 0xcccccc,
+            },
+            label: {
+                text: 'Are you sure you want to log out?',
+                color: 0x333333,
+                fontSize: 0.05,
+                position: { v: 40, h: 50 }
+            }
         });
+        this.popupSculpt.add(bgThumb);
 
-        logOutPopup.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
-            // evt.stopPropagation();
-        });
-
-        const logOutPopupText = new RODIN.Text({
-            text: 'Are you sure you want to log out?',
-            color: 0x333333,
-            fontSize: 0.05
-        });
-        logOutPopupText.position.set(0, 0.05, 0.006);
-        this.popupSculpt.add(logOutPopupText);
-
-        const cancelBtn = new RODIN.Sculpt('/images/app3d/models/control_panel/log_in.obj');
-        cancelBtn.on(RODIN.CONST.READY, () => {
-            cancelBtn._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                side: THREE.DoubleSide,
+        /**
+         * Cancel button
+         * @type {RODIN.Sculpt}
+         */
+        const cancelBtn = new RODIN.Element({
+            width: 0.4,
+            height: 0.08,
+            border: {
+                radius: 0.08
+            },
+            background: {
                 color: 0x8d8d8d
-            });
-            cancelBtn.scale.set(0.5, 0.5, 0.5);
+            },
+            label: {
+                text: 'Cancel',
+                color: 0xffffff,
+                fontSize: 0.035,
+                position: {v: 52, h: 50}
+            },
+            ppm: 2000
+        });
+
+        cancelBtn.on(RODIN.CONST.READY, () => {
             cancelBtn.position.set(0.24, -0.19, 0.006);
             this.popupSculpt.add(cancelBtn);
-
-            const cancelTxt = new RODIN.Text({
-                text: 'Cancel',
-                color: 0xFFFFFF,
-                fontSize: 0.065
-            });
-            cancelTxt.position.set(0, 0, 0.006);
-            cancelBtn.add(cancelTxt);
         });
         cancelBtn.on(RODIN.CONST.GAMEPAD_HOVER, () => {
-            cancelBtn._threeObject.children[0].material.color = new THREE.Color(0xa1a1a1);
+            cancelBtn._threeObject.material.opacity = 0.8;
         });
         cancelBtn.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
-            cancelBtn._threeObject.children[0].material.color = new THREE.Color(0x8d8d8d);
+            cancelBtn._threeObject.material.opacity = 1;
         });
         cancelBtn.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
             this.close();
         });
 
-        const logOutBtn = new RODIN.Sculpt('/images/app3d/models/control_panel/log_in.obj');
-        logOutBtn.on(RODIN.CONST.READY, () => {
-            logOutBtn._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                side: THREE.DoubleSide,
+        /**
+         * Logout button
+         * @type {RODIN.Sculpt}
+         */
+        const logOutBtn = new RODIN.Element({
+            width: 0.4,
+            height: 0.08,
+            border: {
+                radius: 0.08
+            },
+            background: {
                 color: 0x2668ef
-            });
-            logOutBtn.scale.set(0.5, 0.5, 0.5);
+            },
+            label: {
+                text: 'Log Out',
+                color: 0xffffff,
+                fontSize: 0.035,
+                position: {v: 52, h: 50}
+            },
+            ppm: 2000
+        });
+
+        logOutBtn.on(RODIN.CONST.READY, () => {
             logOutBtn.position.set(-0.24, -0.19, 0.006);
             this.popupSculpt.add(logOutBtn);
-
-            const logOutTxt = new RODIN.Text({
-                text: 'Log out',
-                color: 0xFFFFFF,
-                fontSize: 0.065
-            });
-            logOutTxt.position.set(0, 0, 0.006);
-            logOutBtn.add(logOutTxt);
         });
         logOutBtn.on(RODIN.CONST.GAMEPAD_HOVER, () => {
-            logOutBtn._threeObject.children[0].material.color = new THREE.Color(0x3d7dff);
+            logOutBtn._threeObject.material.opacity = 0.8;
         });
         logOutBtn.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
-            logOutBtn._threeObject.children[0].material.color = new THREE.Color(0x2668ef);
+            logOutBtn._threeObject.material.opacity = 1;
         });
         logOutBtn.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
             this.emit('submit', new RODIN.RodinEvent(this));
             this.close();
         });
-        
+
+
         this.on('open', () => {
             RODIN.messenger.post('popupopened', {popupName: 'logout'});
         });

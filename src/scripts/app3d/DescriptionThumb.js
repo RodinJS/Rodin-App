@@ -5,135 +5,185 @@ export class DescriptionThumb extends Popup {
     constructor(data) {
         super();
 
-        this.bgThumb = new RODIN.Sculpt('/images/app3d/models/control_panel/description_thumb.obj');
-        this.bgThumb.on(RODIN.CONST.READY, () => {
-            this.bgThumb._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                side: THREE.DoubleSide,
+        this.bgThumb = new RODIN.Element({
+            width: 2,
+            height: 1.1,
+            border: {
+                radius: 0.02
+            },
+            background: {
                 color: 0xcccccc
-            });
-            this.popupSculpt.add(this.bgThumb);
+            }
+        });
+        this.popupSculpt.add(this.bgThumb);
 
-            /**
-             * on bgThumb ready load other elements
-             */
-            this.projectName = new RODIN.Text({
-                text: data.displayName || 'Project name',
-                color: 0x333333,
-                fontSize: 0.09
-            });
-            this.projectName.position.set(-0.3, 0.2, 0.006);
-            this.popupSculpt.add(this.projectName);
+        const widthLeft = -0.9;
+        const widthTop = 0.4;
+        /**
+         * on bgThumb ready load other elements
+         */
+        this.projectName = new RODIN.Text({
+            text: data.displayName || 'Project name',
+            color: 0x333333,
+            fontSize: 0.07,
+            fontStyle: 'bold'
+        });
+        this.projectName.position.set(widthLeft + this.projectName._threeObject.geometry.parameters.width / 2, widthTop, 0.006);
+        this.popupSculpt.add(this.projectName);
 
-            this.projectDescription = new RODIN.DynamicText({
-                text: data.description || 'There is no description',
-                color: 0x333333,
-                width: 1.2,
-                fontSize: 0.04,
-                lineHeight: 0.07
-            });
-            this.projectDescription.position.set(-0.3, 0, 0.006);
-            this.popupSculpt.add(this.projectDescription);
+        this.projectDescription = new RODIN.DynamicText({
+            text: data.description || 'There is no description',
+            color: 0x333333,
+            width: 1.2,
+            fontSize: 0.04,
+            lineHeight: 0.07
+        });
+        this.projectDescription.position.set(widthLeft + this.projectDescription.width / 2, widthTop - 0.1 - this.projectDescription._threeObject.geometry.parameters.height / 2, 0.006);
+        this.popupSculpt.add(this.projectDescription);
 
-            const widthRight = 0.66;
+        const widthRight = 0.36;
 
-            this.imageThumb = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_project.obj');
-            this.imageThumb.on(RODIN.CONST.READY, () => {
-                this.imageThumb._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                    side: THREE.DoubleSide,
-                    map: RODIN.Loader.loadTexture(data.thumbnail || '/images/app3d/models/control_panel/images/No_Thumb.png')
-                });
-                this.imageThumb.scale.multiplyScalar(0.9);
-                this.imageThumb.position.set(widthRight, 0.335, 0.006);
-                this.popupSculpt.add(this.imageThumb);
-            });
-
-            this.userIcon = new RODIN.Sculpt('/images/app3d/models/control_panel/user_icon.obj');
-            this.userIcon.on(RODIN.CONST.READY, () => {
-                this.userIcon._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                    side: THREE.DoubleSide,
-                });
-
-                if (data.avatar) {
-                    this.userIcon._threeObject.children[0].material.map = RODIN.Loader.loadTexture(data.avatar)
-                } else {
-                    this.userIcon._threeObject.children[0].material.map = RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/rodin_icon.jpg')
+        /**
+         * Image Thumb
+         * @type {RODIN.Element}
+         */
+        this.imageThumb = new RODIN.Element({
+            width: 0.6,
+            height: 0.35,
+            border: {
+                radius: 0.01
+            },
+            background: {
+                image: {
+                    url: data.thumbnail || '/images/app3d/models/control_panel/images/No_Thumb.png'
                 }
-                this.userIcon.scale.set(0.75, 0.75, 0.75);
-                this.userIcon.position.set(widthRight, 0.05, 0.006);
-                this.popupSculpt.add(this.userIcon);
-            });
+            }
+        });
 
-            this.createBy = new RODIN.Text({
-                text: 'Created by',
-                color: 0x808080,
-                fontSize: 0.025,
-            });
-            this.createBy.position.set(widthRight, -0.06, 0.006);
-            this.popupSculpt.add(this.createBy);
+        this.imageThumb.on(RODIN.CONST.READY, () => {
+            this.imageThumb.position.set(widthRight + this.imageThumb.width / 2, 0.335, 0.006);
+            this.popupSculpt.add(this.imageThumb);
+        });
 
-            this.userName = new RODIN.Text({
-                text: data.owner || 'Rodin team',
-                color: 0x333333,
-                fontSize: 0.05
-            });
-            this.userName.position.set(widthRight, -0.12, 0.006);
-            this.popupSculpt.add(this.userName);
 
-            this.startExperience = new RODIN.Sculpt('/images/app3d/models/control_panel/log_in.obj');
-            this.startExperience.on(RODIN.CONST.READY, () => {
-                this.startExperience._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                    side: THREE.DoubleSide,
-                    color: 0x2668ef
-                });
-                this.startExperience.scale.set(0.6, 0.6, 0.6);
-                this.startExperience.position.set(widthRight, -0.45, 0.006);
-                this.popupSculpt.add(this.startExperience);
+        /**
+         * User Icon
+         * @type {RODIN.Element}
+         */
+        this.userIcon = new RODIN.Element({
+            width: 0.13,
+            height: 0.13,
+            border: {
+                radius: 0.08
+            },
+            background: {
+                image: {
+                    url: data.avatar || '/images/app3d/models/control_panel/images/rodin_icon.jpg'
+                }
+            }
+        });
 
-                this.startExp = new RODIN.Text({
-                    text: 'START EXPERIENCE',
-                    color: 0xFFFFFF,
-                    fontSize: 0.065
-                });
-                this.startExp.position.set(0, 0, 0.006);
-                this.startExperience.add(this.startExp);
-            });
-            this.startExperience.on(RODIN.CONST.GAMEPAD_HOVER, () => {
-                this.startExperience._threeObject.children[0].material.color = new THREE.Color(0x3d7dff);
-            });
-            this.startExperience.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
-                this.startExperience._threeObject.children[0].material.color = new THREE.Color(0x2668ef);
-            });
-            this.startExperience.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
-                RODIN.messenger.post('startexperience', data);
-            });
+        this.userIcon.on(RODIN.CONST.READY, () => {
+            this.userIcon.position.set(widthRight + this.userIcon.width / 2, 0.05, 0.008);
+            this.popupSculpt.add(this.userIcon);
+        });
 
-            this.backBtn = new RODIN.Sculpt('/images/app3d/models/control_panel/log_in.obj');
-            this.backBtn.on(RODIN.CONST.READY, () => {
-                this.backBtn._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                    side: THREE.DoubleSide,
-                    color: 0x8d8d8d
-                });
-                this.backBtn.scale.set(0.6, 0.6, 0.6);
-                this.backBtn.position.set(0, -0.65, 0.006);
-                this.popupSculpt.add(this.backBtn);
 
-                this.back = new RODIN.Text({
-                    text: 'BACK',
-                    color: 0xFFFFFF,
-                    fontSize: 0.065
-                });
-                this.back.position.set(0, 0, 0.006);
-                this.backBtn.add(this.back);
-            });
-            this.backBtn.on(RODIN.CONST.GAMEPAD_HOVER, () => {
-                this.backBtn._threeObject.children[0].material.color = new THREE.Color(0xa1a1a1);
-            });
-            this.backBtn.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
-                this.backBtn._threeObject.children[0].material.color = new THREE.Color(0x8d8d8d);
-            });
-            this.backBtn.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
-                this.close();
-            });
+        /**
+         * Created By
+         * @type {RODIN.Text}
+         */
+        this.createBy = new RODIN.Text({
+            text: 'Created by',
+            color: 0x808080,
+            fontSize: 0.03,
+        });
+        this.createBy.position.set(widthRight + this.userIcon.width + 0.05 + this.createBy._threeObject.geometry.parameters.width / 2, 0.08, 0.006);
+        this.popupSculpt.add(this.createBy);
+
+        /**
+         * Username
+         * @type {RODIN.Text}
+         */
+        this.username = new RODIN.Text({
+            text: data.owner || 'Rodin team',
+            color: 0x333333,
+            fontSize: 0.05
+        });
+        this.username.position.set(widthRight + this.userIcon.width + 0.05 + this.username._threeObject.geometry.parameters.width / 2, 0.02, 0.006);
+        this.popupSculpt.add(this.username);
+
+        /**
+         * Start experience
+         * @type {RODIN.Sculpt}
+         */
+        this.startExperience = new RODIN.Element({
+            width: 0.6,
+            height: 0.1,
+            border: {
+                radius: 0.08
+            },
+            background: {
+                color: 0x2668ef
+            },
+            label: {
+                text: 'START EXPERIENCE',
+                color: 0xffffff,
+                fontSize: 0.04,
+                position: {v: 52, h: 50},
+            },
+            ppm: 2000
+        });
+
+        this.startExperience.on(RODIN.CONST.READY, () => {
+            this.startExperience.position.set(widthRight + this.startExperience.width / 2, -0.45, 0.006);
+            this.popupSculpt.add(this.startExperience);
+        });
+        this.startExperience.on(RODIN.CONST.GAMEPAD_HOVER, () => {
+            this.startExperience._threeObject.material.opacity = 0.8;
+        });
+        this.startExperience.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
+            this.startExperience._threeObject.material.opacity = 1;
+        });
+        this.startExperience.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+            RODIN.messenger.post('startexperience', data);
+        });
+
+
+        /**
+         * Back Button
+         * @type {RODIN.Sculpt}
+         */
+        this.backBtn = new RODIN.Element({
+            width: 0.6,
+            height: 0.1,
+            border: {
+                radius: 0.08
+            },
+            background: {
+                color: 0x8d8d8d
+            },
+            label: {
+                text: 'BACK',
+                color: 0xffffff,
+                fontSize: 0.04,
+                position: {v: 52, h: 50},
+            },
+            ppm: 2000
+        });
+
+        this.backBtn.on(RODIN.CONST.READY, () => {
+            this.backBtn.position.set(0, -0.65, 0.006);
+            this.popupSculpt.add(this.backBtn);
+        });
+        this.backBtn.on(RODIN.CONST.GAMEPAD_HOVER, () => {
+            this.backBtn._threeObject.material.opacity = 0.8;
+        });
+        this.backBtn.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
+            this.backBtn._threeObject.material.opacity = 1;
+        });
+        this.backBtn.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
+            this.close();
         });
 
         this.on('open', () => {
