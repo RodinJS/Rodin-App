@@ -1,3 +1,8 @@
+$color-primary:                                       #008BF2;
+
+.text-wrong {
+  color: $color-primary !important;
+}
 .page.auth-page {
   .row {
     margin: 0;

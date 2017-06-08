@@ -1,4 +1,18 @@
 $main-color:#008BF2;
+$color-text-secondary:                                #DEDEDE;
+$color-text-gray:                                     #AAAAAA;
+$color-text-primary:                                  #FFFFFF;
+.btn-cancel {
+  min-width: 100px;
+  color: $color-text-secondary !important;
+  border-color: $color-text-gray !important;
+  background: none;
+  &:hover {
+    color: $color-text-primary !important;
+    border-color: $color-text-gray!important;
+    background-color: #bbbbbb !important;
+  }
+}
 .btn {
   border-radius: 50px;
   border-color: $main-color;
