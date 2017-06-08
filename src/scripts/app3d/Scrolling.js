@@ -71,11 +71,11 @@ export class Scrolling extends RODIN.Sculpt {
         this.targetOpacity = .2;
 
         if (this.scrollToolObj.isReady) {
-            this.scrollToolObj.scale.x = this.columnsShown / this.columnCount;
+            this.scrollToolObj.scale.x = Math.min(this.columnsShown / this.columnCount, 1);
             this.currentPage = 0;
         } else {
             this.scrollToolObj.on(RODIN.CONST.READY, () => {
-                this.scrollToolObj.scale.x = this.columnsShown / this.columnCount;
+                this.scrollToolObj.scale.x = Math.min(this.columnsShown / this.columnCount, 1);
                 this.currentPage = 0;
             });
         }

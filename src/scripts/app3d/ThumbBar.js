@@ -1,11 +1,24 @@
 import * as RODIN from 'rodin/core'
 import {DescriptionThumb} from './DescriptionThumb.js';
 
+const cropText = (text, symbols) => {
+    if(text.length > symbols)
+        text = `${text.substr(0, symbols - 3)}...`;
+
+    return text;
+};
+
 export class ThumbBar extends RODIN.Sculpt {
     constructor(url, data = {}) {
         super();
 
-        const map = RODIN.Loader.loadTexture(data.thumbnail || '/images/app3d/models/control_panel/images/No_Thumb.png', () => {
+        if(!data.thumbnail && data.name) {
+            const name = new RODIN.Text({text: cropText(data.name, 8), color: 0xc3c3c3, fontSize:  0.07});
+            this.add(name);
+            name.position.z = 0.01;
+        }
+
+        const map = RODIN.Loader.loadTexture(data.thumbnail || '/images/app3d/models/control_panel/images/Empty_Thumb.png', () => {
             if(this.bar.isReady) {
                 this.emit('thumbready', new RODIN.RodinEvent(this));
             } else {
