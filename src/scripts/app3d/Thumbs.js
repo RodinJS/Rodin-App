@@ -92,8 +92,13 @@ export class Thumbs extends RODIN.Sculpt {
         }
 
         this.thumbsBar.sculpt.on(RODIN.CONST.UPDATE, () => {
-            this.prevScrollThumbs && this.prevScrollThumbs.isReady && (this.prevScrollThumbs.visible = this.thumbsBar.start !== 0 && this.showPrevNextBars);
-            this.nextScrollThumbs && this.nextScrollThumbs.isReady && (this.nextScrollThumbs.visible = this.thumbsBar.end !== total && this.showPrevNextBars);
+            // todo: Sergin mi hat es pah@ harcnel
+            // if(this.isDemoThumbs) {
+            //     console.log(this.thumbsBar.start, this.thumbsBar.end)
+            // }
+
+            this.prevScrollThumbs && this.prevScrollThumbs.isReady && (this.prevScrollThumbs.visible = this.thumbsBar.start > 0 && this.showPrevNextBars);
+            this.nextScrollThumbs && this.nextScrollThumbs.isReady && (this.nextScrollThumbs.visible = this.thumbsBar.end < total && this.showPrevNextBars);
         });
     }
 

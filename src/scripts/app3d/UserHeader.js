@@ -147,6 +147,7 @@ export class UserHeader extends RODIN.Sculpt {
             color: 0x333333,
             fontSize: 0.07
         });
+
         this.userName._threeObject.geometry.computeBoundingSphere();
         this.userName.position.x = (0.17 + 0.062 + this.userName._threeObject.geometry.boundingSphere.radius) - 0.66;
         this.loggedInSculpt.add(this.userName);
@@ -157,10 +158,13 @@ export class UserHeader extends RODIN.Sculpt {
         this.userAvatar = new RODIN.Sculpt('/images/app3d/models/control_panel/user_icon.obj');
         this.userAvatar.on(RODIN.CONST.READY, () => {
             this.userAvatar._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                side: THREE.DoubleSide,
+                color: 0xcccccc
             });
 
-            this.userAvatar._threeObject.children[0].material.map = RODIN.Loader.loadTexture(data.avatar || '/images/app3d/models/control_panel/images/rodin_icon.jpg');
+            RODIN.Loader.loadTexture(data.avatar || '/images/app3d/models/control_panel/images/rodin_icon.jpg', (map) => {
+                this.userAvatar._threeObject.children[0].material = new THREE.MeshBasicMaterial({ map })
+            });
+
             this.userAvatar.position.x = -0.574;
             this.loggedInSculpt.add(this.userAvatar);
         });
