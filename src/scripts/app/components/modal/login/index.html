@@ -42,13 +42,13 @@
             </fieldset>
           </div>
 
-          <div class="text-center" ng-if="$ctrl.wrongCredentials" style="margin-bottom: 10px; color:rgba(255, 0, 0, 0.5)">
+          <div class="text-wrong text-center" ng-if="$ctrl.wrongCredentials" style="margin-bottom: 10px;">
             Wrong username or password
           </div>
 
           <div class="row clearfix text-center form-button">
             <button type="submit" style="margin-right:30px" class="btn btn-primary btn-orange btn-center auth-btn">Sign In</button>
-            <button type="button" class="btn btn-primary btn-orange btn-center auth-btn cancel-btn" ng-click="$ctrl.cancel()">Cancel</button>
+            <button type="button" class="btn btn-cancel" ng-click="$ctrl.cancel()">Cancel</button>
           </div>
 
         </fieldset>
