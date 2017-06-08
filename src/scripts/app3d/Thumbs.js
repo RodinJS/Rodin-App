@@ -103,7 +103,7 @@ export class Thumbs extends RODIN.Sculpt {
     }
 
     deleteThumbs() {
-        this.thumbsBar.sculpt.parent && this.thumbsBar.sculpt.parent.remove(this.thumbsBar.sculpt);
+        this.thumbsBar && this.thumbsBar.sculpt.parent && this.thumbsBar.sculpt.parent.remove(this.thumbsBar.sculpt);
     }
 
     loadThumbnails(pageNumber) {
