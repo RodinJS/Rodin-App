@@ -103,10 +103,9 @@ export class ThumbBar extends RODIN.Sculpt {
     showDescriptionThumb(data) {
         if(ThumbBar.current && ThumbBar.current.isOpened) return;
 
-        const descriptionThumb = new DescriptionThumb(data);
+        const descriptionThumb = DescriptionThumb.getInstance(data);
         descriptionThumb.open();
         descriptionThumb.popupSculpt.position.z = -2;
-        RODIN.Scene.add(descriptionThumb);
         ThumbBar.current = descriptionThumb;
     }
 
