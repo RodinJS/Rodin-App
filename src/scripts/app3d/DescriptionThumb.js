@@ -1,6 +1,25 @@
 import * as RODIN from 'rodin/core';
 import {Popup} from './Popup.js';
 
+let splitLongWords = str => {
+    str = str.replace(/\s\s+/g, ' ');
+    let lastSpace = 0;
+    let res = '';
+    for (let i = 0; i < str.length; i++) {
+        if (str.charAt[i] === ' ') {
+            lastSpace = i;
+        }
+
+        if (i - lastSpace > 40) {
+            res += ' ';
+            lastSpace = i;
+        }
+
+        res += str.charAt(i);
+    }
+    return res;
+};
+
 let instance = null;
 
 export class DescriptionThumb extends Popup {
@@ -47,7 +66,7 @@ export class DescriptionThumb extends Popup {
          * @type {RODIN.DynamicText}
          */
         this.projectDescription = new RODIN.DynamicText({
-            text: data.description || 'There is no description',
+            text: splitLongWords(data.description || 'There is no description'),
             color: 0x333333,
             width: 1.2,
             fontSize: 0.04,
@@ -215,7 +234,7 @@ export class DescriptionThumb extends Popup {
             return instance;
         }
 
-        this.data = data;
+        instance.data = data;
 
         /**
          * Redraw image thumb
@@ -232,7 +251,7 @@ export class DescriptionThumb extends Popup {
          * Redraw description
          */
         instance.projectDescription.reDraw({
-            text: data.description || 'There is no description',
+            text: splitLongWords(data.description || 'There is no description'),
             color: 0x333333,
             width: 1.2,
             fontSize: 0.04,
