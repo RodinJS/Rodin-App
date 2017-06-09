@@ -76,6 +76,7 @@ class LoginCtrl {
 
         } else {
             this._Error.show(this._Validator.getErrors(), this._$scope.loginForm, this._$scope);
+            this.inProgress = false;
         }
     }
 

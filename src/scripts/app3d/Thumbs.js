@@ -74,7 +74,6 @@ export class Thumbs extends RODIN.Sculpt {
                 this.prevScrollThumbs._threeObject.children[0].material.opacity = this.halfThumbsOpacity;
             }
 
-
             if(this.nextScrollThumbs && this.nextScrollThumbs.isReady) {
                 this.nextScrollThumbs._threeObject.children[0].material.opacity = this.halfThumbsOpacity;
             }
@@ -91,14 +90,19 @@ export class Thumbs extends RODIN.Sculpt {
             this.scrollBar.numberOfProjects = total;
         }
 
-        this.thumbsBar.sculpt.on(RODIN.CONST.UPDATE, () => {
-            this.prevScrollThumbs && this.prevScrollThumbs.isReady && (this.prevScrollThumbs.visible = this.thumbsBar.start > 0 && this.showPrevNextBars);
-            this.nextScrollThumbs && this.nextScrollThumbs.isReady && (this.nextScrollThumbs.visible = this.thumbsBar.end < total && this.showPrevNextBars);
-        });
+        this.setPrevNextBarsVisibility = () => {
+            this.prevScrollThumbs && this.prevScrollThumbs.isReady && (this.prevScrollThumbs.visible = this.thumbsBar.start > 0 && this.showPrevNextBars && this.thumbs.length !== 0);
+            this.nextScrollThumbs && this.nextScrollThumbs.isReady && (this.nextScrollThumbs.visible = this.thumbsBar.end < total && this.showPrevNextBars && this.thumbs.length !== 0);
+        };
+
+        this.thumbsBar.sculpt.on(RODIN.CONST.UPDATE, this.setPrevNextBarsVisibility);
     }
 
     deleteThumbs() {
-        this.thumbsBar && this.thumbsBar.sculpt.parent && this.thumbsBar.sculpt.parent.remove(this.thumbsBar.sculpt);
+        if(this.thumbsBar) {
+            this.thumbsBar.sculpt.parent && this.thumbsBar.sculpt.parent.remove(this.thumbsBar.sculpt);
+            this.thumbsBar.sculpt.removeEventListener(RODIN.CONST.UPDATE, this.setPrevNextBarsVisibility);
+        }
     }
 
     loadThumbnails(pageNumber) {

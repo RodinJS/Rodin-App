@@ -127,6 +127,7 @@ export class UserProjectsThumbs extends Thumbs {
             this.loggedInSculpt.add(this.scrollBar);
         }
         else {
+            super.thumbs = [];
             this.showPrevNextBars = false;
             this.noProjectsYet.visible = true;
             this.scrollBar.parent && this.scrollBar.parent.remove(this.scrollBar);
