@@ -14,6 +14,7 @@ class LoginCtrl {
         this._Error = Error;
         this._$scope = $scope;
         this._$state = $state;
+        this.inProgress = false;
 
         this.appName = AppConstants.appName;
 
@@ -52,6 +53,10 @@ class LoginCtrl {
 
         if (this._Validator.isValid()) {
 
+
+            if(this.inProgress) return;
+            this.inProgress = true;
+
             this._User.login(this._Validator.getData()).then(
                 () => {
                     let res = {
@@ -61,10 +66,12 @@ class LoginCtrl {
 
                     this.close({$value: res});
                     window.dispatchEvent(new Event('rodinloggedin'));
+                    this.inProgress = false;
                 },
                 (err) => {
                     this.wrongCredentials = true;
                     this._Error.show(err, this._$scope.loginForm, this._$scope);
+                    this.inProgress = false;
                 });
 
         } else {

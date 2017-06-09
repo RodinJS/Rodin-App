@@ -15,6 +15,7 @@ class AuthCtrl {
             password: ''
         };
 
+        this.inProgress = false;
         angular.element(document.querySelector('.main-layout')).on('click mousedown mouseup touchstart touchend', (e)=>{
             return e.stopPropagation();
         });
@@ -28,6 +29,7 @@ class AuthCtrl {
         if (!isValidForm) {
             return;
         }
+        if(this.inProgress) return;
         this._Validator.validate([
             {
                 name: "username",
@@ -52,10 +54,12 @@ class AuthCtrl {
                 (res) => {
                     this._$state.go('main.home');
                     window.dispatchEvent(new Event('rodinloggedin'));
+                    this.inProgress = false;
                 },
                 (err) => {
                     this.wrongCredentials = true;
                     this._Error.show(err, this._$scope.loginForm, this._$scope);
+                    this.inProgress = false;
                 });
 
         } else {
