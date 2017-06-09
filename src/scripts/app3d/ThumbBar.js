@@ -1,12 +1,6 @@
 import * as RODIN from 'rodin/core'
 import {DescriptionThumb} from './DescriptionThumb.js';
-
-const cropText = (text, symbols) => {
-    if(text.length > symbols)
-        text = `${text.substr(0, symbols - 3)}...`;
-
-    return text;
-};
+import {cropText} from './utils.js';
 
 export class ThumbBar extends RODIN.Sculpt {
     constructor(url, data = {}) {
@@ -18,7 +12,7 @@ export class ThumbBar extends RODIN.Sculpt {
             name.position.z = 0.01;
         }
 
-        const map = RODIN.Loader.loadTexture(data.thumbnail || '/images/app3d/models/control_panel/images/Empty_Thumb.png', () => {
+        this.map = RODIN.Loader.loadTexture(data.thumbnail || '/images/app3d/models/control_panel/images/Empty_Thumb.png', () => {
             if(this.bar.isReady) {
                 this.emit('thumbready', new RODIN.RodinEvent(this));
             } else {
@@ -33,7 +27,7 @@ export class ThumbBar extends RODIN.Sculpt {
             this.bar._threeObject.children[0].material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 color: 0xFFFFFF,
-                map
+                map: this.map
             });
             this.add(this.bar);
         });
@@ -65,9 +59,7 @@ export class ThumbBar extends RODIN.Sculpt {
             this.hoverThumdb.visible = false;
         });
 
-        /**
-         *
-         */
+
         const scaleDown = new RODIN.AnimationClip("scaleDown", {
             scale: {
                 x: 0.95,
@@ -95,16 +87,16 @@ export class ThumbBar extends RODIN.Sculpt {
 
         this.bar.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
             this.animation.start('scaleUp');
-            const clickDuration = evt.gamepad.isMouseGamepad ? 200 : 300;
+            const clickDuration = evt.gamepad.isMouseGamepad ? 150 : 300;
             if(RODIN.Time.now - this.buttonDownTimestamp > clickDuration) return;
-            ThumbBar.showDescriptionThumb(data);
+            ThumbBar.showDescriptionThumb(data, this.map);
         });
     }
 
-    static showDescriptionThumb(data) {
+    static showDescriptionThumb(data, iconMap) {
         if(ThumbBar.current && ThumbBar.current.isOpened) return;
 
-        const descriptionThumb = DescriptionThumb.getInstance(data);
+        const descriptionThumb = DescriptionThumb.getInstance(data, iconMap);
         descriptionThumb.open();
         descriptionThumb.popupSculpt.position.z = -2;
         ThumbBar.current = descriptionThumb;

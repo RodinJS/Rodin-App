@@ -1,5 +1,6 @@
 import * as RODIN from 'rodin/core'
 import {LogOut} from './LogOut.js';
+import {cropText} from './utils.js';
 
 export class UserHeader extends RODIN.Sculpt {
     constructor(_loggedIn = false) {
@@ -143,7 +144,7 @@ export class UserHeader extends RODIN.Sculpt {
             this.userName.parent.remove(this.userName);
         
         this.userName = new RODIN.Text({
-            text: data.username || 'Rodin team',
+            text: cropText(data.username || 'Rodin team', 13),
             color: 0x333333,
             fontSize: 0.07
         });

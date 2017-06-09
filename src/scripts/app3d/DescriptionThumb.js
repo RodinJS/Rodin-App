@@ -1,29 +1,18 @@
 import * as RODIN from 'rodin/core';
 import {Popup} from './Popup.js';
-
-let splitLongWords = str => {
-    str = str.replace(/\s\s+/g, ' ');
-    let lastSpace = 0;
-    let res = '';
-    for (let i = 0; i < str.length; i++) {
-        if (str.charAt[i] === ' ') {
-            lastSpace = i;
-        }
-
-        if (i - lastSpace > 40) {
-            res += ' ';
-            lastSpace = i;
-        }
-
-        res += str.charAt(i);
-    }
-    return res;
-};
+import {splitLongWords, cropText} from './utils.js';
 
 let instance = null;
+let usernameMaxLength = 11;
+let projectNameMaxLength = 20;
+
+
+// todo: Xchion asel en empty thumb@ dzi
+// todo: dzrtel en iconMapi grdonner@
+// todo: dzrtel codei krknutyunner@
 
 export class DescriptionThumb extends Popup {
-    constructor(data) {
+    constructor(data, iconMap) {
         super();
 
         this.data = data;
@@ -53,7 +42,7 @@ export class DescriptionThumb extends Popup {
          * on bgThumb ready load other elements
          */
         this.projectName = new RODIN.Text({
-            text: data.displayName || 'Project name',
+            text: cropText(data.displayName || 'Project name', projectNameMaxLength),
             color: 0x333333,
             fontSize: 0.07,
             fontStyle: 'bold'
@@ -87,16 +76,26 @@ export class DescriptionThumb extends Popup {
                 radius: 0.01
             },
             background: {
-                image: {
-                    url: data.thumbnail || '/images/app3d/models/control_panel/images/No_Thumb.png'
-                }
+                color: 0xffffff
             },
             transparent: false
         });
 
         this.imageThumb.on(RODIN.CONST.READY, () => {
+            const prevWrapS = iconMap.wrapS;
+            const prevWrapT = iconMap.wrapT;
+
+            iconMap.wrapS = iconMap.wrapT = THREE.ClampToEdgeWrapping;
+            iconMap.repeat.set(1 / instance.imageThumb.width, 1 / instance.imageThumb.height);
+            instance.imageThumb._threeObject.material.map = iconMap;
             this.imageThumb.position.set(this.widthRight + this.imageThumb.width / 2, 0.335, 0.006);
             this.popupSculpt.add(this.imageThumb);
+
+            instance.once('close', () => {
+                iconMap.wrapS = prevWrapS;
+                iconMap.wrapT = prevWrapT;
+                iconMap.repeat.set(1, 1);
+            });
         });
 
         /**
@@ -139,7 +138,7 @@ export class DescriptionThumb extends Popup {
          * @type {RODIN.Text}
          */
         this.username = new RODIN.Text({
-            text: data.owner || 'Rodin team',
+            text: cropText(data.owner || 'Rodin team', usernameMaxLength),
             color: 0x333333,
             fontSize: 0.05
         });
@@ -228,9 +227,9 @@ export class DescriptionThumb extends Popup {
         });
     }
 
-    static getInstance(data) {
+    static getInstance(data, iconMap) {
         if (!instance) {
-            instance = new DescriptionThumb(data);
+            instance = new DescriptionThumb(data, iconMap);
             return instance;
         }
 
@@ -240,7 +239,7 @@ export class DescriptionThumb extends Popup {
          * Redraw image thumb
          */
         instance.projectName.reDraw({
-            text: data.displayName || 'Project name',
+            text: cropText(data.displayName || 'Project name', projectNameMaxLength),
             color: 0x333333,
             fontSize: 0.07,
             fontStyle: 'bold'
@@ -263,7 +262,7 @@ export class DescriptionThumb extends Popup {
          * Redraw username
          */
         instance.username.reDraw({
-            text: data.owner || 'Rodin team',
+            text: cropText(data.owner || 'Rodin team', usernameMaxLength),
             color: 0x333333,
             fontSize: 0.05
         });
@@ -272,7 +271,7 @@ export class DescriptionThumb extends Popup {
         /**
          * Redraw image thumb
          */
-        instance.imageThumb.parent.remove(instance.imageThumb);
+        instance.imageThumb && instance.imageThumb.parent && instance.imageThumb.parent.remove(instance.imageThumb);
         instance.imageThumb = new RODIN.Element({
             width: 0.6,
             height: 0.35,
@@ -280,22 +279,32 @@ export class DescriptionThumb extends Popup {
                 radius: 0.01
             },
             background: {
-                image: {
-                    url: data.thumbnail || '/images/app3d/models/control_panel/images/No_Thumb.png'
-                }
+                color: 0xffffff
             },
             transparent: false
         });
 
         instance.imageThumb.on(RODIN.CONST.READY, () => {
+            const prevWrapS = iconMap.wrapS;
+            const prevWrapT = iconMap.wrapT;
+
+            iconMap.wrapS = iconMap.wrapT = THREE.ClampToEdgeWrapping;
+            iconMap.repeat.set(1 / instance.imageThumb.width, 1 / instance.imageThumb.height);
+            instance.imageThumb._threeObject.material.map = iconMap;
             instance.imageThumb.position.set(instance.widthRight + instance.imageThumb.width / 2, 0.335, 0.006);
             instance.popupSculpt.add(instance.imageThumb);
+
+            instance.once('close', () => {
+                iconMap.wrapS = prevWrapS;
+                iconMap.wrapT = prevWrapT;
+                iconMap.repeat.set(1, 1);
+            });
         });
 
         /**
          * Redraw user icon
          */
-        instance.userIcon.parent.remove(instance.userIcon);
+        instance.userIcon && instance.userIcon.parent && instance.userIcon.parent.remove(instance.userIcon);
         instance.userIcon = new RODIN.Element({
             width: 0.13,
             height: 0.13,
