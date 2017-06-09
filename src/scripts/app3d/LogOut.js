@@ -24,7 +24,7 @@ export class LogOut extends Popup {
                 color: 0xcccccc,
             },
             label: {
-                text: 'Are you sure you want to log out?',
+                text: 'Are you sure you want to log out ?',
                 color: 0x333333,
                 fontSize: 0.05,
                 position: { v: 40, h: 50 }

@@ -93,6 +93,7 @@ export class Exit extends Popup {
             RODIN.messenger.post('popupclosed', {popupName: 'exit'});
         });
     }
+
     static getInstance() {
         if (!instance) {
             instance = new Exit();

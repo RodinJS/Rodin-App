@@ -93,14 +93,15 @@ export class ThumbBar extends RODIN.Sculpt {
         scaleUp.duration(100);
         this.animation.add(scaleUp);
 
-        this.bar.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
+        this.bar.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
             this.animation.start('scaleUp');
-            if(RODIN.Time.now - this.buttonDownTimestamp > 300) return;
-            this.showDescriptionThumb(data);
+            const clickDuration = evt.gamepad.isMouseGamepad ? 200 : 300;
+            if(RODIN.Time.now - this.buttonDownTimestamp > clickDuration) return;
+            ThumbBar.showDescriptionThumb(data);
         });
     }
 
-    showDescriptionThumb(data) {
+    static showDescriptionThumb(data) {
         if(ThumbBar.current && ThumbBar.current.isOpened) return;
 
         const descriptionThumb = DescriptionThumb.getInstance(data);
