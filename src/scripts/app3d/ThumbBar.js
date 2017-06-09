@@ -13,7 +13,7 @@ export class ThumbBar extends RODIN.Sculpt {
         super();
 
         if(!data.thumbnail && data.name) {
-            const name = new RODIN.Text({text: cropText(data.name, 8), color: 0xc3c3c3, fontSize:  0.07});
+            const name = new RODIN.Text({text: cropText(data.name, 11), color: 0xc3c3c3, fontSize:  0.07});
             this.add(name);
             name.position.z = 0.01;
         }
