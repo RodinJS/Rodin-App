@@ -92,7 +92,7 @@ export class UserHeader extends RODIN.Sculpt {
 
         const logOut = new RODIN.Text({
             text: 'Log Out',
-            color: 0x333333,
+            color: 0x666666,
             fontSize: 0.06
         });
         logOut.position.x = 0.35;
@@ -145,7 +145,7 @@ export class UserHeader extends RODIN.Sculpt {
         
         this.userName = new RODIN.Text({
             text: cropText(data.username || 'Rodin team', 13),
-            color: 0x333333,
+            color: 0x666666,
             fontSize: 0.07
         });
 

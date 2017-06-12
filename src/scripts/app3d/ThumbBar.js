@@ -88,7 +88,6 @@ export class ThumbBar extends RODIN.Sculpt {
         this.animation.add(scaleDown);
         this.animation.add(scaleUp);
 
-
         /**
          * Hover and Click listeners
          */
@@ -98,8 +97,10 @@ export class ThumbBar extends RODIN.Sculpt {
 
         this.bar.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
             this.hoverThumdb.visible = false;
-            if(!isNaN(this.buttonDownTimestamp))
+            if(!isNaN(this.buttonDownTimestamp)) {
+                this.buttonDownTimestamp = NaN;
                 this.animation.start('scaleUp');
+            }
         });
 
         this.bar.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
@@ -108,6 +109,8 @@ export class ThumbBar extends RODIN.Sculpt {
         });
 
         this.bar.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
+            if(isNaN(this.buttonDownTimestamp)) return;
+
             this.animation.start('scaleUp');
             const clickDuration = evt.gamepad.isMouseGamepad ? 150 : 300;
             if (RODIN.Time.now - this.buttonDownTimestamp > clickDuration) return;
