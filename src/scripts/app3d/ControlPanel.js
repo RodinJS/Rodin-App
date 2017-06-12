@@ -100,7 +100,7 @@ const backButtonCallback = (evt) => {
 
         exitPopup.once('submit', () => {
             window.close();
-        })
+        });
     }
 
     /**
@@ -196,7 +196,6 @@ export const init = (_API) => {
             API.loaderHide();
         }, 500);
 
-        // todo: add oculus and cardboard support
         RODIN.GamePad.viveLeft.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
             if (evt.button.indexOf(RODIN.Buttons.viveLeftMenu) !== -1)
                 return backButtonCallback(evt);

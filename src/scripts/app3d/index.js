@@ -6,7 +6,7 @@ import {VRLogIn} from './VRLogIn.js';
 RODIN.start();
 
 
-if(RODIN.device.isIOS) {
+if (RODIN.device.isIOS) {
     RODIN.Scene.HMDCamera._threeCamera.fov = 55;
 }
 
@@ -36,13 +36,17 @@ export class APP {
     static init(params) {
         if (APP.inited) return;
 
-
         APP.API = params.API;
 
         APP.inited = true;
         window.API = APP.API;
 
-        cp.init(APP.API).then(()=>{
+        RODIN.messenger.on(RODIN.CONST.TICK, () => {
+            if (RODIN.Scene.webVRmanager && RODIN.Scene.webVRmanager.hmd && RODIN.Scene.webVRmanager.hmd.getShouldQuit && RODIN.Scene.webVRmanager.hmd.getShouldQuit())
+                window.close();
+        });
+
+        cp.init(APP.API).then(() => {
             const controlPanel = cp.controlPanel;
 
             window.addEventListener('rodinloggedin', () => {
@@ -63,7 +67,7 @@ export class APP {
                 vrLoginPopup.close();
             });
 
-            if(APP.API.isLoggedIn() && APP.API.getUserInfo()) {
+            if (APP.API.isLoggedIn() && APP.API.getUserInfo()) {
                 controlPanel.user.userData = APP.API.getUserInfo();
                 controlPanel.user.loggedIn = true;
             }
@@ -118,42 +122,8 @@ export class APP {
     }
 
     static start(params) {
-
-        //RODIN.Scene.
-
-        // init();
-        // if (!started) {
-        //     scene.enable();
-        //     started = true;
-        // }
-        //
-        // if (!scene._render)
-        //     scene.start();
-        //
-        //
-        // if (requestedLogin && API.isLoggedIn()) {
-        //     createMyHelix();
-        // }
-        // SceneManager.changeContainerDomElement(params.domElement);
-        // window.dispatchEvent(new Event('resize'));
-        //
-        // if (window.device == 'oculus' || window.device == 'vr') {
-        //     checkCount = 0;
-        //     checkAndGoToVR();
-        // }
-        //
-        // if (window.device == 'mobile' && window.mustEnterVRMode) {
-        //     checkCount = 0;
-        //     window.mustShowRotateInstructions = false;
-        //     checkAndGoToVR();
-        // }
     }
 
     static stop() {
-        // scene.stop();
-        //
-        // if (scene.webVRmanager.hmd && scene.webVRmanager.hmd.isPresenting) {
-        //     scene.webVRmanager.hmd.exitPresent();
-        // }
     }
 }
