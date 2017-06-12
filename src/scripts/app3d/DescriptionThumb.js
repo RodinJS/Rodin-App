@@ -82,20 +82,9 @@ export class DescriptionThumb extends Popup {
         });
 
         this.imageThumb.on(RODIN.CONST.READY, () => {
-            const prevWrapS = iconMap.wrapS;
-            const prevWrapT = iconMap.wrapT;
-
-            iconMap.wrapS = iconMap.wrapT = THREE.ClampToEdgeWrapping;
-            iconMap.repeat.set(1 / instance.imageThumb.width, 1 / instance.imageThumb.height);
             instance.imageThumb._threeObject.material.map = iconMap;
             this.imageThumb.position.set(this.widthRight + this.imageThumb.width / 2, 0.335, 0.006);
             this.popupSculpt.add(this.imageThumb);
-
-            instance.once('close', () => {
-                iconMap.wrapS = prevWrapS;
-                iconMap.wrapT = prevWrapT;
-                iconMap.repeat.set(1, 1);
-            });
         });
 
         /**
@@ -285,20 +274,9 @@ export class DescriptionThumb extends Popup {
         });
 
         instance.imageThumb.on(RODIN.CONST.READY, () => {
-            const prevWrapS = iconMap.wrapS;
-            const prevWrapT = iconMap.wrapT;
-
-            iconMap.wrapS = iconMap.wrapT = THREE.ClampToEdgeWrapping;
-            iconMap.repeat.set(1 / instance.imageThumb.width, 1 / instance.imageThumb.height);
             instance.imageThumb._threeObject.material.map = iconMap;
             instance.imageThumb.position.set(instance.widthRight + instance.imageThumb.width / 2, 0.335, 0.006);
             instance.popupSculpt.add(instance.imageThumb);
-
-            instance.once('close', () => {
-                iconMap.wrapS = prevWrapS;
-                iconMap.wrapT = prevWrapT;
-                iconMap.repeat.set(1, 1);
-            });
         });
 
         /**
@@ -322,7 +300,6 @@ export class DescriptionThumb extends Popup {
             instance.userIcon.position.set(instance.widthRight + instance.userIcon.width / 2, 0.05, 0.008);
             instance.popupSculpt.add(instance.userIcon);
         });
-
 
         return instance;
     }

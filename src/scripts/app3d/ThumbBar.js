@@ -2,99 +2,127 @@ import * as RODIN from 'rodin/core'
 import {DescriptionThumb} from './DescriptionThumb.js';
 import {cropText} from './utils.js';
 
+
+const scaleUp = new RODIN.AnimationClip("scaleUp", {
+    scale: {
+        x: '+0.05',
+        y: '+0.05',
+        z: '+0.05',
+    }
+});
+scaleUp.duration(100);
+
+const scaleDown = new RODIN.AnimationClip("scaleDown", {
+    scale: {
+        x: '-0.05',
+        y: '-0.05',
+        z: '-0.05',
+    }
+});
+scaleDown.duration(100);
+
+const thumbWidth = 0.6;
+const thumbHeight = 0.35;
+
+const placeHolder = RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/Thumb.png');
+placeHolder.wrapS = placeHolder.wrapT = THREE.ClampToEdgeWrapping;
+placeHolder.repeat.set(1 / thumbWidth, 1 / thumbHeight);
+
 export class ThumbBar extends RODIN.Sculpt {
-    constructor(url, data = {}) {
+    constructor(data = {}, isDummy = false) {
         super();
 
-        if(!data.thumbnail && data.name) {
-            const name = new RODIN.Text({text: cropText(data.name, 11), color: 0xc3c3c3, fontSize:  0.07});
-            this.add(name);
-            name.position.z = 0.01;
-        }
-
-        this.map = RODIN.Loader.loadTexture(data.thumbnail || '/images/app3d/models/control_panel/images/Empty_Thumb.png', () => {
-            if(this.bar.isReady) {
-                this.emit('thumbready', new RODIN.RodinEvent(this));
-            } else {
-                this.bar.on(RODIN.CONST.READY, () => {
-                    this.emit('thumbready', new RODIN.RodinEvent(this));
-                })
-            }
-        });
-
-        this.bar = new RODIN.Sculpt(url);
-        this.bar.on(RODIN.CONST.READY, () => {
-            this.bar._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                side: THREE.DoubleSide,
-                color: 0xFFFFFF,
-                map: this.map
-            });
-            this.add(this.bar);
-        });
-
-        this.buttonDownTimestamp = RODIN.Time.now;
+        const barBackground = isDummy ? {color: 0xffffff} : {image: {url: data.thumbnail || '/images/app3d/models/control_panel/images/Empty_Thumb.png'}};
 
         /**
-         *
+         * Bar
          */
-        this.hoverThumdb = new RODIN.Sculpt(url);
+        this.bar = new RODIN.Element({
+            width: thumbWidth,
+            height: thumbHeight,
+            border: {
+                radius: 0.02
+            },
+            background: barBackground,
+            transparent: false
+        });
+
+        if (isDummy) {
+            this.bar.on(RODIN.CONST.READY, () => {
+                this.bar._threeObject.material.map = placeHolder;
+                this.add(this.bar);
+                this.emit('thumbready', new RODIN.RodinEvent(this));
+            });
+
+            return;
+        }
+
+        this.bar.on(RODIN.CONST.READY, () => {
+            this.add(this.bar);
+            this.emit('thumbready', new RODIN.RodinEvent(this));
+        });
+
+        /**
+         * White Background
+         */
+        this.hoverThumdb = new RODIN.Element({
+            width: 0.65,
+            height: 0.38,
+            border: {
+                radius: 0.025
+            },
+            background: {
+                color: 0xffffff
+            },
+            transparent: false
+        });
+
         this.hoverThumdb.on(RODIN.CONST.READY, () => {
             this.hoverThumdb.position.z = -0.002;
-            this.hoverThumdb.scale.set(1.05, 1.08, 1.08);
             this.hoverThumdb.visible = false;
-
-            this.hoverThumdb._threeObject.children[0].material = new THREE.MeshBasicMaterial({
-                side: THREE.DoubleSide,
-                color: 0xFFFFFF
-            });
-            if (this.isReady) {
-                this.add(this.hoverThumdb)
-            }
+            this.add(this.hoverThumdb);
         });
+
+        this.buttonDownTimestamp = NaN;
+
+        this.animation.add(scaleDown);
+        this.animation.add(scaleUp);
+
+
+        /**
+         * Hover and Click listeners
+         */
         this.bar.on(RODIN.CONST.GAMEPAD_HOVER, () => {
             this.hoverThumdb.visible = true;
         });
 
         this.bar.on(RODIN.CONST.GAMEPAD_HOVER_OUT, () => {
             this.hoverThumdb.visible = false;
+            if(!isNaN(this.buttonDownTimestamp))
+                this.animation.start('scaleUp');
         });
-
-
-        const scaleDown = new RODIN.AnimationClip("scaleDown", {
-            scale: {
-                x: 0.95,
-                y: 0.95,
-                z: 0.95,
-            }
-        });
-        scaleDown.duration(100);
-        this.animation.add(scaleDown);
 
         this.bar.on(RODIN.CONST.GAMEPAD_BUTTON_DOWN, () => {
             this.buttonDownTimestamp = RODIN.Time.now;
             this.animation.start('scaleDown');
         });
 
-        const scaleUp = new RODIN.AnimationClip("scaleUp", {
-            scale: {
-                x: 1,
-                y: 1,
-                z: 1,
-            }
-        });
-        scaleUp.duration(100);
-        this.animation.add(scaleUp);
-
         this.bar.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
             this.animation.start('scaleUp');
             const clickDuration = evt.gamepad.isMouseGamepad ? 150 : 300;
-            if(RODIN.Time.now - this.buttonDownTimestamp > clickDuration) return;
-            ThumbBar.showDescriptionThumb(data, this.map);
+            if (RODIN.Time.now - this.buttonDownTimestamp > clickDuration) return;
+            ThumbBar.showDescriptionThumb(data, this.bar._threeObject.material.map);
+            this.buttonDownTimestamp = NaN;
         });
     }
 
+    /**
+     * Open description popup
+     * @param data
+     * @param iconMap
+     */
     static showDescriptionThumb(data, iconMap) {
-        if(ThumbBar.current && ThumbBar.current.isOpened) return;
+        if (ThumbBar.current && ThumbBar.current.isOpened) return;
 
         const descriptionThumb = DescriptionThumb.getInstance(data, iconMap);
         descriptionThumb.open();

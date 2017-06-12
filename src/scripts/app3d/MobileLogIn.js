@@ -62,18 +62,18 @@ export class MobileLogIn extends Popup {
     }
 
     countDown(index) {
-        let i = index;
+        this.countDownTxt.reDraw({
+            text: index,
+            color: 0x000000,
+            fontSize: 0.09
+        });
+
         setTimeout(() => {
-            this.countDownTxt.reDraw({
-                text: i,
-                color: 0x000000,
-                fontSize: 0.09
-            });
-            if (i>0){
-                this.countDown(--i);
-            } else {
+            if (index > 1)
+                this.countDown(--index);
+            else
                 this.emit('finish', new RODIN.RodinEvent(this));
-            }
+
         }, 1000);
     }
 

@@ -1,8 +1,6 @@
 import * as RODIN from 'rodin/core';
 import {ThumbBar} from './ThumbBar.js';
 
-const placeHolder = RODIN.Loader.loadTexture('/images/app3d/models/control_panel/images/Thumb.png');
-
 export class Thumbs extends RODIN.Sculpt {
     constructor(width, height, UNIVERSAL_API, total, isHorisontal = true) {
         super();
@@ -114,6 +112,8 @@ export class Thumbs extends RODIN.Sculpt {
             if (this.thumbs[i] && this.thumbs[i].real)
                 continue;
             this.thumbs[i] = makeDummy(this.thumbBarUrl);
+            if(this.isDemoThumbs)
+                this.thumbs[i].scale.set(0.75, 0.75, 0.75);
         }
 
         this.UNIVERSAL_API({skip: pageNumber * 20, limit: 20}).then((data) => {
@@ -130,8 +130,11 @@ export class Thumbs extends RODIN.Sculpt {
                 if (this.thumbs[i] && this.thumbs[i].real)
                     continue;
 
-                this.thumbs[i].real = new ThumbBar(this.thumbBarUrl, data[j]);
+                this.thumbs[i].real = new ThumbBar(data[j]);
                 this.thumbs[i].real.on('thumbready', () => {
+                    if(this.isDemoThumbs)
+                        this.thumbs[i].scale.set(0.75, 0.75, 0.75);
+
                     this.showPrevNextBars = true;
                     if(this.thumbs[i].real) {
                         this.thumbs[i].add(this.thumbs[i].real);
@@ -143,12 +146,11 @@ export class Thumbs extends RODIN.Sculpt {
     }
 }
 
-const makeDummy = (url) => {
+const makeDummy = () => {
     const thumbSculpt = new RODIN.Sculpt();
     thumbSculpt.position.set(0, 0, -10);
-    thumbSculpt.dummy = new ThumbBar(url);
-    thumbSculpt.dummy.bar.on(RODIN.CONST.READY, () => {
-        thumbSculpt.dummy.bar._threeObject.children[0].material.map = placeHolder;
+    thumbSculpt.dummy = new ThumbBar({}, true);
+    thumbSculpt.dummy.on('thumbready', () => {
         thumbSculpt.add(thumbSculpt.dummy);
     });
 
