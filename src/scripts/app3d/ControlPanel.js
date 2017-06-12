@@ -76,7 +76,9 @@ const goToHome = () => {
             answerReceived = true;
 
             API.navigate('/');
-            RODIN.enterVR();
+            setTimeout(() => {
+                RODIN.enterVR();
+            }, 500);
             API.loaderHide();
         };
 
@@ -167,7 +169,6 @@ export const init = (_API) => {
                 FeaturedProjectsThumbs.getInstance().visible = true;
                 UserProjectsThumbs.getInstance().visible = true;
             }
-
         });
 
         RODIN.messenger.on('startexperience', (data, transport) => {

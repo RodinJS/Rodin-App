@@ -55,7 +55,6 @@ export class FeaturedProjectsThumbs extends Thumbs {
         });
 
         this.sortBar.on('change', (evt) => {
-            this.thumbsBar._shouldUpdata = true;
             for (let i = 0; i < this.thumbs.length; i++) {
                 if (this.thumbs[i] && this.thumbs[i].parent)
                     this.thumbs[i].parent.remove(this.thumbs[i]);
@@ -63,8 +62,8 @@ export class FeaturedProjectsThumbs extends Thumbs {
             }
             this.thumbs = [];
             this.loadedPages = [];
+            this.thumbsBar._shouldUpdate = true;
             this.thumbsBar.center = 3;
-
         });
 
         /**

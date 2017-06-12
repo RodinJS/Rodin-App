@@ -32,7 +32,38 @@ export class ThumbBar extends RODIN.Sculpt {
     constructor(data = {}, isDummy = false) {
         super();
 
-        const barBackground = isDummy ? {color: 0xffffff} : {image: {url: data.thumbnail || '/images/app3d/models/control_panel/images/Empty_Thumb.png'}};
+        if (isDummy) {
+            /**
+             * Bar
+             */
+            this.bar = new RODIN.Element({
+                width: thumbWidth,
+                height: thumbHeight,
+                border: {
+                    radius: 0.02
+                },
+                background: { color: 0xffffff },
+                transparent: false,
+            });
+
+            this.bar.on(RODIN.CONST.READY, () => {
+                this.bar._threeObject.material.map = placeHolder;
+                this.add(this.bar);
+                this.emit('thumbready', new RODIN.RodinEvent(this));
+            });
+
+            return;
+        }
+
+        let label = undefined;
+        if(!data.thumbnail) {
+            label = {
+                text: cropText(data.name, 11),
+                fontSize: 0.08,
+                color: 0xc3c3c3,
+                position: { v: 50, h: 50 },
+            }
+        }
 
         /**
          * Bar
@@ -43,20 +74,10 @@ export class ThumbBar extends RODIN.Sculpt {
             border: {
                 radius: 0.02
             },
-            background: barBackground,
-            transparent: false
+            background: {image: {url: data.thumbnail || '/images/app3d/models/control_panel/images/Empty_Thumb.png'}},
+            transparent: false,
+            label: label
         });
-
-        if (isDummy) {
-            this.bar.on(RODIN.CONST.READY, () => {
-                this.bar._threeObject.material.map = placeHolder;
-                this.add(this.bar);
-                this.emit('thumbready', new RODIN.RodinEvent(this));
-            });
-
-            return;
-        }
-
         this.bar.on(RODIN.CONST.READY, () => {
             this.add(this.bar);
             this.emit('thumbready', new RODIN.RodinEvent(this));
