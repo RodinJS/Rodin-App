@@ -60,9 +60,11 @@ export class FeaturedProjectsThumbs extends Thumbs {
                     this.thumbs[i].parent.remove(this.thumbs[i]);
                 this.thumbs[i] = null;
             }
+
+
             this.thumbs = [];
             this.loadedPages = [];
-            this.thumbsBar._shouldUpdate = true;
+            this.createThumbs(this.total);
             this.thumbsBar.center = 3;
         });
 
