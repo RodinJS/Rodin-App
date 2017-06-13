@@ -58,7 +58,7 @@ export class ThumbBar extends RODIN.Sculpt {
         let label = undefined;
         if(!data.thumbnail) {
             label = {
-                text: cropText(data.name, 11),
+                text: cropText(data.displayName || data.name, 11),
                 fontSize: 0.07,
                 color: 0xc3c3c3,
                 position: { v: 50, h: 50 },
