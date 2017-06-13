@@ -159,15 +159,15 @@ export const init = (_API) => {
         });
 
         RODIN.messenger.on('popupclosed', (data) => {
-            if (data.popupName === 'vrbackbtninfo') {
-                if (ThumbBar.current !== null)
-                    ThumbBar.current.open();
-            }
-
             if (['logout', 'description', 'mobilelogin', 'vrlogin', 'vrbackbtninfo', 'exit'].indexOf(data.popupName) !== -1) {
                 DemoThumbs.getInstance().visible = true;
                 FeaturedProjectsThumbs.getInstance().visible = true;
                 UserProjectsThumbs.getInstance().visible = true;
+            }
+
+            if (data.popupName === 'vrbackbtninfo') {
+                if (ThumbBar.current !== null)
+                    ThumbBar.current.open();
             }
         });
 
@@ -180,8 +180,8 @@ export const init = (_API) => {
                 RODIN.Scene.add(vrBackBtnInfo);
 
                 vrBackBtnInfo.once('timerend', () => {
-                    goToProject(data);
                     vrBackBtnInfo.close();
+                    goToProject(data);
                 })
             } else {
                 goToProject(data);

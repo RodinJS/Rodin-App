@@ -134,8 +134,8 @@ export class ThumbBar extends RODIN.Sculpt {
 
             this.animation.start('scaleUp');
             const clickDuration = evt.gamepad.isMouseGamepad ? 150 : 300;
-            if (RODIN.Time.now - this.buttonDownTimestamp > clickDuration) return;
-            ThumbBar.showDescriptionThumb(data, this.bar._threeObject.material.map);
+            if (RODIN.Time.now - this.buttonDownTimestamp <= clickDuration)
+                ThumbBar.showDescriptionThumb(data, this.bar._threeObject.material.map);
             this.buttonDownTimestamp = NaN;
         });
     }

@@ -41,7 +41,6 @@ export class Thumbs extends RODIN.Sculpt {
         });
 
         this.thumbsBar.setGetElement((index) => {
-            console.log(index);
             if (index < 0) return;
             if (index >= this.total) return;
 
