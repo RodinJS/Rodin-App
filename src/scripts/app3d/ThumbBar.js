@@ -59,7 +59,7 @@ export class ThumbBar extends RODIN.Sculpt {
         if(!data.thumbnail) {
             label = {
                 text: cropText(data.name, 11),
-                fontSize: 0.08,
+                fontSize: 0.07,
                 color: 0xc3c3c3,
                 position: { v: 50, h: 50 },
             }
@@ -87,8 +87,8 @@ export class ThumbBar extends RODIN.Sculpt {
          * White Background
          */
         this.hoverThumdb = new RODIN.Element({
-            width: 0.65,
-            height: 0.38,
+            width: thumbWidth + 0.02,
+            height: thumbHeight + 0.02,
             border: {
                 radius: 0.025
             },

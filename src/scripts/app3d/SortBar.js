@@ -21,8 +21,8 @@ export class SortBar extends RODIN.Sculpt {
 
             const mostRecent = new RODIN.Text({
                 text: 'Most Recent',
-                color: 0x333333,
-                fontSize: 0.05
+                color: 0x666666,
+                fontSize: 0.04
             });
             this.sortMostRecent.add(mostRecent);
             mostRecent.position.x = -0.473;
@@ -43,8 +43,8 @@ export class SortBar extends RODIN.Sculpt {
 
             const mostPopular = new RODIN.Text({
                 text: 'Most Popular',
-                color: 0x333333,
-                fontSize: 0.05
+                color: 0x666666,
+                fontSize: 0.04
             });
             this.sortMostPopular.add(mostPopular);
             mostPopular.position.z = 0.001;
@@ -65,8 +65,8 @@ export class SortBar extends RODIN.Sculpt {
 
             const AZ = new RODIN.Text({
                 text: 'A-Z',
-                color: 0x333333,
-                fontSize: 0.05
+                color: 0x666666,
+                fontSize: 0.04
             });
             this.sortAZ.add(AZ);
             AZ.position.x = 0.473;

@@ -56,7 +56,7 @@ export class VRBackBtnInfo extends Popup {
 
         this.on(RODIN.CONST.UPDATE, () => {
             if(this.isOpened) {
-                if(RODIN.Time.now - this._openTimestamp > 3000) {
+                if(RODIN.Time.now - this._openTimestamp > 5000) {
                     this.close();
                     this.emit('timerend', new RODIN.RodinEvent(this));
                 }
