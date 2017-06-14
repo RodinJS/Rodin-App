@@ -8,6 +8,7 @@ let _API = null;
 export class DemoThumbs extends Thumbs {
     constructor(total) {
         super(1, 3, (params) => {
+            params.type = 'demos';
             return _API.getProjects('all', params).then((data) => {
                 return Promise.resolve(data);
             });
