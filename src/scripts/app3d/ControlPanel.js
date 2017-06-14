@@ -5,6 +5,8 @@ import {UserProjectsThumbs} from './UserProjectsThumbs.js';
 import {VRBackBtnInfo} from './VRBackBtnInfo.js';
 import {ThumbBar} from './ThumbBar';
 import {Exit} from './Exit.js';
+import {LogOut} from './LogOut.js';
+import {VRLogIn} from './VRLogIn.js';
 
 window.RODIN = RODIN;
 
@@ -146,9 +148,17 @@ export const init = (_API) => {
         }
 
         RODIN.messenger.on('popupopened', (data) => {
-            if (data.popupName === 'vrbackbtninfo') {
+            if (data.popupName === 'vrbackbtninfo' || data.popupName === 'exit') {
                 if (ThumbBar.current !== null)
                     ThumbBar.current.close();
+            }
+
+            if(data.popupName === 'exit') {
+                if(VRLogIn.getInstance().isOpened)
+                    VRLogIn.getInstance().close();
+
+                if(LogOut.getInstance().isOpened)
+                    LogOut.getInstance().close();
             }
 
             if (['logout', 'description', 'mobilelogin', 'vrlogin', 'vrbackbtninfo', 'exit'].indexOf(data.popupName) !== -1) {
@@ -165,7 +175,7 @@ export const init = (_API) => {
                 UserProjectsThumbs.getInstance().visible = true;
             }
 
-            if (data.popupName === 'vrbackbtninfo') {
+            if (data.popupName === 'vrbackbtninfo' || data.popupName === 'exit') {
                 if (ThumbBar.current !== null)
                     ThumbBar.current.open();
             }

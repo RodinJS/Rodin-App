@@ -152,6 +152,9 @@ export class ThumbBar extends RODIN.Sculpt {
         descriptionThumb.open();
         descriptionThumb.popupSculpt.position.z = -2;
         ThumbBar.current = descriptionThumb;
+        descriptionThumb.once('close', () => {
+            ThumbBar.current = null;
+        });
     }
 
     static current = null;
