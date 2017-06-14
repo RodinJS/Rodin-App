@@ -64,8 +64,8 @@ export class FeaturedProjectsThumbs extends Thumbs {
 
             this.thumbs = [];
             this.loadedPages = [];
+            this.thumbsBar.sculpt.parent.remove(this.thumbsBar.sculpt);
             this.createThumbs(this.total);
-            this.thumbsBar.center = 3;
         });
 
         /**

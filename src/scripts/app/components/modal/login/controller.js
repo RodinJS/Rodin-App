@@ -88,7 +88,7 @@ class LoginCtrl {
     }
 
     cancel() {
-        // window.dispatchEvent(new Event('rodinLoginPopupClosed'));
+        window.dispatchEvent(new Event('rodinLoginPopupClosed'));
         this.dismiss({$value: 'cancel'});
     }
 

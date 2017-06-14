@@ -118,6 +118,26 @@ export class SortBar extends RODIN.Sculpt {
             }
         });
 
+        this.sortMostRecent.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
+            evt.stopPropagation();
+        });
+        this.sortMostPopular.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
+            evt.stopPropagation();
+        });
+        this.sortAZ.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
+            evt.stopPropagation();
+        });
+
+        this.sortMostRecent.on(RODIN.CONST.GAMEPAD_MOVE, (evt) => {
+            evt.stopPropagation();
+        });
+        this.sortMostPopular.on(RODIN.CONST.GAMEPAD_MOVE, (evt) => {
+            evt.stopPropagation();
+        });
+        this.sortAZ.on(RODIN.CONST.GAMEPAD_MOVE, (evt) => {
+            evt.stopPropagation();
+        });
+
         this.sortType = 'popular';
     }
 

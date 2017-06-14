@@ -94,6 +94,8 @@ const goToHome = () => {
 };
 
 const backButtonCallback = (evt) => {
+    if(VRBackBtnInfo.getInstance().isOpened) return;
+
     /**
      * Close Project
      */
