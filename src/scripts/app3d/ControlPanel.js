@@ -45,12 +45,20 @@ const goToProject = (project) => {
     RODIN.exitVR();
     isChildModeVR = false;
 
+    let projectResponse = false;
+
     RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, () => {
         API.loaderHide();
+        projectResponse = true;
         if (parentWasOnVRMode) {
             RODIN.messenger.post(RODIN.CONST.ENTER_VR, {destination: RODIN.CONST.CHILDREN}, RODIN.postMessageTransport);
         }
     });
+
+    setTimeout(() => {
+        if (!projectResponse)
+            goToHome();
+    }, 10000);
 
     API.openProject(project, (err) => {
         if (err) {
@@ -94,7 +102,7 @@ const goToHome = () => {
 };
 
 const backButtonCallback = (evt) => {
-    if(VRBackBtnInfo.getInstance().isOpened) return;
+    if (VRBackBtnInfo.getInstance().isOpened) return;
 
     /**
      * Close Project
@@ -155,11 +163,11 @@ export const init = (_API) => {
                     ThumbBar.current.close();
             }
 
-            if(data.popupName === 'exit') {
-                if(VRLogIn.getInstance().isOpened)
+            if (data.popupName === 'exit') {
+                if (VRLogIn.getInstance().isOpened)
                     VRLogIn.getInstance().close();
 
-                if(LogOut.getInstance().isOpened)
+                if (LogOut.getInstance().isOpened)
                     LogOut.getInstance().close();
             }
 
@@ -204,10 +212,34 @@ export const init = (_API) => {
             backButtonCallback();
         });
 
-        // delay the loading in order to skip lagging parts
-        setTimeout(() => {
-            API.loaderHide();
-        }, 500);
+        /**
+         * Set timeout to check project response
+         */
+        console.log(API.getCurrentPage());
+        if (API.getCurrentPage() === 'project') {
+            RODIN.Scene.pauseRender();
+
+            let projectResponse = false;
+
+            RODIN.messenger.on(RODIN.CONST.ALL_SCULPTS_READY, (data, transport) => {
+                if (transport === RODIN.postMessageTransport && !projectResponse) {
+                    API.loaderHide();
+                    projectResponse = true;
+                }
+            });
+
+            setTimeout(() => {
+                if (!projectResponse)
+                    goToHome();
+            }, 10000);
+        } else {
+            /**
+             * delay the loading in order to skip lagging parts
+             */
+            setTimeout(() => {
+                API.loaderHide();
+            }, 1000);
+        }
 
         RODIN.GamePad.viveLeft.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
             if (evt.button.indexOf(RODIN.Buttons.viveLeftMenu) !== -1)
