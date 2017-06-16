@@ -34,8 +34,6 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
           window.dispatchEvent(new Event('rodinexithome'));
       }
 
-
-
       if (toState.redirectToWhenAuthenticated && JWT.get()) {
       // User isn’t authenticated
       $state.go(toState.redirectToWhenAuthenticated);
@@ -45,8 +43,7 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
 
   // change page title based on state
   $rootScope.$on('$stateChangeSuccess', (event, toState) => {
-
-    $rootScope.setPageTitle(toState.title);
+      $rootScope.setPageTitle(toState.title);
 
     $rootScope.setPageClass(toState.pageClass);
 
@@ -59,9 +56,9 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
   });
 
 
-  VrScene.init({
+ /* VrScene.init({
     API: VRAPI
-  });
+  });*/
 
   // Helper method for setting the page's title
   $rootScope.setPageTitle = (title) => {

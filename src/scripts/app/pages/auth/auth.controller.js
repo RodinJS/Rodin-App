@@ -1,5 +1,6 @@
+import {APP as VrScene} from "../../../app3d/index";
 class AuthCtrl {
-    constructor($state, AppConstants, User, Validator, Error, $scope) {
+    constructor($state, AppConstants, User, Validator, Error, $scope, VRAPI) {
         'ngInject';
 
         this._User = User;
@@ -19,6 +20,12 @@ class AuthCtrl {
         angular.element(document.querySelector('.main-layout')).on('click mousedown mouseup touchstart touchend', (e)=>{
             return e.stopPropagation();
         });
+        console.log('VrScene inited', VrScene.inited);
+        if(!VrScene.inited){
+            VrScene.init({
+                API: VRAPI
+            });
+        }
     }
 
     gohome() {

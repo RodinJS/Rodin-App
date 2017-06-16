@@ -1,5 +1,6 @@
+import {APP as VrScene} from "../../../app3d/index";
 class ProjectCtrl {
-    constructor($scope, AppConstants, User, $timeout, $window, $state, $stateParams, RodinTransitionCanvas, deviceDetector, Loader) {
+    constructor($scope, AppConstants, User, $timeout, $window, $state, $stateParams, RodinTransitionCanvas, deviceDetector, VRAPI) {
         'ngInject';
 
         this.appName = AppConstants.appName;
@@ -18,6 +19,13 @@ class ProjectCtrl {
             this.projectUrl = `${AppConstants.PREVIEW}${$stateParams.owner}/${$stateParams.root}`;
         } else {
             this.projectUrl = `${AppConstants.PUBLISH}${$stateParams.owner}/${$stateParams.root}`;
+        }
+
+        console.log('VrScene inited', VrScene.inited);
+        if(!VrScene.inited){
+            VrScene.init({
+                API: VRAPI
+            });
         }
 
     }
