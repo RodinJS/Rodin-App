@@ -215,23 +215,9 @@ export const init = (_API) => {
         /**
          * Set timeout to check project response
          */
-        console.log(API.getCurrentPage());
         if (API.getCurrentPage() === 'project') {
             RODIN.Scene.pauseRender();
-
-            let projectResponse = false;
-
-            RODIN.messenger.on(RODIN.CONST.ALL_SCULPTS_READY, (data, transport) => {
-                if (transport === RODIN.postMessageTransport && !projectResponse) {
-                    API.loaderHide();
-                    projectResponse = true;
-                }
-            });
-
-            setTimeout(() => {
-                if (!projectResponse)
-                    goToHome();
-            }, 10000);
+            goToHome();
         } else {
             /**
              * delay the loading in order to skip lagging parts
