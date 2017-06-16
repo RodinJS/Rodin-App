@@ -27,6 +27,7 @@ class AuthCtrl {
 
     logIn(isValidForm) {
         if (!isValidForm) {
+            this.wrongCredentials = true;
             return;
         }
         if(this.inProgress) return;

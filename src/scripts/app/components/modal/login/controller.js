@@ -31,6 +31,7 @@ class LoginCtrl {
 
     logIn(isValidForm) {
         if (!isValidForm) {
+            this.wrongCredentials = true;
             return;
         }
         this._Validator.validate([
