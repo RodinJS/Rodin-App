@@ -13,6 +13,7 @@ window.RODIN = RODIN;
 export let controlPanel = null;
 let API = null;
 let isChildModeVR = false;
+let prevVRMode = false;
 
 RODIN.messenger.on(RODIN.CONST.ENTER_VR_SUCCESS, (data, transport) => {
     if (transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT) {
@@ -44,6 +45,8 @@ const goToProject = (project) => {
     const parentWasOnVRMode = RODIN.device.isVR;
     RODIN.exitVR();
     isChildModeVR = false;
+    const tmpPrevVRMode = RODIN.device.isVR;
+    prevVRMode = false;
 
     let projectResponse = false;
 
@@ -56,8 +59,10 @@ const goToProject = (project) => {
     });
 
     setTimeout(() => {
-        if (!projectResponse)
+        if (!projectResponse) {
+            prevVRMode = tmpPrevVRMode;
             goToHome();
+        }
     }, 10000);
 
     API.openProject(project, (err) => {
@@ -98,6 +103,11 @@ const goToHome = () => {
     } else {
         API.navigate('/');
         API.loaderHide();
+        if(prevVRMode) {
+            setTimeout(() => {
+                RODIN.enterVR();
+            }, 500);
+        }
     }
 };
 
