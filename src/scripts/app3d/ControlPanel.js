@@ -41,35 +41,42 @@ RODIN.messenger.on(RODIN.CONST.TICK, () => {
 });
 
 const goToProject = (project) => {
-    API.loaderShow();
-    const parentWasOnVRMode = RODIN.device.isVR;
-    RODIN.exitVR();
-    isChildModeVR = false;
-    const tmpPrevVRMode = RODIN.device.isVR;
-    prevVRMode = false;
+    RODIN.messenger.once(RODIN.CONST.RENDER_END, () => {
+        RODIN.Scene.pauseRender();
+        RODIN.Scene.renderer.clear(true, true, true);
+        RODIN.Avatar._vrDisplay.submitFrame();
 
-    let projectResponse = false;
 
-    RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, () => {
-        API.loaderHide();
-        projectResponse = true;
-        if (parentWasOnVRMode) {
-            RODIN.messenger.post(RODIN.CONST.ENTER_VR, {destination: RODIN.CONST.CHILDREN}, RODIN.postMessageTransport);
-        }
-    });
+        API.loaderShow();
+        const parentWasOnVRMode = RODIN.device.isVR;
+        RODIN.exitVR();
+        isChildModeVR = false;
+        const tmpPrevVRMode = RODIN.device.isVR;
+        prevVRMode = false;
 
-    setTimeout(() => {
-        if (!projectResponse) {
-            prevVRMode = tmpPrevVRMode;
-            goToHome();
-        }
-    }, 10000);
+        let projectResponse = false;
 
-    API.openProject(project, (err) => {
-        if (err) {
+        RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, () => {
             API.loaderHide();
-            RODIN.Scene.resumeRender();
-        }
+            projectResponse = true;
+            if (parentWasOnVRMode) {
+                RODIN.messenger.post(RODIN.CONST.ENTER_VR, {destination: RODIN.CONST.CHILDREN}, RODIN.postMessageTransport);
+            }
+        });
+
+        setTimeout(() => {
+            if (!projectResponse) {
+                prevVRMode = tmpPrevVRMode;
+                goToHome();
+            }
+        }, 10000);
+
+        API.openProject(project, (err) => {
+            if (err) {
+                API.loaderHide();
+                RODIN.Scene.resumeRender();
+            }
+        });
     });
 };
 
@@ -103,13 +110,17 @@ const goToHome = () => {
     } else {
         API.navigate('/');
         API.loaderHide();
-        if(prevVRMode) {
+        if (prevVRMode) {
             setTimeout(() => {
                 RODIN.enterVR();
             }, 500);
         }
     }
 };
+
+const transitionScene = new RODIN.Scene();
+const transitionSphere = new RODIN.Sphere(.1, new THREE.MeshBasicMaterial({side: THREE.DoubleSide, color: 0x000000}));
+transitionScene.HMDCamera.add(transitionSphere);
 
 const backButtonCallback = (evt) => {
     if (VRBackBtnInfo.getInstance().isOpened) return;
@@ -222,21 +233,6 @@ export const init = (_API) => {
             backButtonCallback();
         });
 
-        /**
-         * Set timeout to check project response
-         */
-        if (API.getCurrentPage() === 'project') {
-            RODIN.Scene.pauseRender();
-            goToHome();
-        } else {
-            /**
-             * delay the loading in order to skip lagging parts
-             */
-            setTimeout(() => {
-                API.loaderHide();
-            }, 1000);
-        }
-
         RODIN.GamePad.viveLeft.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (evt) => {
             if (evt.button.indexOf(RODIN.Buttons.viveLeftMenu) !== -1)
                 return backButtonCallback(evt);
@@ -252,8 +248,19 @@ export const init = (_API) => {
                 return backButtonCallback(evt);
         });
 
-        if (API.getCurrentPage() !== 'home') {
+        /**
+         * Set timeout to check project response
+         */
+        if (API.getCurrentPage() === 'project') {
             RODIN.Scene.pauseRender();
+            goToHome();
+        } else {
+            /**
+             * delay the loading in order to skip lagging parts
+             */
+            setTimeout(() => {
+                API.loaderHide();
+            }, 1000);
         }
 
         window.addEventListener('rodinexithome', (e) => {
