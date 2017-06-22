@@ -7,13 +7,14 @@ import {ThumbBar} from './ThumbBar';
 import {Exit} from './Exit.js';
 import {LogOut} from './LogOut.js';
 import {VRLogIn} from './VRLogIn.js';
-
-window.RODIN = RODIN;
+import {NoResponse} from './NoResponse.js';
 
 export let controlPanel = null;
 let API = null;
 let isChildModeVR = false;
 let prevVRMode = false;
+
+const waitForProject = 20000;
 
 RODIN.messenger.on(RODIN.CONST.ENTER_VR_SUCCESS, (data, transport) => {
     if (transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT) {
@@ -40,18 +41,27 @@ RODIN.messenger.on(RODIN.CONST.TICK, () => {
     }
 });
 
-const goToProject = (project) => {
+const noResponse = NoResponse.getInstance();
+noResponse.on('open', () => {
+    ThumbBar.current && (ThumbBar.current.visible = false);
+});
+
+noResponse.on('close', () => {
+    ThumbBar.current && (ThumbBar.current.visible = true);
+});
+
+const goToProject = (project, waitTime = waitForProject) => {
     RODIN.messenger.once(RODIN.CONST.RENDER_END, () => {
         RODIN.Scene.pauseRender();
         RODIN.Scene.renderer.clear(true, true, true);
         RODIN.Avatar._vrDisplay.submitFrame();
 
 
+        const tmpPrevVRMode = RODIN.device.isVR;
         API.loaderShow();
         const parentWasOnVRMode = RODIN.device.isVR;
         RODIN.exitVR();
         isChildModeVR = false;
-        const tmpPrevVRMode = RODIN.device.isVR;
         prevVRMode = false;
 
         let projectResponse = false;
@@ -68,8 +78,15 @@ const goToProject = (project) => {
             if (!projectResponse) {
                 prevVRMode = tmpPrevVRMode;
                 goToHome();
+
+                const noResponse = NoResponse.getInstance();
+                noResponse.open();
+                RODIN.Scene.add(noResponse);
+                noResponse.once('submit', () => {
+                    goToProject(project, 60 * 1000);
+                });
             }
-        }, 10000);
+        }, waitTime);
 
         API.openProject(project, (err) => {
             if (err) {
@@ -87,7 +104,8 @@ const goToHome = () => {
     if (isChildModeVR) {
         let answerReceived = false;
 
-        RODIN.messenger.once(RODIN.CONST.ENTER_VR_SUCCESS, (data, transport) => {
+        RODIN.messenger.once(RODIN.CONST.EXIT_VR_SUCCESS, (data, transport) => {
+            console.log('log');
             if (transport === RODIN.postMessageTransport && data.destination === RODIN.CONST.PARENT && !answerReceived) {
                 callback();
             }
@@ -181,7 +199,7 @@ export const init = (_API) => {
         RODIN.messenger.on('popupopened', (data) => {
             if (data.popupName === 'vrbackbtninfo' || data.popupName === 'exit') {
                 if (ThumbBar.current !== null)
-                    ThumbBar.current.close();
+                    ThumbBar.current.visible = false;
             }
 
             if (data.popupName === 'exit') {
@@ -207,8 +225,10 @@ export const init = (_API) => {
             }
 
             if (data.popupName === 'vrbackbtninfo' || data.popupName === 'exit') {
-                if (ThumbBar.current !== null)
+                if (ThumbBar.current !== null) {
                     ThumbBar.current.open();
+                    ThumbBar.current.visible = true;
+                }
             }
         });
 

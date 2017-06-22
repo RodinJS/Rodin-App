@@ -7,7 +7,6 @@ export class Exit extends Popup {
     constructor() {
         super();
 
-        //this.rotation.y = -Math.PI/3;
         this.popupSculpt.position.z = -1.7;
 
         const exitPopup = new RODIN.Sculpt('/images/app3d/models/control_panel/thumb_demos.obj');
