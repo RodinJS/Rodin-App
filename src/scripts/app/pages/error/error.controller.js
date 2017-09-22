@@ -1,9 +1,22 @@
-class ErrorCtrl {
-  constructor(AppConstants) {
-    'ngInject';
+import {APP as VrScene} from "../../../app3d/index";
 
-    this.appName = AppConstants.appName;
-  }
+class ErrorCtrl {
+    constructor(AppConstants, VRAPI) {
+        'ngInject';
+
+        this.appName = AppConstants.appName;
+
+        angular.element(document.querySelector('.main-layout')).on('click mousedown mouseup touchstart touchend', (e) => {
+            return e.stopPropagation();
+        })
+
+        console.log('VrScene inited', VrScene.inited);
+        if(!VrScene.inited){
+            VrScene.init({
+                API: VRAPI
+            });
+        }
+    }
 
 }
 

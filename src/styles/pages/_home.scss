@@ -1,4 +1,16 @@
-.page.home-page {
-  height: 100%;
-  overflow: hidden;
+body{
+  &.page{
+    &.home{
+      .app-container{
+        display: none;
+      }
+    }
+  }
+}
+
+.page{
+  &.home-page {
+    height: 100%;
+    overflow: hidden;
+  }
 }

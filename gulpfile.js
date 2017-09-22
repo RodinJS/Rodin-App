@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2016 Grigor Khachatryan <grig@i2vr.io>
+ Copyright (C) 2016 Grigor Khachatryan <grig@rodin.io>
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright
@@ -45,7 +45,9 @@ const VENDOR = require('./package.json').dependencies;
 const VENDORMAP = require('./vendor.json');
 
 
-const JS = ['src/scripts/**/**/*.js', '!src/scripts/systemjs-module/**', '!src/scripts/{vendor,vendor/**}'];
+const JSOTHERS = ['src/scripts/**/**/*.js', '!src/scripts/app/**', '!src/scripts/init/**', '!src/scripts/systemjs-module/**', '!src/scripts/{vendor,vendor/**}'];
+const JSAPP = ['src/scripts/app/**/*.js'];
+const SYSTEMINIT = ['src/scripts/init/**/*.js'];
 const HTML = ['src/scripts/**/**/**/*.html'];
 const SASS = ['src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}'];
 const FONT = ['src/fonts/**/*.{ttf,woff,woff2,eof,svg,eot,json}'];
@@ -72,6 +74,20 @@ const UGLIFY_AGRESIVE = {
 const ERROR_MESSAGE = {
   errorHandler: notify.onError("Error: <%= error.message %>")
 };
+
+gulp.task('system:init', () => {
+    const s = size({title: 'Sysytem Init -> ', pretty: false});
+    return gulp.src(SYSTEMINIT)
+        .pipe(plumber(ERROR_MESSAGE))
+        .pipe(s)
+        .pipe(plumber.stop())
+        .pipe(gulp.dest('./build/init'))
+        .pipe(notify({
+            onLast: true,
+            message: () => `Sysytem(init) - Total size ${s.prettySize}`
+        }));
+});
+
 
 gulp.task('vendor', () => {
   let vendor_tasks = generate_vendor(VENDOR);
@@ -120,33 +136,106 @@ function generate_vendor(vendor) {
   }));
 }
 
-gulp.task('js', () => {
-  const s = size({title: 'JS -> ', pretty: true});
-  return gulp.src(JS)
+gulp.task('jsapp', () => {
+  const s = size({title: 'JSAPP -> ', pretty: true});
+  return gulp.src(JSAPP)
     .pipe(plumber(ERROR_MESSAGE))
     .pipe(sourcemaps.init())
-    .pipe(babel())
+    .pipe(babel(
+{
+  "presets": [
+    "es2015"
+  ],
+  "plugins": [
+    "angularjs-annotate",
+    "transform-es2015-modules-systemjs"
+  ]
+}
+    ))
     .pipe(s)
     .pipe(plumber.stop())
-    .pipe(gulp.dest('./build'))
+    .pipe(gulp.dest('./build/app'))
     .pipe(notify({
       onLast: true,
-      message: () => `JS - Total size ${s.prettySize}`
+      message: () => `JSAPP - Total size ${s.prettySize}`
     }));
 });
 
-gulp.task('js-prod', () => {
-  const s = size({title: 'JS production -> ', pretty: false});
-  return gulp.src(JS)
+gulp.task('jsothers', () => {
+  const s = size({title: 'JSOTHERS -> ', pretty: true});
+  return gulp.src(JSOTHERS)
     .pipe(plumber(ERROR_MESSAGE))
-    .pipe(babel())
-    .pipe(uglify(UGLIFY_AGRESIVE))
+    .pipe(sourcemaps.init())
+    .pipe(babel(
+{
+  "presets": [
+    "es2016"
+  ],
+  "plugins": [
+    "angularjs-annotate",
+    "transform-es2015-modules-systemjs",
+    "transform-class-properties"
+  ]
+}
+    ))
     .pipe(s)
     .pipe(plumber.stop())
     .pipe(gulp.dest('./build'))
     .pipe(notify({
       onLast: true,
-      message: () => `JS(prod) - Total size ${s.prettySize}`
+      message: () => `JSOTHERS - Total size ${s.prettySize}`
+    }));
+});
+
+gulp.task('jsapp-prod', () => {
+  const s = size({title: 'JSAPP production -> ', pretty: false});
+  return gulp.src(JSAPP)
+    .pipe(plumber(ERROR_MESSAGE))
+    .pipe(babel(
+{
+  "presets": [
+    "es2015"
+  ],
+  "plugins": [
+    "angularjs-annotate",
+    "transform-es2015-modules-systemjs",
+    "transform-class-properties"
+  ]
+}
+    ))
+    .pipe(uglify(UGLIFY_AGRESIVE))
+    .pipe(s)
+    .pipe(plumber.stop())
+    .pipe(gulp.dest('./build/app'))
+    .pipe(notify({
+      onLast: true,
+      message: () => `JSAPP(prod) - Total size ${s.prettySize}`
+    }));
+});
+
+gulp.task('jsothers-prod', () => {
+  const s = size({title: 'JSOTHERS production -> ', pretty: false});
+  return gulp.src(JSOTHERS)
+    .pipe(plumber(ERROR_MESSAGE))
+    .pipe(babel(
+{
+  "presets": [
+    "es2016"
+  ],
+  "plugins": [
+    "angularjs-annotate",
+    "transform-es2015-modules-systemjs",
+    "transform-class-properties"
+  ]
+}
+    ))
+    // .pipe(uglify(UGLIFY_AGRESIVE))
+    .pipe(s)
+    .pipe(plumber.stop())
+    .pipe(gulp.dest('./build'))
+    .pipe(notify({
+      onLast: true,
+      message: () => `JSOTHERS(prod) - Total size ${s.prettySize}`
     }));
 });
 
@@ -241,7 +330,8 @@ gulp.task('img', () => {
 
 gulp.task('watch', () => {
   gulp.watch(SASS, ['sass']);
-  gulp.watch(JS, ['js']);
+  gulp.watch(JSOTHERS, ['jsothers']);
+  gulp.watch(JSAPP, ['jsapp']);
   gulp.watch(HTML, ['build-template']);
   gulp.watch(FONT, ['font']);
   gulp.watch(IMG, ['img']);
@@ -266,11 +356,10 @@ gulp.task('build-template', (done) => {
   sequence('template', 'js', done);
 });
 
-
 gulp.task('prod', (done) => {
-  sequence('clean', 'vendor', ['generate-index', 'template', 'js-prod', 'sass-prod', 'font', 'img'], done);
+  sequence('clean', 'vendor', 'system:init', ['generate-index', 'template', 'jsothers-prod', 'jsapp-prod', 'sass-prod', 'font', 'img'], done);
 });
 
 gulp.task('default', (done) => {
-  sequence('clean', 'vendor', ['generate-index', 'template', 'js', 'sass', 'font', 'img', 'connect', 'watch'], done);
+  sequence('clean', 'vendor', 'system:init', ['generate-index', 'template', 'jsothers', 'jsapp', 'sass', 'font', 'img', 'connect', 'watch'], done);
 });

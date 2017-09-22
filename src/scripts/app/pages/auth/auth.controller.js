@@ -1,5 +1,6 @@
+import {APP as VrScene} from "../../../app3d/index";
 class AuthCtrl {
-    constructor($state, AppConstants, User, Validator, Error, $scope) {
+    constructor($state, AppConstants, User, Validator, Error, $scope, VRAPI) {
         'ngInject';
 
         this._User = User;
@@ -14,6 +15,17 @@ class AuthCtrl {
             username: '',
             password: ''
         };
+
+        this.inProgress = false;
+        angular.element(document.querySelector('.main-layout')).on('click mousedown mouseup touchstart touchend', (e)=>{
+            return e.stopPropagation();
+        });
+        console.log('VrScene inited', VrScene.inited);
+        if(!VrScene.inited){
+            VrScene.init({
+                API: VRAPI
+            });
+        }
     }
 
     gohome() {
@@ -22,8 +34,10 @@ class AuthCtrl {
 
     logIn(isValidForm) {
         if (!isValidForm) {
+            this.wrongCredentials = true;
             return;
         }
+        if(this.inProgress) return;
         this._Validator.validate([
             {
                 name: "username",
@@ -47,13 +61,18 @@ class AuthCtrl {
             this._User.login(this._Validator.getData()).then(
                 (res) => {
                     this._$state.go('main.home');
+                    window.dispatchEvent(new Event('rodinloggedin'));
+                    this.inProgress = false;
                 },
                 (err) => {
+                    this.wrongCredentials = true;
                     this._Error.show(err, this._$scope.loginForm, this._$scope);
+                    this.inProgress = false;
                 });
 
         } else {
             this._Error.show(this._Validator.getErrors(), this._$scope.loginForm, this._$scope);
+            this.inProgress = false;
         }
     };
 }

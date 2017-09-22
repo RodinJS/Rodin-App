@@ -29,8 +29,12 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
   });
 
   $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-    loader = Loader.show();
-    if (toState.redirectToWhenAuthenticated && JWT.get()) {
+      if(fromState.name == 'main.home' && fromState.name !== toState.name){
+          angular.element(document.querySelector('canvas')).css('display', 'none');
+          window.dispatchEvent(new Event('rodinexithome'));
+      }
+
+      if (toState.redirectToWhenAuthenticated && JWT.get()) {
       // User isn’t authenticated
       $state.go(toState.redirectToWhenAuthenticated);
       event.preventDefault();
@@ -39,20 +43,22 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
 
   // change page title based on state
   $rootScope.$on('$stateChangeSuccess', (event, toState) => {
-
-    $rootScope.setPageTitle(toState.title);
+      $rootScope.setPageTitle(toState.title);
 
     $rootScope.setPageClass(toState.pageClass);
 
-    Loader.hide();
+      if(toState.name == 'main.home'){
+          angular.element(document.querySelector('canvas')).css('display', 'block');
+          window.dispatchEvent(new Event('rodinenterhome'));
+      }
 
     angular.element(document.querySelectorAll(".webvr-button")).addClass("hidden");
   });
 
 
-  VrScene.init({
+ /* VrScene.init({
     API: VRAPI
-  });
+  });*/
 
   // Helper method for setting the page's title
   $rootScope.setPageTitle = (title) => {
@@ -83,21 +89,16 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
 
     ////// debuging /////
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      console.info('$stateChangeStart to ---' + toState.to + '--- fired when the transition begins. toState ----,toParams ---- \n', toState, toParams);
     });
     $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
       console.error('$stateChangeError - fired when an error occurs during transition.');
       console.error(arguments);
     });
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      console.log('%c$stateChangeSuccess to ----' + toState.name + '---- fired once the state transition is complete.', "color: green");
     });
     $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
-      console.info('$viewContentLoading - view begins loading - dom not rendered ----', viewConfig);
     });
     $rootScope.$on('$viewContentLoaded', function (event) {
-      // runs on individual scopes, so putting it in "run" doesn't work.
-      console.log('$viewContentLoaded - fired after dom rendered', event);
     });
     $rootScope.$on('$stateNotFound', function (event, unfoundState, fromState, fromParams) {
       console.error('$stateNotFound ----' + unfoundState.to + '---- fired when a state cannot be found by its name.');
