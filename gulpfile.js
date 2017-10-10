@@ -43,6 +43,7 @@ const templateCache = require('gulp-angular-templatecache');
 const VERSION = require('./package.json').version;
 const VENDOR = require('./package.json').dependencies;
 const VENDORMAP = require('./vendor.json');
+const replace = require('gulp-replace');
 
 
 const JSOTHERS = ['src/scripts/**/**/*.js', '!src/scripts/app/**', '!src/scripts/init/**', '!src/scripts/systemjs-module/**', '!src/scripts/{vendor,vendor/**}'];
@@ -328,6 +329,15 @@ gulp.task('img', () => {
 });
 
 
+gulp.task('env', ()=>{
+    return gulp.src('./build/app/config/app.constants.js')
+        .pipe(replace('env:"local"', `env:"${process.env.NODE_ENV || 'prod'}"`))
+        .pipe(plumber(ERROR_MESSAGE))
+        .pipe(plumber.stop())
+        .pipe(gulp.dest('./build/app/config/'));
+});
+
+
 gulp.task('watch', () => {
   gulp.watch(SASS, ['sass']);
   gulp.watch(JSOTHERS, ['jsothers']);
@@ -357,7 +367,7 @@ gulp.task('build-template', (done) => {
 });
 
 gulp.task('prod', (done) => {
-  sequence('clean', 'vendor', 'system:init', ['generate-index', 'template', 'jsothers-prod', 'jsapp-prod', 'sass-prod', 'font', 'img'], done);
+  sequence('clean', 'vendor', 'system:init', ['generate-index', 'template', 'jsothers-prod', 'jsapp-prod', 'sass-prod', 'font', 'img'], 'env', done);
 });
 
 gulp.task('default', (done) => {

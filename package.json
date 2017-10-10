@@ -70,6 +70,7 @@
     "angular-ui-tree": "2.22.1",
     "bootstrap-sass": "3.3.7",
     "font-awesome": "4.7.0",
+    "gulp-replace": "^0.6.1",
     "ng-device-detector": "^3.0.1",
     "query-string": "4.2.3",
     "restangular": "1.5.2",
