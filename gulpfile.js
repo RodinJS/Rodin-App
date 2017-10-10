@@ -367,7 +367,7 @@ gulp.task('build-template', (done) => {
 });
 
 gulp.task('prod', (done) => {
-  sequence('clean', 'vendor', 'system:init', ['generate-index', 'template', 'jsothers-prod', 'jsapp-prod', 'sass-prod', 'font', 'img'], 'env', done);
+  sequence('clean', 'vendor', 'system:init', 'template', 'generate-index', 'jsothers-prod', 'jsapp-prod', ['sass-prod', 'font', 'img'], 'env', done);
 });
 
 gulp.task('default', (done) => {
